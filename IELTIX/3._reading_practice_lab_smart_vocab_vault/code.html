@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: 'class', theme: { extend: { 'colors': { 'secondary-container': '#00a572', 'surface-container': '#1e1f25', 'outline-variant': '#464554', 'on-primary': '#1000a9', 'on-secondary-fixed-variant': '#005236', 'on-error-container': '#ffdad6', 'primary': '#c0c1ff', 'surface-dim': '#121318', 'inverse-primary': '#494bd6', 'surface-tint': '#c0c1ff', 'background': '#121318', 'on-error': '#690005', 'on-tertiary-fixed': '#001e2c', 'secondary-fixed': '#6ffbbe', 'outline': '#908fa0', 'surface-container-high': '#292a2f', 'primary-fixed-dim': '#c0c1ff', 'on-tertiary-container': '#002d40', 'on-secondary': '#003824', 'primary-fixed': '#e1e0ff', 'on-tertiary': '#00354a', 'on-surface-variant': '#c7c4d7', 'on-surface': '#e3e1e9', 'secondary-fixed-dim': '#4edea3', 'error-container': '#93000a', 'inverse-on-surface': '#2f3036', 'tertiary-container': '#009bd1', 'surface-container-low': '#1a1b21', 'primary-container': '#8083ff', 'tertiary-fixed': '#c4e7ff', 'tertiary': '#7bd0ff', 'on-primary-fixed': '#07006c', 'on-secondary-container': '#00311f', 'inverse-surface': '#e3e1e9', 'secondary': '#4edea3', 'on-background': '#e3e1e9', 'surface-bright': '#38393f', 'on-tertiary-fixed-variant': '#004c69', 'surface-container-highest': '#34343a', 'surface-container-lowest': '#0d0e13', 'tertiary-fixed-dim': '#7bd0ff', 'surface-variant': '#34343a', 'error': '#ffb4ab', 'on-primary-container': '#0d0096', 'on-primary-fixed-variant': '#2f2ebe', 'on-secondary-fixed': '#002113', 'surface': '#121318' }, 'borderRadius': { 'DEFAULT': '0.25rem', 'lg': '0.5rem', 'xl': '0.75rem', 'full': '9999px' }, 'spacing': { 'space-xs': '0.25rem', 'space-lg': '1.5rem', 'space-2xs': '0.125rem', 'gutter-mobile': '1rem', 'space-md': '0.75rem', 'space-sm': '0.5rem', 'margin-tablet': '2rem', 'space-2xl': '3rem', 'gutter-desktop': '2rem', 'space-3xl': '4rem', 'space-base': '1rem', 'margin-mobile': '1rem', 'margin-desktop': '3rem', 'gutter-tablet': '1.5rem', 'space-xl': '2rem' }, 'fontFamily': { 'body-sm': ['Inter'], 'headline-lg-mobile': ['Plus Jakarta Sans'], 'body-lg': ['Inter'], 'label-lg': ['Inter'], 'code': ['Inter'], 'headline-lg': ['Plus Jakarta Sans'], 'label-sm': ['Inter'], 'headline-sm': ['Plus Jakarta Sans'], 'headline-md': ['Plus Jakarta Sans'], 'display-mobile': ['Plus Jakarta Sans'], 'display': ['Plus Jakarta Sans'], 'label-md': ['Inter'], 'body-md': ['Inter'] }, 'fontSize': { 'body-sm': ['12px', { 'lineHeight': '18px', 'letterSpacing': '0em', 'fontWeight': '400' }], 'headline-lg-mobile': ['28px', { 'lineHeight': '36px', 'letterSpacing': '-0.02em', 'fontWeight': '700' }], 'body-lg': ['16px', { 'lineHeight': '26px', 'letterSpacing': '-0.011em', 'fontWeight': '400' }], 'label-lg': ['14px', { 'lineHeight': '20px', 'letterSpacing': '-0.005em', 'fontWeight': '500' }], 'code': ['13px', { 'lineHeight': '20px', 'letterSpacing': '0em', 'fontWeight': '400' }], 'headline-lg': ['40px', { 'lineHeight': '48px', 'letterSpacing': '-0.025em', 'fontWeight': '700' }], 'label-sm': ['11px', { 'lineHeight': '14px', 'letterSpacing': '0.04em', 'fontWeight': '600' }], 'headline-sm': ['20px', { 'lineHeight': '28px', 'letterSpacing': '-0.015em', 'fontWeight': '600' }], 'headline-md': ['28px', { 'lineHeight': '36px', 'letterSpacing': '-0.02em', 'fontWeight': '600' }], 'display-mobile': ['36px', { 'lineHeight': '44px', 'letterSpacing': '-0.025em', 'fontWeight': '700' }], 'display': ['56px', { 'lineHeight': '64px', 'letterSpacing': '-0.03em', 'fontWeight': '700' }], 'label-md': ['12px', { 'lineHeight': '16px', 'letterSpacing': '0.01em', 'fontWeight': '500' }], 'body-md': ['14px', { 'lineHeight': '22px', 'letterSpacing': '-0.006em', 'fontWeight': '400' }] } } } };</script></head><body class="bg-background font-body-md text-on-surface antialiased min-h-screen selection:bg-primary-container selection:text-on-primary-container"><header class="fixed top-0 left-0 right-0 z-40 bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.3)]"><div class="h-16 w-full px-gutter-desktop flex items-center justify-between gap-space-base"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-sm"><img alt="MockAI Foxy Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdWCr9y92m0GyEeoq1EnQKx4SgaVSngNo_aR9jJCB4hLPtTUNlRHusMyFZPI64sYYoHm3KIDpJp0KBtEDcM7RFMtQcoumEZ5SaZDl0pvjSqaC8OJDkpVTmxCyB6KnWFDPc80AWnXWplSG4pC-jej6PIDbWNuS_trnnxWwYL6l9s2EeQcIfMmbydxzLe1VzOxqLvHJwOVZWNhdxDXHpeGWIML66GGiT-XyE2dkdHze2vzIid_PFRmiwvA"/><span class="font-headline-sm text-headline-sm font-bold tracking-tight text-on-surface flex items-center">Mock<span class="text-[#FF7A00] drop-shadow-[0_0_12px_rgba(255,122,0,0.6)]">AI</span></span></div><div class="hidden xl:flex items-center bg-surface-container-low p-space-2xs rounded-xl shadow-inner"><button class="px-space-sm py-space-2xs rounded-lg font-label-md text-label-md font-semibold bg-surface-container-highest text-on-surface shadow-sm transition-all">🌐 International (IELTS/CEFR)</button><button class="px-space-sm py-space-2xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all">🇺🇿 Local (Milliy BBM)</button></div></div><div class="flex items-center gap-space-base"><div class="hidden md:flex items-center gap-space-sm bg-surface-container-low px-space-md py-space-xs rounded-xl text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer w-64 justify-between"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-label-lg">search</span><span class="font-body-sm text-body-sm">Search modules, tips...</span></div><kbd class="bg-surface-container-highest px-space-xs py-space-2xs rounded font-code text-label-sm text-on-surface-variant">⌘K</kbd></div><div class="flex items-center gap-space-xs bg-surface-container-low px-space-sm py-space-xs rounded-xl"><span class="material-symbols-outlined text-secondary text-label-lg">account_balance_wallet</span><span class="font-label-md text-label-md text-on-surface font-semibold">45,000 UZS</span><button class="flex items-center justify-center w-5 h-5 rounded-full bg-secondary-container text-on-secondary hover:bg-secondary transition-colors ml-space-2xs"><span class="material-symbols-outlined text-label-sm leading-none">add</span></button></div><div class="hidden sm:flex items-center gap-space-2xs px-space-sm py-space-2xs rounded-full bg-surface-container-high shadow-[0_0_12px_rgba(128,131,255,0.25)]"><span class="text-label-sm">👑</span><span class="font-label-sm text-label-sm uppercase tracking-wider font-bold bg-gradient-to-r from-primary to-tertiary bg-clip-text text-transparent">MAX VIP</span></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="relative flex items-center justify-center"><img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-2 ring-surface-container-high" src="https://lh3.googleusercontent.com/aida/AEtjO1UlOsPkcdzSPImEUBoR0zhlYs7JEQ5eT1tzkbVLLrc-94W0HaQJ3514CX5yCFeoPmvhbiCmhUMsOZoOUnHSyLCS7mfRcUNiIgZ0-yrahMk27_-0vTua8MD1P_h-yk7l9VF4xaKFnRv-vvZklHEp3KGZDtze-2U3MGYiRjjlrjYMHNcr5yzluKVgiBj1RH71gQtFe84MfDhhBjIMRQJla6I2qejuBSlRYoKva8ThrWJrGbjGZc6L2ToQZjPk"/><span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-secondary ring-2 ring-surface-container-lowest"></span></div><div class="hidden lg:flex flex-col text-left"><span class="font-label-md text-label-md font-semibold text-on-surface leading-tight">Madina Karimova</span><span class="font-label-sm text-label-sm text-on-surface-variant leading-tight">IELTS Candidate</span></div></div></div></div></header><aside class="fixed left-0 top-16 bottom-0 w-64 bg-surface-container-lowest z-30 flex flex-col justify-between py-space-base shadow-[1px_0_12px_rgba(0,0,0,0.25)]"><div class="flex flex-col gap-space-xs px-space-sm"><nav class="flex flex-col gap-space-2xs" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-xl"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="dashboard-hub" href="#"><span class="material-symbols-outlined">dashboard</span><span class="font-label-lg text-label-lg">Dashboard &amp; Hub</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="onboarding-level-test" href="#"><span class="material-symbols-outlined">track_changes</span><span class="font-label-lg text-label-lg">Onboarding &amp; Test</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm transition-all bg-primary-container text-on-primary-container font-semibold rounded-xl" data-path="reading-practice-lab" href="#"><span class="material-symbols-outlined">menu_book</span><span class="font-label-lg text-label-lg">Reading &amp; Vocab</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="foxy-speaking-arena" href="#"><span class="material-symbols-outlined text-[#FF7A00]">smart_toy</span><span class="font-label-lg text-label-lg">3D Foxy Speaking</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="ai-writing-evaluator" href="#"><span class="material-symbols-outlined">edit_note</span><span class="font-label-lg text-label-lg">AI Writing Evaluator</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="pricing-vip-downloads" href="#"><span class="material-symbols-outlined text-tertiary">diamond</span><span class="font-label-lg text-label-lg">Pricing &amp; VIP</span></a></nav></div><div class="px-space-sm flex flex-col gap-space-2xs"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="settings" href="#"><span class="material-symbols-outlined">settings</span><span class="font-label-lg text-label-lg">Settings</span></a><div class="bg-surface-container-low rounded-xl p-space-sm mt-space-xs flex items-center justify-between"><div class="flex flex-col"><span class="font-label-sm text-label-sm text-secondary flex items-center gap-space-2xs"><span class="w-1.5 h-1.5 rounded-full bg-secondary animate-ping"></span>AI Engine Online</span><span class="font-body-sm text-body-sm text-on-surface-variant">v3.4 GPT-4o Whisper</span></div><span class="material-symbols-outlined text-on-surface-variant text-label-lg">bolt</span></div></div></aside><div class="pl-64"><main class="relative w-full pt-16 bg-surface min-h-screen px-gutter-desktop py-space-lg"><div class="flex flex-col w-full">
+<div class="flex flex-col gap-space-lg w-full max-w-[1440px] mx-auto pb-space-3xl">
+<!-- Top Section Bar: Status, Mode, and Metadata -->
+<div class="flex flex-wrap items-center justify-between gap-space-md bg-surface-container-low p-space-md rounded-2xl shadow-sm">
+<div class="flex items-center gap-space-md">
+<div class="flex items-center justify-center w-10 h-10 rounded-xl bg-primary-container/20 text-primary">
+<span class="material-symbols-outlined text-headline-sm">menu_book</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-semibold">Academic Reading Mock</span>
+<span class="text-outline text-label-sm">•</span>
+<span class="font-label-sm text-label-sm text-tertiary">Passage 2 of 3</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-semibold tracking-tight">Cambridge IELTS 19 • Test 3: Megacities</h2>
+</div>
+</div>
+<div class="flex items-center gap-space-base flex-wrap">
+<!-- Live Timer Badge -->
+<div class="flex items-center gap-space-xs bg-surface-container-highest px-space-md py-space-xs rounded-xl shadow-inner">
+<span class="material-symbols-outlined text-error text-label-lg animate-pulse">timer</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant leading-tight">Time Remaining</span>
+<span class="font-code text-label-lg font-semibold text-on-surface leading-tight" id="reading-timer">18:42</span>
+</div>
+</div>
+<!-- Strategy Tip Pill -->
+<div class="hidden md:flex items-center gap-space-xs bg-secondary-container/15 px-space-sm py-space-xs rounded-xl text-secondary">
+<span class="material-symbols-outlined text-label-md">lightbulb</span>
+<span class="font-label-sm text-label-sm font-medium">Tip: Scan topic sentences first</span>
+</div>
+<!-- Mode Toggle & Finish -->
+<div class="flex items-center gap-space-xs">
+<button class="px-space-md py-space-xs rounded-xl bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-md text-label-md font-semibold transition-all">
+            Exit Lab
+          </button>
+<button class="px-space-md py-space-xs rounded-xl bg-primary-container text-on-primary font-label-md text-label-md font-semibold hover:brightness-110 shadow-md transition-all">
+            Submit Passage
+          </button>
+</div>
+</div>
+</div>
+<!-- 2-Column Split Workspace -->
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-space-lg w-full items-start">
+<!-- LEFT COLUMN: Cambridge IELTS Academic Passage Reader -->
+<section class="flex flex-col bg-surface-container-low rounded-2xl shadow-md overflow-hidden relative">
+<!-- Reader Toolbar -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm px-space-md py-space-xs bg-surface-container-high">
+<!-- Multi-color Highlighter Tools -->
+<div class="flex items-center gap-space-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant mr-space-2xs">Highlighter:</span>
+<button class="w-6 h-6 rounded-full bg-[#facc15] ring-offset-2 ring-offset-surface-container-high hover:scale-110 transition-transform shadow-sm flex items-center justify-center text-surface-container-lowest" title="Yellow Highlight">
+<span class="material-symbols-outlined text-label-sm font-bold">check</span>
+</button>
+<button class="w-6 h-6 rounded-full bg-secondary hover:scale-110 transition-transform shadow-sm" title="Emerald Highlight"></button>
+<button class="w-6 h-6 rounded-full bg-error hover:scale-110 transition-transform shadow-sm" title="Neon Red Alert Highlight"></button>
+<button class="flex items-center justify-center w-6 h-6 rounded-full bg-surface-container hover:text-on-surface text-on-surface-variant text-label-sm transition-colors" title="Clear Highlights">
+<span class="material-symbols-outlined text-label-sm">ink_eraser</span>
+</button>
+</div>
+<!-- Typography Adjusters (A- / A+ / Line Height) -->
+<div class="flex items-center gap-space-xs">
+<div class="flex items-center bg-surface-container rounded-lg p-space-2xs">
+<button class="px-space-xs py-space-2xs hover:bg-surface-bright rounded text-on-surface font-label-sm text-label-sm font-bold transition-colors" id="font-dec">A−</button>
+<button class="px-space-xs py-space-2xs hover:bg-surface-bright rounded text-on-surface font-label-md text-label-md font-bold transition-colors" id="font-inc">A+</button>
+</div>
+<div class="flex items-center bg-surface-container rounded-lg p-space-2xs">
+<button class="flex items-center gap-space-2xs px-space-xs py-space-2xs rounded hover:bg-surface-bright text-on-surface-variant hover:text-on-surface text-label-sm" id="spacing-toggle">
+<span class="material-symbols-outlined text-label-md">format_line_spacing</span>
+<span class="font-label-sm text-label-sm">1.8x</span>
+</button>
+</div>
+<button class="flex items-center gap-space-2xs px-space-xs py-space-2xs rounded-lg hover:bg-surface-bright text-on-surface-variant hover:text-on-surface text-label-sm" title="Dictionary Auto-lookup ON">
+<span class="material-symbols-outlined text-secondary text-label-md">translate</span>
+<span class="font-label-sm text-label-sm font-semibold">UZ Active</span>
+</button>
+</div>
+</div>
+<!-- Scrollable Passage Container -->
+<article class="p-space-xl overflow-y-auto max-h-[750px] scroll-smooth font-body-lg text-body-lg text-on-surface leading-relaxed flex flex-col gap-space-base select-text" id="passage-body">
+<div class="flex flex-col gap-space-xs pb-space-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-primary font-bold">READING PASSAGE 2</span>
+<h1 class="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight">
+              The Architecture of Ancient Megacities and Urban Density
+            </h1>
+<p class="font-body-md text-body-md text-on-surface-variant italic">
+              You should spend about 20 minutes on Questions 1–13, which are based on Reading Passage 2 below.
+            </p>
+</div>
+<!-- Paragraph A -->
+<div class="relative group bg-surface-container-lowest/40 p-space-md rounded-xl transition-all">
+<span class="font-code text-label-sm font-bold text-tertiary mr-space-xs">Paragraph A</span>
+            For decades, orthodox archaeological scholarship maintained that hyper-dense metropolitan sprawl was exclusively a product of industrial-era fossil fuel abundance. However, recent LiDAR excavations beneath the dense canopies of Mesoamerica and the Indus River basin have shattered this paradigm. Satellite imaging has revealed intricate civic planning, subterranean water management corridors, and engineered terrace clusters that accommodated populations exceeding half a million inhabitants as early as 300 BCE.
+          </div>
+<!-- Paragraph B (Contains interactive word selection popup on 'Ubiquitous') -->
+<div class="relative bg-surface-container-lowest/40 p-space-md rounded-xl">
+<span class="font-code text-label-sm font-bold text-tertiary mr-space-xs">Paragraph B</span>
+            A central paradox of these settlements was food logistics. Without beast-of-burden transit networks, ancient municipal engineers relied heavily on micro-irrigation channels integrated directly into domestic neighborhoods. Elevated agro-aqueducts were 
+            
+            <!-- Target Highlighted Word with active Tooltip Popup -->
+<span class="relative inline-block">
+<mark class="bg-primary-container text-on-primary px-space-xs py-0.5 rounded cursor-pointer font-medium shadow-sm transition-all hover:brightness-110">
+                ubiquitous
+              </mark>
+<!-- INTERACTIVE 1-CLICK WORD SELECTION POPUP -->
+<div class="absolute left-1/2 -translate-x-1/2 bottom-full mb-space-sm w-80 bg-surface-container-highest shadow-2xl rounded-2xl p-space-md z-30 text-left backdrop-blur-xl animate-in fade-in zoom-in-95 duration-150">
+<!-- Popup Arrow -->
+<div class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-surface-container-highest rotate-45"></div>
+<!-- Word Header -->
+<div class="flex items-start justify-between gap-space-xs relative z-10">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">ubiquitous</span>
+<button class="flex items-center justify-center text-primary hover:text-on-surface transition-colors" title="Play pronunciation audio">
+<span class="material-symbols-outlined text-headline-sm">volume_up</span>
+</button>
+</div>
+<span class="font-code text-body-sm text-outline tracking-wide">/juːˈbɪk.wɪ.təs/</span>
+</div>
+<!-- CEFR Badge -->
+<span class="px-space-xs py-space-2xs rounded bg-primary text-on-primary font-label-sm text-label-sm font-bold">
+                    C1 Advanced
+                  </span>
+</div>
+<!-- Uzbek Translation Box -->
+<div class="mt-space-sm p-space-xs bg-surface-container-low rounded-xl flex flex-col relative z-10">
+<span class="font-label-sm text-label-sm text-secondary font-semibold flex items-center gap-space-2xs">
+<span>🇺🇿</span> O‘zbekcha tarjimasi:
+                  </span>
+<p class="font-label-md text-label-md text-on-surface font-semibold mt-space-2xs">
+                    hamma joyda hozir / keng tarqalgan
+                  </p>
+</div>
+<!-- Contextual Example Sentence -->
+<div class="mt-space-xs relative z-10">
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+<span class="text-on-surface font-medium">Misol:</span> "Smartphones have become ubiquitous in modern urban life."
+                  </p>
+</div>
+<!-- CTA Button to save to Vault -->
+<button class="mt-space-sm w-full py-space-xs px-space-md rounded-xl bg-secondary-container hover:bg-secondary text-on-secondary font-label-md text-label-md font-bold flex items-center justify-center gap-space-xs shadow-md transition-all relative z-10">
+<span class="material-symbols-outlined text-label-md">bookmark_add</span>
+                  + Save to Vocab Vault
+                </button>
+</div>
+</span>
+
+            throughout Teotihuacan, functioning not merely as drinking infrastructure but as thermal regulators buffering residences against severe temperature swings. Far from chaotic encampments, these complexes demonstrate a calibrated equilibrium between spatial density and hygienic sustainability.
+          </div>
+<!-- Paragraph C -->
+<div class="relative bg-surface-container-lowest/40 p-space-md rounded-xl">
+<span class="font-code text-label-sm font-bold text-tertiary mr-space-xs">Paragraph C</span>
+            The defensive layouts of such archaic metropolitan centers further defy straightforward categorization. Traditional bastions emphasized continuous curtain walls and impenetrable perimeter towers. In contrast, Amazonian earthwork mounds (geoglyphs) deployed labyrinthine vegetative ditches and deceptive concentric moats that funneled potential invaders directly into localized agricultural killing zones, preserving civilian core zones intact.
+          </div>
+<!-- Paragraph D -->
+<div class="relative bg-surface-container-lowest/40 p-space-md rounded-xl">
+<span class="font-code text-label-sm font-bold text-tertiary mr-space-xs">Paragraph D</span>
+            Contemporary urban planners are now revisiting these archaic precedents to counteract modern urban heat islands. By simulating Harappan wind corridors in Singapore and Bogota, engineers have reduced mechanical air conditioning demands by up to 34%. Thus, far from being historic anomalies, the lost blueprints of antiquity offer actionable frameworks for decarbonized 21st-century habitations.
+          </div>
+</article>
+</section>
+<!-- RIGHT COLUMN: IELTS Question Pane -->
+<section class="flex flex-col gap-space-lg bg-surface-container-low p-space-lg rounded-2xl shadow-md">
+<!-- Question Status Navigation Grid (1 to 13) -->
+<div class="flex flex-col gap-space-xs bg-surface-container p-space-md rounded-xl">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-semibold uppercase tracking-wider text-on-surface-variant">Question Palette</span>
+<div class="flex items-center gap-space-sm">
+<span class="flex items-center gap-1 font-label-sm text-label-sm text-secondary">
+<span class="w-2 h-2 rounded-full bg-secondary"></span> Answered (9)
+              </span>
+<span class="flex items-center gap-1 font-label-sm text-label-sm text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-surface-container-highest"></span> Pending (4)
+              </span>
+</div>
+</div>
+<!-- Buttons 1 to 13 -->
+<div class="grid grid-cols-7 sm:grid-cols-13 gap-space-2xs mt-space-xs">
+<button class="h-9 rounded-lg bg-secondary text-on-secondary font-code text-label-md font-bold hover:brightness-110 shadow-sm flex items-center justify-center">1</button>
+<button class="h-9 rounded-lg bg-secondary text-on-secondary font-code text-label-md font-bold hover:brightness-110 shadow-sm flex items-center justify-center">2</button>
+<button class="h-9 rounded-lg bg-secondary text-on-secondary font-code text-label-md font-bold hover:brightness-110 shadow-sm flex items-center justify-center">3</button>
+<button class="h-9 rounded-lg bg-secondary text-on-secondary font-code text-label-md font-bold hover:brightness-110 shadow-sm flex items-center justify-center">4</button>
+<button class="h-9 rounded-lg bg-secondary text-on-secondary font-code text-label-md font-bold hover:brightness-110 shadow-sm flex items-center justify-center">5</button>
+<button class="h-9 rounded-lg bg-secondary text-on-secondary font-code text-label-md font-bold hover:brightness-110 shadow-sm flex items-center justify-center">6</button>
+<button class="h-9 rounded-lg bg-secondary text-on-secondary font-code text-label-md font-bold hover:brightness-110 shadow-sm flex items-center justify-center">7</button>
+<button class="h-9 rounded-lg bg-secondary text-on-secondary font-code text-label-md font-bold hover:brightness-110 shadow-sm flex items-center justify-center">8</button>
+<button class="h-9 rounded-lg bg-secondary text-on-secondary font-code text-label-md font-bold hover:brightness-110 shadow-sm flex items-center justify-center">9</button>
+<button class="h-9 rounded-lg bg-surface-container-highest text-on-surface font-code text-label-md font-semibold hover:bg-surface-bright flex items-center justify-center">10</button>
+<button class="h-9 rounded-lg bg-surface-container-highest text-on-surface font-code text-label-md font-semibold hover:bg-surface-bright flex items-center justify-center">11</button>
+<button class="h-9 rounded-lg bg-surface-container-highest text-on-surface font-code text-label-md font-semibold hover:bg-surface-bright flex items-center justify-center">12</button>
+<button class="h-9 rounded-lg bg-surface-container-highest text-on-surface font-code text-label-md font-semibold hover:bg-surface-bright flex items-center justify-center">13</button>
+</div>
+</div>
+<!-- QUESTIONS 1–5: TRUE / FALSE / NOT GIVEN -->
+<div class="flex flex-col gap-space-md">
+<div class="flex flex-col gap-space-2xs">
+<div class="flex items-center gap-space-xs">
+<span class="px-space-xs py-space-2xs rounded bg-primary-container/20 text-primary font-code text-label-sm font-bold">TASK 1</span>
+<h3 class="font-headline-sm text-headline-sm font-semibold text-on-surface">Questions 1–5: True / False / Not Given</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Do the following statements agree with the information given in Reading Passage 2? Select <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.
+            </p>
+</div>
+<div class="flex flex-col gap-space-sm">
+<!-- Question 1 (Validated Correct Example) -->
+<div class="flex flex-col gap-space-xs p-space-md bg-surface-container rounded-xl">
+<div class="flex items-start justify-between gap-space-sm">
+<span class="font-body-md text-body-md text-on-surface">
+<strong class="text-secondary font-code">1.</strong> Traditional archaeologists believed massive dense cities were impossible prior to industrial energy sources.
+                </span>
+<span class="flex items-center gap-1 font-label-sm text-label-sm text-secondary font-bold shrink-0">
+<span class="material-symbols-outlined text-label-md">check_circle</span> Correct
+                </span>
+</div>
+<div class="grid grid-cols-3 gap-space-xs mt-space-2xs">
+<label class="flex items-center justify-center gap-space-2xs py-space-xs px-space-sm rounded-lg bg-secondary-container text-on-secondary font-label-md text-label-md font-semibold cursor-pointer shadow-sm">
+<input checked="" class="hidden" name="q1" type="radio" value="TRUE"/>
+<span>TRUE</span>
+</label>
+<label class="flex items-center justify-center gap-space-2xs py-space-xs px-space-sm rounded-lg bg-surface-container-high text-on-surface-variant font-label-md text-label-md cursor-pointer hover:bg-surface-bright">
+<input class="hidden" name="q1" type="radio" value="FALSE"/>
+<span>FALSE</span>
+</label>
+<label class="flex items-center justify-center gap-space-2xs py-space-xs px-space-sm rounded-lg bg-surface-container-high text-on-surface-variant font-label-md text-label-md cursor-pointer hover:bg-surface-bright">
+<input class="hidden" name="q1" type="radio" value="NOT GIVEN"/>
+<span>NOT GIVEN</span>
+</label>
+</div>
+</div>
+<!-- Question 2 (Interactive Radio Group) -->
+<div class="flex flex-col gap-space-xs p-space-md bg-surface-container rounded-xl">
+<div class="flex items-start justify-between gap-space-sm">
+<span class="font-body-md text-body-md text-on-surface">
+<strong class="text-tertiary font-code">2.</strong> Mesoamerican engineers transported food supplies primarily with domestic pack horses.
+                </span>
+<span class="flex items-center gap-1 font-label-sm text-label-sm text-secondary font-bold shrink-0">
+<span class="material-symbols-outlined text-label-md">check_circle</span> Correct
+                </span>
+</div>
+<div class="grid grid-cols-3 gap-space-xs mt-space-2xs">
+<label class="flex items-center justify-center gap-space-2xs py-space-xs px-space-sm rounded-lg bg-surface-container-high text-on-surface-variant font-label-md text-label-md cursor-pointer hover:bg-surface-bright">
+<input class="hidden" name="q2" type="radio" value="TRUE"/>
+<span>TRUE</span>
+</label>
+<label class="flex items-center justify-center gap-space-2xs py-space-xs px-space-sm rounded-lg bg-secondary-container text-on-secondary font-label-md text-label-md font-semibold cursor-pointer shadow-sm">
+<input checked="" class="hidden" name="q2" type="radio" value="FALSE"/>
+<span>FALSE</span>
+</label>
+<label class="flex items-center justify-center gap-space-2xs py-space-xs px-space-sm rounded-lg bg-surface-container-high text-on-surface-variant font-label-md text-label-md cursor-pointer hover:bg-surface-bright">
+<input class="hidden" name="q2" type="radio" value="NOT GIVEN"/>
+<span>NOT GIVEN</span>
+</label>
+</div>
+</div>
+<!-- Question 3 (Interactive Radio Group) -->
+<div class="flex flex-col gap-space-xs p-space-md bg-surface-container rounded-xl">
+<div class="flex items-start justify-between gap-space-sm">
+<span class="font-body-md text-body-md text-on-surface">
+<strong class="text-tertiary font-code">3.</strong> Aqueducts in Teotihuacan performed a dual role in moisture provision and atmospheric cooling.
+                </span>
+<span class="flex items-center gap-1 font-label-sm text-label-sm text-secondary font-bold shrink-0">
+<span class="material-symbols-outlined text-label-md">check_circle</span> Correct
+                </span>
+</div>
+<div class="grid grid-cols-3 gap-space-xs mt-space-2xs">
+<label class="flex items-center justify-center gap-space-2xs py-space-xs px-space-sm rounded-lg bg-secondary-container text-on-secondary font-label-md text-label-md font-semibold cursor-pointer shadow-sm">
+<input checked="" class="hidden" name="q3" type="radio" value="TRUE"/>
+<span>TRUE</span>
+</label>
+<label class="flex items-center justify-center gap-space-2xs py-space-xs px-space-sm rounded-lg bg-surface-container-high text-on-surface-variant font-label-md text-label-md cursor-pointer hover:bg-surface-bright">
+<input class="hidden" name="q3" type="radio" value="FALSE"/>
+<span>FALSE</span>
+</label>
+<label class="flex items-center justify-center gap-space-2xs py-space-xs px-space-sm rounded-lg bg-surface-container-high text-on-surface-variant font-label-md text-label-md cursor-pointer hover:bg-surface-bright">
+<input class="hidden" name="q3" type="radio" value="NOT GIVEN"/>
+<span>NOT GIVEN</span>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- QUESTIONS 6–9: MATCHING HEADINGS (Interactive Drag & Drop Style) -->
+<div class="flex flex-col gap-space-md">
+<div class="flex flex-col gap-space-2xs">
+<div class="flex items-center gap-space-xs">
+<span class="px-space-xs py-space-2xs rounded bg-tertiary-container/20 text-tertiary font-code text-label-sm font-bold">TASK 2</span>
+<h3 class="font-headline-sm text-headline-sm font-semibold text-on-surface">Questions 6–9: Matching Headings</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Drag or assign the most suitable heading from the list below to each paragraph.
+            </p>
+</div>
+<!-- Draggable Heading Tiles Pool -->
+<div class="flex flex-col gap-space-xs p-space-md bg-surface-container rounded-xl">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Available Headings Bank</span>
+<div class="grid grid-cols-1 gap-space-xs mt-space-2xs">
+<div class="flex items-center justify-between px-space-sm py-space-xs rounded-lg bg-surface-container-high text-on-surface font-body-sm text-body-sm cursor-grab hover:bg-surface-bright transition-all">
+<span class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-label-md text-on-surface-variant">drag_indicator</span>
+<strong>i.</strong> Non-linear defensive perimeter topologies
+                </span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">Assigned to [C]</span>
+</div>
+<div class="flex items-center justify-between px-space-sm py-space-xs rounded-lg bg-surface-container-high text-on-surface font-body-sm text-body-sm cursor-grab hover:bg-surface-bright transition-all">
+<span class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-label-md text-on-surface-variant">drag_indicator</span>
+<strong>ii.</strong> Overturning historical biases via remote sensors
+                </span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">Assigned to [A]</span>
+</div>
+<div class="flex items-center justify-between px-space-sm py-space-xs rounded-lg bg-surface-container-high text-on-surface font-body-sm text-body-sm cursor-grab hover:bg-surface-bright transition-all">
+<span class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-label-md text-on-surface-variant">drag_indicator</span>
+<strong>iii.</strong> Microclimatic engineering and caloric logistics
+                </span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">Assigned to [B]</span>
+</div>
+<div class="flex items-center justify-between px-space-sm py-space-xs rounded-lg bg-surface-container-highest text-on-surface font-body-sm text-body-sm cursor-grab hover:bg-surface-bright transition-all border-dashed">
+<span class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-label-md text-tertiary">drag_indicator</span>
+<strong>iv.</strong> Modern adaptation of archaic ventilation patterns
+                </span>
+<span class="font-label-sm text-label-sm text-tertiary">Ready to drop</span>
+</div>
+</div>
+</div>
+<!-- Matching Drop Zones -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+<!-- Drop target 8 -->
+<div class="p-space-sm bg-surface-container rounded-xl flex flex-col gap-space-2xs">
+<span class="font-label-sm text-label-sm font-semibold text-on-surface-variant">Paragraph C</span>
+<div class="p-space-xs rounded-lg bg-surface-container-high text-secondary flex items-center justify-between">
+<span class="font-label-md text-label-md truncate">i. Non-linear defensive perimeter topologies</span>
+<span class="material-symbols-outlined text-label-md">lock</span>
+</div>
+</div>
+<!-- Drop target 9 (Active slot) -->
+<div class="p-space-sm bg-surface-container rounded-xl flex flex-col gap-space-2xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-semibold text-tertiary">Question 9 (Paragraph D)</span>
+<span class="font-label-sm text-label-sm text-error">Unanswered</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-lowest text-on-surface-variant font-label-md text-label-md text-center cursor-pointer hover:bg-surface-container-high transition-colors">
+                Drop heading for Paragraph D here
+              </div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- BOTTOM FLOATING BAR -->
+<div class="sticky bottom-space-md z-40 w-full bg-surface-container-highest/90 backdrop-blur-2xl p-space-md rounded-2xl shadow-2xl flex flex-col md:flex-row items-center justify-between gap-space-base">
+<!-- Counter: Vocab Vault Saved -->
+<div class="flex items-center gap-space-sm">
+<div class="flex items-center justify-center w-11 h-11 rounded-xl bg-secondary-container/20 text-secondary shrink-0">
+<span class="material-symbols-outlined text-headline-sm">collections_bookmark</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-2xs">
+<span class="font-label-lg text-label-lg font-bold text-on-surface">18 words saved today</span>
+<span class="px-space-xs py-space-2xs rounded-full bg-secondary-container text-on-secondary font-label-sm text-label-sm font-bold">+3 C1</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Vault auto-syncs with your spaced-repetition deck</span>
+</div>
+</div>
+<!-- Section Progress Bar -->
+<div class="flex flex-col gap-space-2xs w-full md:w-64">
+<div class="flex items-center justify-between font-label-sm text-label-sm">
+<span class="text-on-surface-variant font-medium">Progress</span>
+<span class="text-secondary font-bold font-code">9 / 13 Answered</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container-low overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary via-secondary to-secondary-fixed rounded-full" style="width: 69.2%;"></div>
+</div>
+</div>
+<!-- Prominent Button with Foxy Character Integration -->
+<div class="flex items-center gap-space-sm shrink-0">
+<button class="px-space-lg py-space-sm rounded-xl bg-gradient-to-r from-[#FF7A00] to-[#E05300] hover:brightness-110 text-white font-label-lg text-label-lg font-bold shadow-[0_4px_20px_rgba(255,122,0,0.35)] flex items-center gap-space-xs transition-all transform hover:-translate-y-0.5">
+<!-- Small stylized Foxy Avatar -->
+<img alt="Foxy" class="w-6 h-6 object-contain rounded-full bg-white/20 p-0.5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdWCr9y92m0GyEeoq1EnQKx4SgaVSngNo_aR9jJCB4hLPtTUNlRHusMyFZPI64sYYoHm3KIDpJp0KBtEDcM7RFMtQcoumEZ5SaZDl0pvjSqaC8OJDkpVTmxCyB6KnWFDPc80AWnXWplSG4pC-jej6PIDbWNuS_trnnxWwYL6l9s2EeQcIfMmbydxzLe1VzOxqLvHJwOVZWNhdxDXHpeGWIML66GGiT-XyE2dkdHze2vzIid_PFRmiwvA"/>
+<span>Review with Foxy Flashcards</span>
+<span class="material-symbols-outlined text-label-lg">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Simple Font Size Scaling Interactive Behavior
+  const passage = document.getElementById('passage-body');
+  const incBtn = document.getElementById('font-inc');
+  const decBtn = document.getElementById('font-dec');
+  let currentScale = 16;
+
+  if (incBtn && decBtn && passage) {
+    incBtn.addEventListener('click', () => {
+      if (currentScale < 22) {
+        currentScale += 2;
+        passage.style.fontSize = currentScale + 'px';
+      }
+    });
+    decBtn.addEventListener('click', () => {
+      if (currentScale > 12) {
+        currentScale -= 2;
+        passage.style.fontSize = currentScale + 'px';
+      }
+    });
+  }
+
+  // Live Timer Count Down
+  const timerElem = document.getElementById('reading-timer');
+  if (timerElem) {
+    let totalSeconds = 18 * 60 + 42;
+    setInterval(() => {
+      if (totalSeconds > 0) {
+        totalSeconds--;
+        const mins = Math.floor(totalSeconds / 60);
+        const secs = totalSeconds % 60;
+        timerElem.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      }
+    }, 1000);
+  }
+</script></main></div></body></html>

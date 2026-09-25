@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ieltix-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ieltix_db
+      POSTGRES_USER: ieltix_user
+      POSTGRES_PASSWORD: ieltix_secure_password_2025
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - ieltix-net
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ieltix-backend
+    restart: always
+    environment:
+      PORT: 5000
+      DATABASE_URL: postgresql://ieltix_user:ieltix_secure_password_2025@postgres:5432/ieltix_db?schema=public
+      JWT_SECRET: super_jwt_secret_ieltix_production
+      NODE_ENV: production
+    ports:
+      - "5000:5000"
+    depends_on:
+      - postgres
+    networks:
+      - ieltix-net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ieltix-frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - ieltix-net
+
+volumes:
+  postgres_data:
+
+networks:
+  ieltix-net:
+    driver: bridge

@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: 'class', theme: { extend: { 'colors': { 'secondary-container': '#00a572', 'surface-container': '#1e1f25', 'outline-variant': '#464554', 'on-primary': '#1000a9', 'on-secondary-fixed-variant': '#005236', 'on-error-container': '#ffdad6', 'primary': '#c0c1ff', 'surface-dim': '#121318', 'inverse-primary': '#494bd6', 'surface-tint': '#c0c1ff', 'background': '#121318', 'on-error': '#690005', 'on-tertiary-fixed': '#001e2c', 'secondary-fixed': '#6ffbbe', 'outline': '#908fa0', 'surface-container-high': '#292a2f', 'primary-fixed-dim': '#c0c1ff', 'on-tertiary-container': '#002d40', 'on-secondary': '#003824', 'primary-fixed': '#e1e0ff', 'on-tertiary': '#00354a', 'on-surface-variant': '#c7c4d7', 'on-surface': '#e3e1e9', 'secondary-fixed-dim': '#4edea3', 'error-container': '#93000a', 'inverse-on-surface': '#2f3036', 'tertiary-container': '#009bd1', 'surface-container-low': '#1a1b21', 'primary-container': '#8083ff', 'tertiary-fixed': '#c4e7ff', 'tertiary': '#7bd0ff', 'on-primary-fixed': '#07006c', 'on-secondary-container': '#00311f', 'inverse-surface': '#e3e1e9', 'secondary': '#4edea3', 'on-background': '#e3e1e9', 'surface-bright': '#38393f', 'on-tertiary-fixed-variant': '#004c69', 'surface-container-highest': '#34343a', 'surface-container-lowest': '#0d0e13', 'tertiary-fixed-dim': '#7bd0ff', 'surface-variant': '#34343a', 'error': '#ffb4ab', 'on-primary-container': '#0d0096', 'on-primary-fixed-variant': '#2f2ebe', 'on-secondary-fixed': '#002113', 'surface': '#121318' }, 'borderRadius': { 'DEFAULT': '0.25rem', 'lg': '0.5rem', 'xl': '0.75rem', 'full': '9999px' }, 'spacing': { 'space-xs': '0.25rem', 'space-lg': '1.5rem', 'space-2xs': '0.125rem', 'gutter-mobile': '1rem', 'space-md': '0.75rem', 'space-sm': '0.5rem', 'margin-tablet': '2rem', 'space-2xl': '3rem', 'gutter-desktop': '2rem', 'space-3xl': '4rem', 'space-base': '1rem', 'margin-mobile': '1rem', 'margin-desktop': '3rem', 'gutter-tablet': '1.5rem', 'space-xl': '2rem' }, 'fontFamily': { 'body-sm': ['Inter'], 'headline-lg-mobile': ['Plus Jakarta Sans'], 'body-lg': ['Inter'], 'label-lg': ['Inter'], 'code': ['Inter'], 'headline-lg': ['Plus Jakarta Sans'], 'label-sm': ['Inter'], 'headline-sm': ['Plus Jakarta Sans'], 'headline-md': ['Plus Jakarta Sans'], 'display-mobile': ['Plus Jakarta Sans'], 'display': ['Plus Jakarta Sans'], 'label-md': ['Inter'], 'body-md': ['Inter'] }, 'fontSize': { 'body-sm': ['12px', { 'lineHeight': '18px', 'letterSpacing': '0em', 'fontWeight': '400' }], 'headline-lg-mobile': ['28px', { 'lineHeight': '36px', 'letterSpacing': '-0.02em', 'fontWeight': '700' }], 'body-lg': ['16px', { 'lineHeight': '26px', 'letterSpacing': '-0.011em', 'fontWeight': '400' }], 'label-lg': ['14px', { 'lineHeight': '20px', 'letterSpacing': '-0.005em', 'fontWeight': '500' }], 'code': ['13px', { 'lineHeight': '20px', 'letterSpacing': '0em', 'fontWeight': '400' }], 'headline-lg': ['40px', { 'lineHeight': '48px', 'letterSpacing': '-0.025em', 'fontWeight': '700' }], 'label-sm': ['11px', { 'lineHeight': '14px', 'letterSpacing': '0.04em', 'fontWeight': '600' }], 'headline-sm': ['20px', { 'lineHeight': '28px', 'letterSpacing': '-0.015em', 'fontWeight': '600' }], 'headline-md': ['28px', { 'lineHeight': '36px', 'letterSpacing': '-0.02em', 'fontWeight': '600' }], 'display-mobile': ['36px', { 'lineHeight': '44px', 'letterSpacing': '-0.025em', 'fontWeight': '700' }], 'display': ['56px', { 'lineHeight': '64px', 'letterSpacing': '-0.03em', 'fontWeight': '700' }], 'label-md': ['12px', { 'lineHeight': '16px', 'letterSpacing': '0.01em', 'fontWeight': '500' }], 'body-md': ['14px', { 'lineHeight': '22px', 'letterSpacing': '-0.006em', 'fontWeight': '400' }] } } } };</script></head><body class="bg-background font-body-md text-on-surface antialiased min-h-screen selection:bg-primary-container selection:text-on-primary-container"><header class="fixed top-0 left-0 right-0 z-40 bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.3)]"><div class="h-16 w-full px-gutter-desktop flex items-center justify-between gap-space-base"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-sm"><img alt="MockAI Foxy Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdWCr9y92m0GyEeoq1EnQKx4SgaVSngNo_aR9jJCB4hLPtTUNlRHusMyFZPI64sYYoHm3KIDpJp0KBtEDcM7RFMtQcoumEZ5SaZDl0pvjSqaC8OJDkpVTmxCyB6KnWFDPc80AWnXWplSG4pC-jej6PIDbWNuS_trnnxWwYL6l9s2EeQcIfMmbydxzLe1VzOxqLvHJwOVZWNhdxDXHpeGWIML66GGiT-XyE2dkdHze2vzIid_PFRmiwvA"/><span class="font-headline-sm text-headline-sm font-bold tracking-tight text-on-surface flex items-center">Mock<span class="text-[#FF7A00] drop-shadow-[0_0_12px_rgba(255,122,0,0.6)]">AI</span></span></div><div class="hidden xl:flex items-center bg-surface-container-low p-space-2xs rounded-xl shadow-inner"><button class="px-space-sm py-space-2xs rounded-lg font-label-md text-label-md font-semibold bg-surface-container-highest text-on-surface shadow-sm transition-all">🌐 International (IELTS/CEFR)</button><button class="px-space-sm py-space-2xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all">🇺🇿 Local (Milliy BBM)</button></div></div><div class="flex items-center gap-space-base"><div class="hidden md:flex items-center gap-space-sm bg-surface-container-low px-space-md py-space-xs rounded-xl text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer w-64 justify-between"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-label-lg">search</span><span class="font-body-sm text-body-sm">Search modules, tips...</span></div><kbd class="bg-surface-container-highest px-space-xs py-space-2xs rounded font-code text-label-sm text-on-surface-variant">⌘K</kbd></div><div class="flex items-center gap-space-xs bg-surface-container-low px-space-sm py-space-xs rounded-xl"><span class="material-symbols-outlined text-secondary text-label-lg">account_balance_wallet</span><span class="font-label-md text-label-md text-on-surface font-semibold">45,000 UZS</span><button class="flex items-center justify-center w-5 h-5 rounded-full bg-secondary-container text-on-secondary hover:bg-secondary transition-colors ml-space-2xs"><span class="material-symbols-outlined text-label-sm leading-none">add</span></button></div><div class="hidden sm:flex items-center gap-space-2xs px-space-sm py-space-2xs rounded-full bg-surface-container-high shadow-[0_0_12px_rgba(128,131,255,0.25)]"><span class="text-label-sm">👑</span><span class="font-label-sm text-label-sm uppercase tracking-wider font-bold bg-gradient-to-r from-primary to-tertiary bg-clip-text text-transparent">MAX VIP</span></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="relative flex items-center justify-center"><img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-2 ring-surface-container-high" src="https://lh3.googleusercontent.com/aida/AEtjO1UlOsPkcdzSPImEUBoR0zhlYs7JEQ5eT1tzkbVLLrc-94W0HaQJ3514CX5yCFeoPmvhbiCmhUMsOZoOUnHSyLCS7mfRcUNiIgZ0-yrahMk27_-0vTua8MD1P_h-yk7l9VF4xaKFnRv-vvZklHEp3KGZDtze-2U3MGYiRjjlrjYMHNcr5yzluKVgiBj1RH71gQtFe84MfDhhBjIMRQJla6I2qejuBSlRYoKva8ThrWJrGbjGZc6L2ToQZjPk"/><span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-secondary ring-2 ring-surface-container-lowest"></span></div><div class="hidden lg:flex flex-col text-left"><span class="font-label-md text-label-md font-semibold text-on-surface leading-tight">Madina Karimova</span><span class="font-label-sm text-label-sm text-on-surface-variant leading-tight">IELTS Candidate</span></div></div></div></div></header><aside class="fixed left-0 top-16 bottom-0 w-64 bg-surface-container-lowest z-30 flex flex-col justify-between py-space-base shadow-[1px_0_12px_rgba(0,0,0,0.25)]"><div class="flex flex-col gap-space-xs px-space-sm"><nav class="flex flex-col gap-space-2xs" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-xl"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="dashboard-hub" href="#"><span class="material-symbols-outlined">dashboard</span><span class="font-label-lg text-label-lg">Dashboard &amp; Hub</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="onboarding-level-test" href="#"><span class="material-symbols-outlined">track_changes</span><span class="font-label-lg text-label-lg">Onboarding &amp; Test</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="reading-practice-lab" href="#"><span class="material-symbols-outlined">menu_book</span><span class="font-label-lg text-label-lg">Reading &amp; Vocab</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="foxy-speaking-arena" href="#"><span class="material-symbols-outlined text-[#FF7A00]">smart_toy</span><span class="font-label-lg text-label-lg">3D Foxy Speaking</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="ai-writing-evaluator" href="#"><span class="material-symbols-outlined">edit_note</span><span class="font-label-lg text-label-lg">AI Writing Evaluator</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="pricing-vip-downloads" href="#"><span class="material-symbols-outlined text-tertiary">diamond</span><span class="font-label-lg text-label-lg">Pricing &amp; VIP</span></a></nav></div><div class="px-space-sm flex flex-col gap-space-2xs"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="settings" href="#"><span class="material-symbols-outlined">settings</span><span class="font-label-lg text-label-lg">Settings</span></a><div class="bg-surface-container-low rounded-xl p-space-sm mt-space-xs flex items-center justify-between"><div class="flex flex-col"><span class="font-label-sm text-label-sm text-secondary flex items-center gap-space-2xs"><span class="w-1.5 h-1.5 rounded-full bg-secondary animate-ping"></span>AI Engine Online</span><span class="font-body-sm text-body-sm text-on-surface-variant">v3.4 GPT-4o Whisper</span></div><span class="material-symbols-outlined text-on-surface-variant text-label-lg">bolt</span></div></div></aside><div class="pl-64"><main class="relative w-full pt-16 bg-surface min-h-screen px-gutter-desktop py-space-lg"><div class="flex flex-col w-full gap-space-xl">
+<!-- System & Exam Mode Status Bar -->
+<section class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-space-base bg-surface-container-low p-space-base rounded-2xl shadow-sm">
+<div class="flex items-center gap-space-md flex-wrap">
+<div class="flex items-center gap-space-xs bg-surface-container-high px-space-sm py-space-2xs rounded-full">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Exam Matrix Active</span>
+</div>
+<div class="flex items-center gap-space-xs bg-surface-container px-space-sm py-space-2xs rounded-lg text-on-surface-variant">
+<span class="font-label-sm text-label-sm text-primary">Target Band:</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">7.5 Academic</span>
+</div>
+<span class="hidden sm:inline text-outline-variant font-code text-label-sm">•</span>
+<div class="flex items-center gap-space-xs text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-label-lg text-tertiary">calendar_clock</span>
+<span>Official Exam Date: <strong class="text-on-surface">Oct 26, 2025</strong> (38 Days Left)</span>
+</div>
+</div>
+<!-- Mode Quick Switcher Context Pill -->
+<div class="flex items-center bg-surface-container-lowest p-space-2xs rounded-xl shadow-inner self-stretch lg:self-auto justify-between lg:justify-end">
+<div class="flex items-center gap-space-xs px-space-sm py-space-2xs rounded-lg bg-surface-container-high shadow-sm">
+<span class="text-label-sm">🌐</span>
+<span class="font-label-sm text-label-sm font-semibold text-primary">International (IELTS)</span>
+</div>
+<button class="flex items-center gap-space-xs px-space-sm py-space-2xs rounded-lg font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" id="switchExamBtn">
+<span class="text-label-sm">🇺🇿</span>
+<span>Switch to Milliy BBM</span>
+<span class="material-symbols-outlined text-label-sm">swap_horiz</span>
+</button>
+</div>
+</section>
+<!-- Hero Top Actions Split (Real Simulation vs 3D Foxy Lab) -->
+<section class="grid grid-cols-1 xl:grid-cols-12 gap-space-lg">
+<!-- Action Card 1: Full Simulation -->
+<div class="xl:col-span-7 relative overflow-hidden rounded-2xl bg-surface-container p-space-xl flex flex-col justify-between shadow-xl min-h-[300px]">
+<div class="absolute -right-16 -top-16 w-80 h-80 bg-inverse-primary/20 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute inset-0 bg-gradient-to-br from-primary-container/15 via-transparent to-transparent pointer-events-none"></div>
+<div class="relative z-10 flex flex-col gap-space-md">
+<div class="flex items-center justify-between flex-wrap gap-space-sm">
+<div class="flex items-center gap-space-xs bg-surface-container-highest/80 backdrop-blur-md px-space-sm py-space-2xs rounded-full">
+<span class="material-symbols-outlined text-label-sm text-primary">timer</span>
+<span class="font-label-sm text-label-sm font-semibold text-on-surface">⏱️ 2h 45m Official Timing</span>
+</div>
+<span class="font-code text-label-sm text-on-surface-variant bg-surface-container-lowest px-space-sm py-space-2xs rounded-md">CAM-19-MOCK-03</span>
+</div>
+<div class="flex flex-col gap-space-2xs mt-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-primary font-semibold">Flagship Diagnostic</span>
+<h2 class="font-headline-md text-headline-md text-on-surface font-bold tracking-tight">Cambridge 19 Test 3: Full Simulation</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl">
+            Complete high-stakes mock exam including AI-proctored Listening, auto-annotated Reading, Real-time Task 1 &amp; 2 evaluation, and synchronized audio recording.
+          </p>
+</div>
+<div class="flex items-center gap-space-base pt-space-xs text-on-surface-variant font-body-sm text-body-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-label-md text-secondary">verified_user</span>
+<span>Real Band Scoring</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-label-md text-tertiary">headset_mic</span>
+<span>Full Audio Suite</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-label-md text-primary">analytics</span>
+<span>Instant Detailed Report</span>
+</div>
+</div>
+</div>
+<div class="relative z-10 flex items-center justify-between pt-space-lg flex-wrap gap-space-md">
+<button class="flex items-center gap-space-sm px-space-lg py-space-sm bg-primary-container text-on-primary font-label-lg text-label-lg font-bold rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition-all">
+<span>Start Full Simulation</span>
+<span class="material-symbols-outlined text-label-lg">arrow_forward</span>
+</button>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Last attempt: Band 6.5 (Sep 14)</span>
+</div>
+</div>
+<!-- Action Card 2: Daily Express Drill with Foxy -->
+<div class="xl:col-span-5 relative overflow-hidden rounded-2xl bg-surface-container p-space-xl flex flex-col justify-between shadow-xl min-h-[300px]">
+<div class="absolute -right-12 -bottom-12 w-64 h-64 bg-[#FF7A00]/15 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute inset-0 bg-gradient-to-tr from-[#FF7A00]/10 via-transparent to-transparent pointer-events-none"></div>
+<div class="relative z-10 flex items-start justify-between gap-space-md">
+<div class="flex flex-col gap-space-2xs">
+<div class="flex items-center gap-space-xs bg-[#FF7A00]/20 px-space-sm py-space-2xs rounded-full w-fit">
+<span class="font-label-sm text-label-sm font-bold text-[#FF7A00]">🔥 15 min Express Drill</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold mt-space-xs">Daily Practice Lab with Foxy</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-xs">
+            Smart targeted flash drill: Collocations in Context + Part 2 Cue Card rapid rebuttal.
+          </p>
+</div>
+<!-- Foxy Mascot Avatar Reference -->
+<div class="relative flex-shrink-0">
+<div class="w-20 h-20 rounded-2xl bg-surface-container-high p-1 shadow-lg overflow-hidden flex items-center justify-center">
+<img alt="3D Foxy Scholar Mascot" class="w-full h-full object-cover rounded-xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxYGHb64w1tn1F2dd5JW1u_katV8SMK7pEeVIC_k-EyUB-xYgI8Zdj7LSYhpAobAONzf4P9GQRZ5tsT4Mf2aD7yXTvNMqrxnW_jUYeepxb4w3ttwqp9rvmIM33dTx3PnugcdeNUCzgRLm_3H7Ar81XpPJO4UKhHpg61W6OcxXkj_5SMsoOTx7NPnCHu83uHyMsk9zv1Lx7NEVXcBqLR21GnV71BpM0Ww1YnQz38kO1sTQN3QcnZ19DKw"/>
+</div>
+<span class="absolute -bottom-1 -right-1 bg-secondary text-on-secondary font-label-sm text-label-sm font-bold px-space-xs py-0.5 rounded-full shadow-md">LIVE</span>
+</div>
+</div>
+<div class="relative z-10 flex flex-col gap-space-md pt-space-md">
+<div class="bg-surface-container-lowest/80 p-space-sm rounded-xl flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-headline-sm">military_tech</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">Today's Streak Bonus</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Complete to reach Day 8</span>
+</div>
+</div>
+<span class="font-label-md text-label-md font-bold text-secondary">+25 XP</span>
+</div>
+<div class="flex items-center justify-between gap-space-base">
+<button class="w-full flex items-center justify-center gap-space-sm px-space-md py-space-sm bg-gradient-to-r from-[#FF7A00] to-[#E05A00] text-white font-label-lg text-label-lg font-bold rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition-all">
+<span>Start Express Drill</span>
+<span class="material-symbols-outlined text-label-lg">bolt</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- 4 Skill Bento Grid -->
+<section class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-headline-sm">grid_view</span>
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">Active Skill Labs</h3>
+</div>
+<a class="font-label-md text-label-md text-primary hover:underline flex items-center gap-space-2xs" href="#">
+<span>View all modules</span>
+<span class="material-symbols-outlined text-label-sm">chevron_right</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-space-md">
+<!-- Bento 1: Reading Highlighter Lab -->
+<div class="bg-surface-container-low hover:bg-surface-container transition-all p-space-base rounded-2xl flex flex-col justify-between group shadow-sm min-h-[220px]">
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="w-10 h-10 rounded-xl bg-tertiary-container/30 text-tertiary flex items-center justify-center">
+<span class="material-symbols-outlined">menu_book</span>
+</div>
+<span class="font-code text-label-sm font-bold text-tertiary bg-surface-container-highest px-space-xs py-space-2xs rounded">Band 7.5</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Reading Lab</span>
+<h4 class="font-label-lg text-label-lg font-bold text-on-surface group-hover:text-primary transition-colors">Passage 2: AI in Healthcare</h4>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Vocabulary highlighter &amp; matching headings test.</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-xs pt-space-base">
+<div class="flex items-center justify-between font-label-sm text-label-sm">
+<span class="text-on-surface-variant">Progress</span>
+<span class="text-on-surface font-semibold">65%</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container-highest overflow-hidden">
+<div class="h-full bg-tertiary rounded-full transition-all duration-500" style="width: 65%;"></div>
+</div>
+<div class="flex items-center justify-between pt-space-2xs text-on-surface-variant font-body-sm text-body-sm">
+<span>Last Score: <strong>31/40</strong></span>
+<span class="material-symbols-outlined text-label-md group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</div>
+</div>
+<!-- Bento 2: Listening Lab -->
+<div class="bg-surface-container-low hover:bg-surface-container transition-all p-space-base rounded-2xl flex flex-col justify-between group shadow-sm min-h-[220px]">
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="w-10 h-10 rounded-xl bg-secondary-container/30 text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined">headphones</span>
+</div>
+<span class="font-label-sm text-label-sm font-semibold text-secondary bg-surface-container-highest px-space-xs py-space-2xs rounded">3 Pending</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Listening Sync</span>
+<h4 class="font-label-lg text-label-lg font-bold text-on-surface group-hover:text-secondary transition-colors">Audio Sync &amp; Note-Taking</h4>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Section 4 Monologue: Marine Biodiversity acoustics.</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-xs pt-space-base">
+<!-- Audio Waveform Visualization Simulation -->
+<div class="flex items-end justify-between h-8 bg-surface-container-lowest px-space-sm py-1 rounded-lg">
+<span class="w-1 bg-secondary rounded-full h-3 animate-pulse"></span>
+<span class="w-1 bg-secondary rounded-full h-6 animate-pulse" style="animation-delay: 150ms;"></span>
+<span class="w-1 bg-secondary rounded-full h-4 animate-pulse" style="animation-delay: 75ms;"></span>
+<span class="w-1 bg-secondary rounded-full h-7 animate-pulse" style="animation-delay: 220ms;"></span>
+<span class="w-1 bg-secondary rounded-full h-5 animate-pulse" style="animation-delay: 110ms;"></span>
+<span class="w-1 bg-secondary rounded-full h-2 animate-pulse" style="animation-delay: 300ms;"></span>
+<span class="w-1 bg-secondary rounded-full h-6 animate-pulse" style="animation-delay: 180ms;"></span>
+</div>
+<div class="flex items-center justify-between pt-space-2xs text-on-surface-variant font-body-sm text-body-sm">
+<span>Accents: <strong>British / Aus</strong></span>
+<span class="material-symbols-outlined text-label-md group-hover:translate-x-1 transition-transform">play_circle</span>
+</div>
+</div>
+</div>
+<!-- Bento 3: Writing Evaluator -->
+<div class="bg-surface-container-low hover:bg-surface-container transition-all p-space-base rounded-2xl flex flex-col justify-between group shadow-sm min-h-[220px]">
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="w-10 h-10 rounded-xl bg-primary-container/30 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined">edit_note</span>
+</div>
+<span class="font-label-sm text-label-sm font-semibold text-primary-fixed bg-surface-container-highest px-space-xs py-space-2xs rounded">AI Ready</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Writing Evaluator</span>
+<h4 class="font-label-lg text-label-lg font-bold text-on-surface group-hover:text-primary transition-colors">Task 2 Academic Essay</h4>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Topic: Automation in Urban Transportation.</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-xs pt-space-base">
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span>Criterion Gap</span>
+<span class="text-error font-semibold">-0.5 CC</span>
+</div>
+<div class="flex items-center justify-between bg-surface-container-lowest px-space-sm py-space-2xs rounded-lg text-primary font-label-sm text-label-sm">
+<span class="flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-label-sm">auto_awesome</span>
+              Detailed Feedback Ready
+            </span>
+<span class="material-symbols-outlined text-label-sm">arrow_forward</span>
+</div>
+</div>
+</div>
+<!-- Bento 4: 3D Foxy Speaking Room -->
+<div class="bg-surface-container-low hover:bg-surface-container transition-all p-space-base rounded-2xl flex flex-col justify-between group shadow-sm min-h-[220px]">
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="w-10 h-10 rounded-xl bg-[#FF7A00]/20 text-[#FF7A00] flex items-center justify-center">
+<span class="material-symbols-outlined">record_voice_over</span>
+</div>
+<span class="font-label-sm text-label-sm font-semibold text-[#FF7A00] bg-surface-container-highest px-space-xs py-space-2xs rounded">12 min Slot</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">3D Speaking Room</span>
+<h4 class="font-label-lg text-label-lg font-bold text-on-surface group-hover:text-[#FF7A00] transition-colors">3D Foxy Examiner Live</h4>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Full Part 1, 2, 3 voice conversation with live fluency feedback.</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-xs pt-space-base">
+<div class="flex items-center justify-between font-body-sm text-body-sm text-on-surface-variant">
+<span>Pronunciation Target</span>
+<span class="text-on-surface font-semibold">8.0</span>
+</div>
+<button class="w-full flex items-center justify-center gap-space-xs py-space-2xs bg-surface-container-highest text-on-surface font-label-md text-label-md rounded-lg group-hover:bg-[#FF7A00] group-hover:text-white transition-all">
+<span class="material-symbols-outlined text-label-sm">mic</span>
+<span>Enter Room</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Bottom Analytics & Diagnostics Section -->
+<section class="grid grid-cols-1 xl:grid-cols-12 gap-space-lg">
+<!-- Score Trajectory Interactive SVG Chart (8 Cols) -->
+<div class="xl:col-span-8 bg-surface-container-low p-space-xl rounded-2xl shadow-sm flex flex-col justify-between gap-space-lg">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-headline-sm">trending_up</span>
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">Score Trajectory Progression</h3>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Historical mock band growth over the past 6 testing cycles</span>
+</div>
+<!-- Legend Pills -->
+<div class="flex items-center gap-space-sm flex-wrap font-label-sm text-label-sm">
+<div class="flex items-center gap-space-2xs">
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+<span class="text-on-surface-variant">Overall Mock Band</span>
+</div>
+<div class="flex items-center gap-space-2xs">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+<span class="text-on-surface-variant">Target (Band 7.5)</span>
+</div>
+</div>
+</div>
+<!-- Inline SVG Chart -->
+<div class="w-full h-56 relative flex items-center">
+<svg class="w-full h-full overflow-visible" preserveaspectratio="none" viewbox="0 0 700 200">
+<defs>
+<lineargradient id="primaryAreaGrad" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#c0c1ff" stop-opacity="0.35"></stop>
+<stop offset="100%" stop-color="#c0c1ff" stop-opacity="0.0"></stop>
+</lineargradient>
+</defs>
+<!-- Grid Lines -->
+<line stroke="#34343a" stroke-dasharray="4 4" stroke-width="1" x1="0" x2="700" y1="20" y2="20"></line>
+<line stroke="#34343a" stroke-dasharray="4 4" stroke-width="1" x1="0" x2="700" y1="70" y2="70"></line>
+<line stroke="#34343a" stroke-dasharray="4 4" stroke-width="1" x1="0" x2="700" y1="120" y2="120"></line>
+<line stroke="#34343a" stroke-dasharray="4 4" stroke-width="1" x1="0" x2="700" y1="170" y2="170"></line>
+<!-- Target Line (7.5 Band) -->
+<line opacity="0.8" stroke="#4edea3" stroke-dasharray="6 4" stroke-width="2" x1="0" x2="700" y1="65" y2="65"></line>
+<text fill="#4edea3" font-family="Inter" font-size="11" font-weight="600" x="640" y="58">TARGET 7.5</text>
+<!-- Area fill for candidate score -->
+<polygon fill="url(#primaryAreaGrad)" points="30,165 150,145 270,125 390,110 510,95 630,78 630,195 30,195"></polygon>
+<!-- Score Curve Line -->
+<polyline fill="none" points="30,165 150,145 270,125 390,110 510,95 630,78" stroke="#c0c1ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5"></polyline>
+<!-- Interactive Node Circles -->
+<g class="cursor-pointer">
+<circle cx="30" cy="165" fill="#121318" r="5" stroke="#c0c1ff" stroke-width="3"></circle>
+<text fill="#908fa0" font-family="Inter" font-size="11" text-anchor="middle" x="30" y="190">Wk 1 (6.0)</text>
+</g>
+<g class="cursor-pointer">
+<circle cx="150" cy="145" fill="#121318" r="5" stroke="#c0c1ff" stroke-width="3"></circle>
+<text fill="#908fa0" font-family="Inter" font-size="11" text-anchor="middle" x="150" y="190">Wk 2 (6.0)</text>
+</g>
+<g class="cursor-pointer">
+<circle cx="270" cy="125" fill="#121318" r="5" stroke="#c0c1ff" stroke-width="3"></circle>
+<text fill="#908fa0" font-family="Inter" font-size="11" text-anchor="middle" x="270" y="190">Wk 3 (6.5)</text>
+</g>
+<g class="cursor-pointer">
+<circle cx="390" cy="110" fill="#121318" r="5" stroke="#c0c1ff" stroke-width="3"></circle>
+<text fill="#908fa0" font-family="Inter" font-size="11" text-anchor="middle" x="390" y="190">Wk 4 (6.5)</text>
+</g>
+<g class="cursor-pointer">
+<circle cx="510" cy="95" fill="#121318" r="5" stroke="#c0c1ff" stroke-width="3"></circle>
+<text fill="#908fa0" font-family="Inter" font-size="11" text-anchor="middle" x="510" y="190">Wk 5 (7.0)</text>
+</g>
+<g class="cursor-pointer">
+<circle cx="630" cy="78" fill="#8083ff" r="7" stroke="#c0c1ff" stroke-width="3"></circle>
+<text fill="#c0c1ff" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle" x="630" y="190">Current (7.0)</text>
+</g>
+</svg>
+</div>
+<!-- Bottom Trajectory Metrics breakdown -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-space-sm pt-space-md border-t border-surface-container-highest">
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Listening</span>
+<span class="font-headline-sm text-headline-sm font-bold text-secondary">7.5</span>
+</div>
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Reading</span>
+<span class="font-headline-sm text-headline-sm font-bold text-tertiary">7.5</span>
+</div>
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Writing</span>
+<span class="font-headline-sm text-headline-sm font-bold text-primary">6.5</span>
+</div>
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Speaking</span>
+<span class="font-headline-sm text-headline-sm font-bold text-[#FF7A00]">7.0</span>
+</div>
+</div>
+</div>
+<!-- Right Side Diagnostic Alert & Streak (4 Cols) -->
+<div class="xl:col-span-4 flex flex-col gap-space-md">
+<!-- 7-Day Flame Streak Card -->
+<div class="bg-surface-container-low p-space-base rounded-2xl shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="text-headline-sm">🔥</span>
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">7-Day Streak</span>
+</div>
+<span class="font-code text-label-sm font-bold text-[#FF7A00] bg-[#FF7A00]/10 px-space-sm py-space-2xs rounded-full">Top 5% Learner</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+          Consistent practice boosts actual IELTS outcome by an estimated 0.8 band score.
+        </p>
+<!-- Streak Calendar Circles -->
+<div class="grid grid-cols-7 gap-space-xs pt-space-xs text-center">
+<div class="flex flex-col items-center gap-space-2xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant">M</span>
+<div class="w-8 h-8 rounded-full bg-[#FF7A00] text-white flex items-center justify-center font-label-sm text-label-sm font-bold shadow-sm">✓</div>
+</div>
+<div class="flex flex-col items-center gap-space-2xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant">T</span>
+<div class="w-8 h-8 rounded-full bg-[#FF7A00] text-white flex items-center justify-center font-label-sm text-label-sm font-bold shadow-sm">✓</div>
+</div>
+<div class="flex flex-col items-center gap-space-2xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant">W</span>
+<div class="w-8 h-8 rounded-full bg-[#FF7A00] text-white flex items-center justify-center font-label-sm text-label-sm font-bold shadow-sm">✓</div>
+</div>
+<div class="flex flex-col items-center gap-space-2xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant">T</span>
+<div class="w-8 h-8 rounded-full bg-[#FF7A00] text-white flex items-center justify-center font-label-sm text-label-sm font-bold shadow-sm">✓</div>
+</div>
+<div class="flex flex-col items-center gap-space-2xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant">F</span>
+<div class="w-8 h-8 rounded-full bg-[#FF7A00] text-white flex items-center justify-center font-label-sm text-label-sm font-bold shadow-sm">✓</div>
+</div>
+<div class="flex flex-col items-center gap-space-2xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant">S</span>
+<div class="w-8 h-8 rounded-full bg-[#FF7A00] text-white flex items-center justify-center font-label-sm text-label-sm font-bold shadow-sm">✓</div>
+</div>
+<div class="flex flex-col items-center gap-space-2xs">
+<span class="font-label-sm text-label-sm text-secondary font-bold">Today</span>
+<div class="w-8 h-8 rounded-full bg-secondary text-on-secondary flex items-center justify-center font-label-sm text-label-sm font-bold ring-2 ring-secondary/40 shadow-sm animate-pulse">★</div>
+</div>
+</div>
+</div>
+<!-- AI Diagnostic Alert Card -->
+<div class="bg-surface-container-low p-space-base rounded-2xl shadow-sm flex flex-col justify-between gap-space-md flex-1">
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center gap-space-xs text-error">
+<span class="material-symbols-outlined text-headline-sm">warning</span>
+<span class="font-label-lg text-label-lg font-bold">AI Diagnostic Priority Alert</span>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-xl flex flex-col gap-space-2xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">Writing Task 2 Deficit</span>
+<p class="font-body-md text-body-md text-on-surface leading-snug">
+              ⚠️ In Task 2, <strong>Coherence &amp; Cohesion</strong> needs <span class="text-error font-bold">+0.5 boost</span> to unlock overall Band 7.5.
+            </p>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Repetitive discourse markers detected in recent 3 essays.</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">2 Recommended Corrective Drills:</span>
+<div class="flex flex-col gap-space-2xs">
+<a class="flex items-center justify-between p-space-xs rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors text-on-surface font-label-sm text-label-sm" href="#">
+<span class="flex items-center gap-space-xs truncate">
+<span class="material-symbols-outlined text-label-sm text-primary">play_arrow</span>
+<span>Complex Cohesive Linkers Practice</span>
+</span>
+<span class="text-on-surface-variant">6 min</span>
+</a>
+<a class="flex items-center justify-between p-space-xs rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors text-on-surface font-label-sm text-label-sm" href="#">
+<span class="flex items-center gap-space-xs truncate">
+<span class="material-symbols-outlined text-label-sm text-primary">play_arrow</span>
+<span>Paragraph Topical Transition Drills</span>
+</span>
+<span class="text-on-surface-variant">8 min</span>
+</a>
+</div>
+</div>
+<button class="w-full flex items-center justify-center gap-space-xs py-space-sm bg-surface-container-high hover:bg-primary-container hover:text-on-primary text-primary font-label-md text-label-md font-bold rounded-xl transition-all">
+<span>Resolve Diagnostic Deficit</span>
+<span class="material-symbols-outlined text-label-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Quick Practice Resources Carousel/Grid -->
+<section class="flex flex-col gap-space-sm pb-space-lg">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-tertiary text-headline-sm">bookmark</span>
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">Recommended Reference Mock Sets</h3>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Updated daily based on your target weakness</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-base">
+<div class="bg-surface-container-low p-space-base rounded-xl flex items-center gap-space-md hover:bg-surface-container transition-colors">
+<div class="w-12 h-12 rounded-xl bg-tertiary-container/30 text-tertiary flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined">menu_book</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md font-bold text-on-surface truncate">Cambridge 18 Academic: Test 1</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Reading Passage 1-3 with Vocab Tree</span>
+</div>
+</div>
+<div class="bg-surface-container-low p-space-base rounded-xl flex items-center gap-space-md hover:bg-surface-container transition-colors">
+<div class="w-12 h-12 rounded-xl bg-secondary-container/30 text-secondary flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined">graphic_eq</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md font-bold text-on-surface truncate">CEFR C1 Advanced Listening Master</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Fast accent variations &amp; note completion</span>
+</div>
+</div>
+<div class="bg-surface-container-low p-space-base rounded-xl flex items-center gap-space-md hover:bg-surface-container transition-colors">
+<div class="w-12 h-12 rounded-xl bg-[#FF7A00]/20 text-[#FF7A00] flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined">psychology</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md font-bold text-on-surface truncate">Milliy BBM Grammar &amp; Lexis Mini-Mock</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Uzbek National BBM Exam alignment test</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+<script>
+  // Simple micro-interaction for exam switcher button
+  const switchBtn = document.getElementById('switchExamBtn');
+  if (switchBtn) {
+    switchBtn.addEventListener('click', () => {
+      const isBBM = switchBtn.innerText.includes('Milliy BBM');
+      if (isBBM) {
+        switchBtn.innerHTML = '<span class="text-label-sm">🌐</span><span>Switch to IELTS</span><span class="material-symbols-outlined text-label-sm">swap_horiz</span>';
+      } else {
+        switchBtn.innerHTML = '<span class="text-label-sm">🇺🇿</span><span>Switch to Milliy BBM</span><span class="material-symbols-outlined text-label-sm">swap_horiz</span>';
+      }
+    });
+  }
+</script></main></div></body></html>

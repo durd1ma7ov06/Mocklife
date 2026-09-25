@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+
+<html lang="uz">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+    }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#EEF2FF',
+              100: '#E0E7FF',
+              600: '#4F46E5',
+              700: '#4338CA',
+              900: '#312E81'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Plus Jakarta Sans', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-[#F8FAFC] font-sans text-slate-800 antialiased min-h-screen selection:bg-indigo-100 selection:text-indigo-900">
+<!-- Top Navigation Bar (Pure Light Mode) -->
+<header class="fixed top-0 left-0 right-0 z-30 bg-white border-b border-slate-200 shadow-xs">
+<div class="h-16 w-full px-6 flex items-center justify-between gap-4">
+<!-- Logo & Spec Switcher -->
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-indigo-500 flex items-center justify-center text-white font-display font-extrabold text-lg shadow-sm">
+            M
+          </div>
+<span class="font-display text-xl font-extrabold tracking-tight text-slate-900 flex items-center">
+            Mock<span class="text-indigo-600 ml-0.5">AI</span>
+</span>
+</div>
+<!-- Spec Switcher (Xalqaro vs Milliy) -->
+<div class="hidden xl:flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200">
+<button class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-white text-indigo-900 shadow-xs border border-slate-200/80 flex items-center gap-1.5">
+<span class="text-sm">🌐</span> Xalqaro: IELTS &amp; CEFR
+          </button>
+<button class="px-3.5 py-1.5 rounded-lg text-xs font-medium text-slate-500 hover:text-slate-900 transition-colors flex items-center gap-1.5">
+<span class="text-sm">🇺🇿</span> Milliy Sertifikat (BBM)
+          </button>
+</div>
+</div>
+<!-- User Stats, Wallet & Profile -->
+<div class="flex items-center gap-3">
+<!-- Search bar -->
+<div class="hidden md:flex items-center gap-2 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-xl text-slate-400 w-56 justify-between">
+<div class="flex items-center gap-2 text-xs">
+<span class="material-symbols-outlined text-base">search</span>
+<span>Modul va testlarni qidiring...</span>
+</div>
+<kbd class="bg-white border border-slate-200 px-1.5 py-0.5 rounded text-[10px] font-mono text-slate-400">⌘K</kbd>
+</div>
+<!-- Balance Chip -->
+<div class="flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-xl">
+<span class="material-symbols-outlined text-emerald-600 text-base">account_balance_wallet</span>
+<span class="text-xs text-emerald-950 font-bold">45,000 UZS</span>
+<button class="flex items-center justify-center w-5 h-5 rounded-full bg-emerald-600 text-white hover:bg-emerald-700 ml-1">
+<span class="material-symbols-outlined text-[13px]">add</span>
+</button>
+</div>
+<!-- Credits Chip -->
+<div class="hidden sm:flex items-center gap-1 px-3 py-1.5 rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-semibold">
+<span class="material-symbols-outlined text-sm text-indigo-600">confirmation_number</span>
+<span>2 Free Credits Left</span>
+</div>
+<!-- MAX VIP Badge -->
+<div class="hidden sm:flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-50 border border-amber-200 shadow-xs">
+<span class="text-xs">👑</span>
+<span class="text-[11px] uppercase tracking-wider font-bold text-amber-700">MAX VIP</span>
+</div>
+<!-- Profile Avatar & Details -->
+<div class="flex items-center gap-2.5 pl-2 border-l border-slate-200">
+<div class="relative">
+<img alt="Madina Karimova" class="w-8 h-8 rounded-full object-cover ring-2 ring-indigo-500/20" src="https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-white"></span>
+</div>
+<div class="hidden lg:flex flex-col text-left">
+<span class="text-xs font-bold text-slate-800 leading-tight">Madina Karimova</span>
+<span class="text-[11px] font-medium text-slate-500 leading-tight">Target: Band 7.5</span>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Left Sidebar (Light Navigation) -->
+<aside class="fixed left-0 top-16 bottom-0 w-64 bg-white border-r border-slate-200 z-20 flex flex-col justify-between py-5 px-3">
+<div class="flex flex-col gap-1">
+<div class="px-3 pb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400">Asosiy Bo'limlar</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors text-sm font-medium" href="#">
+<span class="material-symbols-outlined text-[20px] text-slate-400">dashboard</span>
+<span>Dashboard &amp; Hub</span>
+</a>
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-indigo-50 text-indigo-700 font-semibold border border-indigo-100 transition-all text-sm" href="#">
+<span class="material-symbols-outlined text-[20px] text-indigo-600">track_changes</span>
+<span>Exam Arena (CD Mock)</span>
+</a>
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors text-sm font-medium" href="#">
+<span class="material-symbols-outlined text-[20px] text-slate-400">menu_book</span>
+<span>Reading &amp; Vocab Lab</span>
+</a>
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors text-sm font-medium" href="#">
+<span class="material-symbols-outlined text-[20px] text-orange-500">smart_toy</span>
+<span>3D Foxy Speaking</span>
+</a>
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors text-sm font-medium" href="#">
+<span class="material-symbols-outlined text-[20px] text-slate-400">edit_note</span>
+<span>AI Writing Evaluator</span>
+</a>
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors text-sm font-medium" href="#">
+<span class="material-symbols-outlined text-[20px] text-indigo-500">diamond</span>
+<span>Pricing &amp; VIP</span>
+</a>
+</nav>
+</div>
+<!-- Sidebar Footer -->
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3.5 py-2 rounded-xl text-slate-600 hover:bg-slate-50 transition-colors text-sm font-medium" href="#">
+<span class="material-symbols-outlined text-[20px] text-slate-400">settings</span>
+<span>Sozlamalar</span>
+</a>
+<div class="bg-slate-50 border border-slate-200 rounded-xl p-3 flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-xs text-emerald-700 font-semibold flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            AI Engine Online
+          </span>
+<span class="text-[11px] text-slate-400">v3.4 GPT-4o Whisper</span>
+</div>
+<span class="material-symbols-outlined text-slate-400 text-base">bolt</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<div class="pl-64">
+<main class="w-full pt-20 pb-16 px-8 min-h-screen">
+<div class="max-w-7xl mx-auto flex flex-col gap-6">
+<!-- Breadcrumbs & Live Indicator -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+<div class="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
+<a class="hover:text-indigo-600 transition-colors flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-sm">home</span>
+              Bosh sahifa
+            </a>
+<span class="text-slate-300">/</span>
+<a class="hover:text-indigo-600 transition-colors" href="#">Mock Tanlash</a>
+<span class="text-slate-300">/</span>
+<span class="text-slate-800 font-semibold">IELTS Academic CD Simulyator</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-emerald-200 shadow-xs">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+</span>
+<span class="text-[11px] text-emerald-800 font-bold uppercase tracking-wider">Cambridge 2025 Test Serverlari Faol</span>
+</div>
+<span class="text-xs font-mono text-slate-400 bg-white border border-slate-200 px-2 py-0.5 rounded">18ms</span>
+</div>
+</div>
+<!-- Page Header -->
+<div class="flex flex-col gap-2 max-w-5xl">
+<div class="flex flex-wrap items-center gap-3">
+<h1 class="font-display text-3xl md:text-4xl font-extrabold text-[#0F172A] tracking-tight">
+              IELTS Official Computer-Delivered Mock Arena
+            </h1>
+<span class="px-2.5 py-1 rounded-md bg-indigo-50 border border-indigo-100 text-indigo-700 font-mono text-xs font-bold uppercase tracking-wide">
+              Cambridge &amp; IDP Standarti
+            </span>
+</div>
+<p class="text-slate-600 text-base max-w-3xl leading-relaxed">
+            Haqiqiy imtihon muhiti simulyatsiyasi: sinxron audio yozuvlar, so‘z sanagichli Academic Writing, split-screen o‘qish paneli va sun'iy intellekt asosidagi tezkor band-ball tahlili.
+          </p>
+</div>
+<!-- Test Breakdown Chips -->
+<div class="flex flex-wrap items-center gap-2.5">
+<div class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-800 shadow-xs">
+<span class="material-symbols-outlined text-indigo-600 text-lg">headphones</span>
+<span class="text-xs font-medium">40 Savol <span class="text-slate-500">(Listening 30m + 2m)</span></span>
+</div>
+<div class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-800 shadow-xs">
+<span class="material-symbols-outlined text-blue-600 text-lg">auto_stories</span>
+<span class="text-xs font-medium">3 Matn <span class="text-slate-500">(Reading 60m)</span></span>
+</div>
+<div class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-800 shadow-xs">
+<span class="material-symbols-outlined text-emerald-600 text-lg">history_edu</span>
+<span class="text-xs font-medium">2 Topshiriq <span class="text-slate-500">(Writing 60m)</span></span>
+</div>
+<div class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-800 shadow-xs">
+<span class="material-symbols-outlined text-orange-500 text-lg">mic</span>
+<span class="text-xs font-medium">3D Foxy Speaking <span class="text-slate-500">(11–14m Interaktiv)</span></span>
+</div>
+<div class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-indigo-600 text-white shadow-xs font-semibold text-xs">
+<span class="material-symbols-outlined text-base">bolt</span>
+<span>Tezkor AI Diagnostika Natijasi</span>
+</div>
+</div>
+<!-- Pricing & Access Tier Callout Banner -->
+<div class="w-full">
+<div class="rounded-2xl bg-white border border-slate-200 p-6 shadow-xs flex flex-col xl:flex-row items-start xl:items-center justify-between gap-6">
+<div class="flex flex-col lg:flex-row items-start lg:items-center gap-4">
+<div class="flex items-center justify-center w-12 h-12 rounded-xl bg-indigo-50 border border-indigo-100 text-indigo-600 shrink-0">
+<span class="material-symbols-outlined text-2xl">card_membership</span>
+</div>
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center gap-2.5">
+<h2 class="font-display text-lg font-bold text-slate-900">Imtihon Tariflari va Bepul Urinishlar</h2>
+<span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-semibold text-[11px]">Faol Reja</span>
+</div>
+<div class="flex flex-wrap items-center gap-2">
+<span class="px-3 py-1 rounded-lg bg-slate-50 border border-slate-200 text-xs font-medium text-slate-700">
+                    Starter: <span class="text-slate-900 font-semibold">12,999 UZS / test</span>
+</span>
+<span class="px-3 py-1 rounded-lg bg-blue-50 border border-blue-200 text-xs font-medium text-blue-800">
+                    ⚡ Plus: <span class="text-blue-900 font-bold">3 ta bepul test kiritilgan</span>
+</span>
+<span class="px-3 py-1 rounded-lg bg-amber-50 border border-amber-200 text-xs font-bold text-amber-800 flex items-center gap-1">
+<span>👑 MAX:</span>
+<span class="text-emerald-700">7 ta bepul test ochilgan</span>
+</span>
+</div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-wrap items-center gap-3 w-full xl:w-auto">
+<button class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs transition-colors border border-slate-200">
+<span class="material-symbols-outlined text-base text-blue-500">send</span>
+<span>Telegram 1-Click Voucher</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs shadow-xs transition-colors">
+<span class="material-symbols-outlined text-base">add_circle</span>
+<span>+ Balans to‘ldirish</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Available Simulation Sets Grid -->
+<div class="w-full flex flex-col gap-4">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+<div class="flex items-center gap-2.5">
+<h2 class="font-display text-xl font-bold text-slate-900">Mavjud Mock Imtihon Variantlari</h2>
+<span class="px-2 py-0.5 rounded bg-slate-200 text-slate-700 font-mono text-xs font-bold">3 To'plam</span>
+</div>
+<!-- Level Filter -->
+<div class="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200">
+<button class="px-3 py-1 rounded-lg text-xs font-bold bg-white text-slate-900 shadow-xs">Barcha Darajalar</button>
+<button class="px-3 py-1 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900">Academic 6.0–7.0</button>
+<button class="px-3 py-1 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900">Qiyin C1 Focus</button>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Card 1: Official Mock #01 (Cambridge 19 Standard) -->
+<div class="rounded-2xl bg-white border border-slate-200 hover:border-indigo-300 hover:shadow-md transition-all p-6 flex flex-col justify-between shadow-xs">
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<span class="px-2.5 py-1 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-700 font-mono text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    RASMIY MOCK #01
+                  </span>
+<div class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold">
+<span class="material-symbols-outlined text-sm">lock_open</span>
+<span>Ochiq</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="font-display text-lg font-bold text-slate-900">
+                    IELTS Mock #01 (Cambridge 19 Standard)
+                  </h3>
+<p class="text-xs text-slate-500 leading-relaxed">
+                    2024–2025 yangi savollar strukturasi bilan Cambridge 19 Standard formatidagi to'liq simulyatsiya.
+                  </p>
+</div>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-[11px] font-medium">Medium Academic</span>
+<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-[11px] font-medium">Britaniya &amp; Avstraliya audio</span>
+<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-[11px] font-medium">Standart sur'at</span>
+</div>
+<div class="grid grid-cols-2 gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100">
+<div class="flex flex-col">
+<span class="text-[11px] font-medium text-slate-400">Topshirganlar</span>
+<span class="font-display text-base font-bold text-slate-800">1,420 kishi</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[11px] font-medium text-slate-400">O'rtacha Natija</span>
+<span class="font-display text-base font-bold text-emerald-600">Band 6.5</span>
+</div>
+</div>
+<ul class="flex flex-col gap-1.5 text-xs text-slate-600 pt-1">
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-emerald-600 text-base">check_circle</span>
+<span>Avtomatik bulutli saqlash tizimi</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-emerald-600 text-base">check_circle</span>
+<span>IDP Split-screen o'qish va matn ajratgich</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-emerald-600 text-base">check_circle</span>
+<span>Qoralama uchun interaktiv chizma paneli</span>
+</li>
+</ul>
+</div>
+<div class="pt-6">
+<button class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow-xs transition-all" onclick="document.getElementById('diagnostics-modal').classList.remove('hidden')">
+<span>2h 45m Simulyatsiyani Boshlash</span>
+<span class="material-symbols-outlined text-base">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Card 2: IELTS Mock #02 (Recent Actual Exam) -->
+<div class="rounded-2xl bg-white border border-slate-200 hover:border-orange-300 hover:shadow-md transition-all p-6 flex flex-col justify-between shadow-xs">
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<span class="px-2.5 py-1 rounded-md bg-orange-50 border border-orange-200 text-orange-700 font-mono text-[11px] font-bold uppercase tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">local_fire_department</span>
+                    SO'NGGI RASMIY
+                  </span>
+<span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-800 text-xs font-bold border border-slate-200">
+                    12,999 UZS yoki 1 Kredit
+                  </span>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="font-display text-lg font-bold text-slate-900">
+                    IELTS Mock #02 (Recent Actual Exam)
+                  </h3>
+<p class="text-xs text-slate-500 leading-relaxed">
+                    Toshkentdagi imtihon markazlaridan olingan eng so'nggi real imtihon savollari to'plami (2025 Fevral).
+                  </p>
+</div>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-[11px] font-medium">Qiyin Daraja</span>
+<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-[11px] font-medium">Murakkab Task 2</span>
+<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-[11px] font-medium">Map Labelling</span>
+</div>
+<div class="grid grid-cols-2 gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100">
+<div class="flex flex-col">
+<span class="text-[11px] font-medium text-slate-400">Topshirganlar</span>
+<span class="font-display text-base font-bold text-slate-800">890 kishi</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[11px] font-medium text-slate-400">O'rtacha Natija</span>
+<span class="font-display text-base font-bold text-orange-600">Band 6.0</span>
+</div>
+</div>
+<ul class="flex flex-col gap-1.5 text-xs text-slate-600 pt-1">
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-emerald-600 text-base">check_circle</span>
+<span>Haqiqiy imtihon insho mavzulari</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-emerald-600 text-base">check_circle</span>
+<span>Section 3 tezkor akademik dialog</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-emerald-600 text-base">check_circle</span>
+<span>AI Grammatika &amp; Lug'at diagnostikasi</span>
+</li>
+</ul>
+</div>
+<div class="pt-6">
+<button class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-sm border border-slate-200 transition-all" onclick="document.getElementById('diagnostics-modal').classList.remove('hidden')">
+<span class="material-symbols-outlined text-base text-emerald-600">check</span>
+<span>1 Kredit bilan Ochish</span>
+</button>
+</div>
+</div>
+<!-- Card 3: IELTS Mock #03 (Hard Academic Set) -->
+<div class="rounded-2xl bg-white border border-slate-200 hover:border-slate-300 hover:shadow-md transition-all p-6 flex flex-col justify-between shadow-xs">
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<span class="px-2.5 py-1 rounded-md bg-purple-50 border border-purple-200 text-purple-700 font-mono text-[11px] font-bold uppercase tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">lock</span>
+                    PRO &amp; MAX VIP EKSKLYUZIV
+                  </span>
+<span class="px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 text-xs font-bold">
+                    Band 7.5+ Maqsad
+                  </span>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="font-display text-lg font-bold text-slate-900">
+                    IELTS Mock #03 (Hard Academic Set)
+                  </h3>
+<p class="text-xs text-slate-500 leading-relaxed">
+                    Band 8.0+ darajasini maqsad qilgan nomzodlar uchun yuqori darajadagi akademik sinov to'plami.
+                  </p>
+</div>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-[11px] font-medium">Ekspert C1/C2</span>
+<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-[11px] font-medium">Abstrakt ilmiy matnlar</span>
+<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-[11px] font-medium">Tezkor Speaking Rebuttal</span>
+</div>
+<div class="grid grid-cols-2 gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100">
+<div class="flex flex-col">
+<span class="text-[11px] font-medium text-slate-400">Topshirganlar</span>
+<span class="font-display text-base font-bold text-slate-800">412 kishi</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[11px] font-medium text-slate-400">O'rtacha Natija</span>
+<span class="font-display text-base font-bold text-rose-600">Band 5.5</span>
+</div>
+</div>
+<ul class="flex flex-col gap-1.5 text-xs text-slate-600 pt-1">
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-emerald-600 text-base">check_circle</span>
+<span>Bio-etika va falsafiy ilmiy matnlar</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-emerald-600 text-base">check_circle</span>
+<span>Foxy Speaking AI: Jonli savol-javob</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-emerald-600 text-base">check_circle</span>
+<span>Band 9 namunaviy javoblar bilan taqqoslash</span>
+</li>
+</ul>
+</div>
+<div class="pt-6">
+<button class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 font-semibold text-sm transition-all" onclick="document.getElementById('diagnostics-modal').classList.remove('hidden')">
+<span>PRO / MAX VIP bilan Ochish 👑</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- CENTERPIECE: Pre-Exam Audio & System Diagnostics Modal (100% Crisp Light Mode) -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm transition-all" id="diagnostics-modal">
+<div class="relative w-full max-w-2xl rounded-2xl bg-white border border-slate-200 shadow-2xl p-6 sm:p-7 flex flex-col gap-5">
+<!-- Modal Header -->
+<div class="flex items-start justify-between pb-3 border-b border-slate-200">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2.5">
+<div class="p-1.5 rounded-lg bg-indigo-50 border border-indigo-100 text-indigo-700">
+<span class="material-symbols-outlined text-xl">tune</span>
+</div>
+<h3 class="font-display text-xl font-bold text-[#0F172A]">
+              Pre-Exam Audio &amp; System Diagnostics
+            </h3>
+</div>
+<p class="text-xs text-slate-500">
+            Rasmiy imtihon qoidalariga ko'ra karnay, mikrofon va xavfsizlik sozlamalarini tasdiqlash shart.
+          </p>
+</div>
+<button class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-400 hover:text-slate-700 flex items-center justify-center transition-colors" onclick="document.getElementById('diagnostics-modal').classList.add('hidden')">
+<span class="material-symbols-outlined text-lg">close</span>
+</button>
+</div>
+<!-- Diagnostics Checklist & Elements -->
+<div class="flex flex-col gap-3.5">
+<!-- 1. Sound / Headphones Check -->
+<div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-indigo-100/70 text-indigo-700 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-lg">volume_up</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h4 class="text-xs sm:text-sm font-bold text-slate-900">1. Ovoz va Naushniklarni Sozlash</h4>
+<span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">Audio Qurilma OK</span>
+</div>
+<p class="text-xs text-slate-500">Listening bo'limi uchun ovoz ravshanligini quloqchinlarda tekshiring.</p>
+</div>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-xs font-semibold hover:bg-indigo-700 flex items-center gap-1.5 shadow-xs transition-colors shrink-0">
+<span class="material-symbols-outlined text-sm">play_arrow</span>
+<span>Test Ovozini Tinglash</span>
+</button>
+</div>
+<!-- Volume Slider -->
+<div class="flex items-center gap-2.5 pt-1">
+<span class="material-symbols-outlined text-base text-slate-400">volume_mute</span>
+<input class="w-full accent-indigo-600 h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer" max="100" min="0" type="range" value="80"/>
+<span class="material-symbols-outlined text-base text-slate-700">volume_up</span>
+<span class="font-mono text-xs font-bold text-slate-600 w-9 text-right">80%</span>
+</div>
+</div>
+<!-- 2. Microphone Clarity Check -->
+<div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-lg">mic</span>
+</div>
+<div>
+<h4 class="text-xs sm:text-sm font-bold text-slate-900">2. Mikrofon Ravshanligi (Foxy 3D Speaking)</h4>
+<p class="text-xs text-slate-500">Mikrofonni sinang (Aytib ko'ring: <span class="text-slate-800 font-semibold">“Hello Foxy, I am ready”</span>)</p>
+</div>
+</div>
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 font-mono text-xs font-bold shrink-0">
+<span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+              98% Aniqlik
+            </div>
+</div>
+<!-- Clean Waveform Visualizer -->
+<div class="flex items-center justify-center gap-1.5 h-10 w-full bg-white border border-slate-200 rounded-lg px-4 py-1">
+<div class="w-1.5 bg-emerald-500 rounded-full h-3"></div>
+<div class="w-1.5 bg-emerald-500 rounded-full h-6"></div>
+<div class="w-1.5 bg-emerald-500 rounded-full h-7"></div>
+<div class="w-1.5 bg-emerald-500 rounded-full h-4"></div>
+<div class="w-1.5 bg-emerald-500 rounded-full h-8"></div>
+<div class="w-1.5 bg-emerald-500 rounded-full h-6"></div>
+<div class="w-1.5 bg-emerald-500 rounded-full h-5"></div>
+<div class="w-1.5 bg-emerald-500 rounded-full h-7"></div>
+<div class="w-1.5 bg-emerald-500 rounded-full h-3"></div>
+</div>
+</div>
+<!-- 3. Fullscreen & Anti-Cheat Lock -->
+<div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between gap-4">
+<div class="flex items-start gap-3">
+<div class="w-9 h-9 rounded-lg bg-indigo-100/70 text-indigo-700 flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-lg">fullscreen</span>
+</div>
+<div>
+<h4 class="text-xs sm:text-sm font-bold text-slate-900">3. To'liq Ekran va Anti-Cheat Xavfsizligi</h4>
+<p class="text-xs text-slate-500">Imtihon davomida boshqa oynalarga yoki tabga o'tish cheklanadi.</p>
+</div>
+</div>
+<!-- Toggle switch (active) -->
+<label class="relative inline-flex items-center cursor-pointer shrink-0">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+</label>
+</div>
+</div>
+<!-- Proctoring Status Indicator -->
+<div class="flex items-center justify-between px-3 py-2 rounded-xl bg-emerald-50/70 border border-emerald-200/80 text-xs">
+<div class="flex items-center gap-2 text-emerald-800 font-medium">
+<span class="material-symbols-outlined text-base text-emerald-600">verified_user</span>
+<span>Web-kamera va AI Proktor Nazorati Faol</span>
+</div>
+<span class="font-mono text-emerald-700 font-bold">Simulyatsiyaga Tayyor</span>
+</div>
+<!-- Modal Actions -->
+<div class="flex items-center justify-end gap-3 pt-2 border-t border-slate-100">
+<button class="px-4 py-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold text-xs transition-colors" onclick="document.getElementById('diagnostics-modal').classList.add('hidden')">
+          Yo'riqnomani o'qish
+        </button>
+<button class="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs shadow-sm flex items-center gap-2 transition-all">
+<span>Imtihon Xonasiga Kirish (To'liq Ekran)</span>
+<span class="material-symbols-outlined text-base">rocket_launch</span>
+</button>
+</div>
+</div>
+</div>
+</body>
+</html>

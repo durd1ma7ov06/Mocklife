@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: 'class', theme: { extend: { 'colors': { 'secondary-container': '#00a572', 'surface-container': '#1e1f25', 'outline-variant': '#464554', 'on-primary': '#1000a9', 'on-secondary-fixed-variant': '#005236', 'on-error-container': '#ffdad6', 'primary': '#c0c1ff', 'surface-dim': '#121318', 'inverse-primary': '#494bd6', 'surface-tint': '#c0c1ff', 'background': '#121318', 'on-error': '#690005', 'on-tertiary-fixed': '#001e2c', 'secondary-fixed': '#6ffbbe', 'outline': '#908fa0', 'surface-container-high': '#292a2f', 'primary-fixed-dim': '#c0c1ff', 'on-tertiary-container': '#002d40', 'on-secondary': '#003824', 'primary-fixed': '#e1e0ff', 'on-tertiary': '#00354a', 'on-surface-variant': '#c7c4d7', 'on-surface': '#e3e1e9', 'secondary-fixed-dim': '#4edea3', 'error-container': '#93000a', 'inverse-on-surface': '#2f3036', 'tertiary-container': '#009bd1', 'surface-container-low': '#1a1b21', 'primary-container': '#8083ff', 'tertiary-fixed': '#c4e7ff', 'tertiary': '#7bd0ff', 'on-primary-fixed': '#07006c', 'on-secondary-container': '#00311f', 'inverse-surface': '#e3e1e9', 'secondary': '#4edea3', 'on-background': '#e3e1e9', 'surface-bright': '#38393f', 'on-tertiary-fixed-variant': '#004c69', 'surface-container-highest': '#34343a', 'surface-container-lowest': '#0d0e13', 'tertiary-fixed-dim': '#7bd0ff', 'surface-variant': '#34343a', 'error': '#ffb4ab', 'on-primary-container': '#0d0096', 'on-primary-fixed-variant': '#2f2ebe', 'on-secondary-fixed': '#002113', 'surface': '#121318' }, 'borderRadius': { 'DEFAULT': '0.25rem', 'lg': '0.5rem', 'xl': '0.75rem', 'full': '9999px' }, 'spacing': { 'space-xs': '0.25rem', 'space-lg': '1.5rem', 'space-2xs': '0.125rem', 'gutter-mobile': '1rem', 'space-md': '0.75rem', 'space-sm': '0.5rem', 'margin-tablet': '2rem', 'space-2xl': '3rem', 'gutter-desktop': '2rem', 'space-3xl': '4rem', 'space-base': '1rem', 'margin-mobile': '1rem', 'margin-desktop': '3rem', 'gutter-tablet': '1.5rem', 'space-xl': '2rem' }, 'fontFamily': { 'body-sm': ['Inter'], 'headline-lg-mobile': ['Plus Jakarta Sans'], 'body-lg': ['Inter'], 'label-lg': ['Inter'], 'code': ['Inter'], 'headline-lg': ['Plus Jakarta Sans'], 'label-sm': ['Inter'], 'headline-sm': ['Plus Jakarta Sans'], 'headline-md': ['Plus Jakarta Sans'], 'display-mobile': ['Plus Jakarta Sans'], 'display': ['Plus Jakarta Sans'], 'label-md': ['Inter'], 'body-md': ['Inter'] }, 'fontSize': { 'body-sm': ['12px', { 'lineHeight': '18px', 'letterSpacing': '0em', 'fontWeight': '400' }], 'headline-lg-mobile': ['28px', { 'lineHeight': '36px', 'letterSpacing': '-0.02em', 'fontWeight': '700' }], 'body-lg': ['16px', { 'lineHeight': '26px', 'letterSpacing': '-0.011em', 'fontWeight': '400' }], 'label-lg': ['14px', { 'lineHeight': '20px', 'letterSpacing': '-0.005em', 'fontWeight': '500' }], 'code': ['13px', { 'lineHeight': '20px', 'letterSpacing': '0em', 'fontWeight': '400' }], 'headline-lg': ['40px', { 'lineHeight': '48px', 'letterSpacing': '-0.025em', 'fontWeight': '700' }], 'label-sm': ['11px', { 'lineHeight': '14px', 'letterSpacing': '0.04em', 'fontWeight': '600' }], 'headline-sm': ['20px', { 'lineHeight': '28px', 'letterSpacing': '-0.015em', 'fontWeight': '600' }], 'headline-md': ['28px', { 'lineHeight': '36px', 'letterSpacing': '-0.02em', 'fontWeight': '600' }], 'display-mobile': ['36px', { 'lineHeight': '44px', 'letterSpacing': '-0.025em', 'fontWeight': '700' }], 'display': ['56px', { 'lineHeight': '64px', 'letterSpacing': '-0.03em', 'fontWeight': '700' }], 'label-md': ['12px', { 'lineHeight': '16px', 'letterSpacing': '0.01em', 'fontWeight': '500' }], 'body-md': ['14px', { 'lineHeight': '22px', 'letterSpacing': '-0.006em', 'fontWeight': '400' }] } } } };</script></head><body class="bg-background font-body-md text-on-surface antialiased min-h-screen selection:bg-primary-container selection:text-on-primary-container"><header class="fixed top-0 left-0 right-0 z-40 bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.3)]"><div class="h-16 w-full px-gutter-desktop flex items-center justify-between gap-space-base"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-sm"><img alt="MockAI Foxy Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdWCr9y92m0GyEeoq1EnQKx4SgaVSngNo_aR9jJCB4hLPtTUNlRHusMyFZPI64sYYoHm3KIDpJp0KBtEDcM7RFMtQcoumEZ5SaZDl0pvjSqaC8OJDkpVTmxCyB6KnWFDPc80AWnXWplSG4pC-jej6PIDbWNuS_trnnxWwYL6l9s2EeQcIfMmbydxzLe1VzOxqLvHJwOVZWNhdxDXHpeGWIML66GGiT-XyE2dkdHze2vzIid_PFRmiwvA"/><span class="font-headline-sm text-headline-sm font-bold tracking-tight text-on-surface flex items-center">Mock<span class="text-[#FF7A00] drop-shadow-[0_0_12px_rgba(255,122,0,0.6)]">AI</span></span></div><div class="hidden xl:flex items-center bg-surface-container-low p-space-2xs rounded-xl shadow-inner"><button class="px-space-sm py-space-2xs rounded-lg font-label-md text-label-md font-semibold bg-surface-container-highest text-on-surface shadow-sm transition-all">🌐 International (IELTS/CEFR)</button><button class="px-space-sm py-space-2xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all">🇺🇿 Local (Milliy BBM)</button></div></div><div class="flex items-center gap-space-base"><div class="hidden md:flex items-center gap-space-sm bg-surface-container-low px-space-md py-space-xs rounded-xl text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer w-64 justify-between"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-label-lg">search</span><span class="font-body-sm text-body-sm">Search modules, tips...</span></div><kbd class="bg-surface-container-highest px-space-xs py-space-2xs rounded font-code text-label-sm text-on-surface-variant">⌘K</kbd></div><div class="flex items-center gap-space-xs bg-surface-container-low px-space-sm py-space-xs rounded-xl"><span class="material-symbols-outlined text-secondary text-label-lg">account_balance_wallet</span><span class="font-label-md text-label-md text-on-surface font-semibold">45,000 UZS</span><button class="flex items-center justify-center w-5 h-5 rounded-full bg-secondary-container text-on-secondary hover:bg-secondary transition-colors ml-space-2xs"><span class="material-symbols-outlined text-label-sm leading-none">add</span></button></div><div class="hidden sm:flex items-center gap-space-2xs px-space-sm py-space-2xs rounded-full bg-surface-container-high shadow-[0_0_12px_rgba(128,131,255,0.25)]"><span class="text-label-sm">👑</span><span class="font-label-sm text-label-sm uppercase tracking-wider font-bold bg-gradient-to-r from-primary to-tertiary bg-clip-text text-transparent">MAX VIP</span></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="relative flex items-center justify-center"><img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-2 ring-surface-container-high" src="https://lh3.googleusercontent.com/aida/AEtjO1UlOsPkcdzSPImEUBoR0zhlYs7JEQ5eT1tzkbVLLrc-94W0HaQJ3514CX5yCFeoPmvhbiCmhUMsOZoOUnHSyLCS7mfRcUNiIgZ0-yrahMk27_-0vTua8MD1P_h-yk7l9VF4xaKFnRv-vvZklHEp3KGZDtze-2U3MGYiRjjlrjYMHNcr5yzluKVgiBj1RH71gQtFe84MfDhhBjIMRQJla6I2qejuBSlRYoKva8ThrWJrGbjGZc6L2ToQZjPk"/><span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-secondary ring-2 ring-surface-container-lowest"></span></div><div class="hidden lg:flex flex-col text-left"><span class="font-label-md text-label-md font-semibold text-on-surface leading-tight">Madina Karimova</span><span class="font-label-sm text-label-sm text-on-surface-variant leading-tight">IELTS Candidate</span></div></div></div></div></header><aside class="fixed left-0 top-16 bottom-0 w-64 bg-surface-container-lowest z-30 flex flex-col justify-between py-space-base shadow-[1px_0_12px_rgba(0,0,0,0.25)]"><div class="flex flex-col gap-space-xs px-space-sm"><nav class="flex flex-col gap-space-2xs" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-xl"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="dashboard-hub" href="#"><span class="material-symbols-outlined">dashboard</span><span class="font-label-lg text-label-lg">Dashboard &amp; Hub</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="onboarding-level-test" href="#"><span class="material-symbols-outlined">track_changes</span><span class="font-label-lg text-label-lg">Onboarding &amp; Test</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="reading-practice-lab" href="#"><span class="material-symbols-outlined">menu_book</span><span class="font-label-lg text-label-lg">Reading &amp; Vocab</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="foxy-speaking-arena" href="#"><span class="material-symbols-outlined text-[#FF7A00]">smart_toy</span><span class="font-label-lg text-label-lg">3D Foxy Speaking</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="ai-writing-evaluator" href="#"><span class="material-symbols-outlined">edit_note</span><span class="font-label-lg text-label-lg">AI Writing Evaluator</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="pricing-vip-downloads" href="#"><span class="material-symbols-outlined text-tertiary">diamond</span><span class="font-label-lg text-label-lg">Pricing &amp; VIP</span></a></nav></div><div class="px-space-sm flex flex-col gap-space-2xs"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="settings" href="#"><span class="material-symbols-outlined">settings</span><span class="font-label-lg text-label-lg">Settings</span></a><div class="bg-surface-container-low rounded-xl p-space-sm mt-space-xs flex items-center justify-between"><div class="flex flex-col"><span class="font-label-sm text-label-sm text-secondary flex items-center gap-space-2xs"><span class="w-1.5 h-1.5 rounded-full bg-secondary animate-ping"></span>AI Engine Online</span><span class="font-body-sm text-body-sm text-on-surface-variant">v3.4 GPT-4o Whisper</span></div><span class="material-symbols-outlined text-on-surface-variant text-label-lg">bolt</span></div></div></aside><div class="pl-64"><main class="relative w-full pt-16 bg-surface min-h-screen px-gutter-desktop py-space-lg"><div class="flex flex-col w-full">
+<div class="w-full max-w-7xl mx-auto flex flex-col gap-space-xl">
+<!-- Top Progress Tracker & Gamification Header -->
+<div class="w-full bg-surface-container-low/90 backdrop-blur-xl rounded-2xl p-space-base shadow-xl flex flex-col md:flex-row items-center justify-between gap-space-base">
+<div class="flex items-center gap-space-md w-full md:w-auto">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-headline-sm">track_changes</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface">Bosqich 2 / 6</span>
+<span class="font-label-sm text-label-sm px-space-xs py-space-2xs bg-primary-container text-on-primary-container rounded-md uppercase tracking-wider font-semibold">Adaptiv Test</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Maqsad va boshlang'ich darajani moslashtirish</p>
+</div>
+</div>
+<!-- Linear Duolingo-style Progress Bar -->
+<div class="flex-1 max-w-lg w-full flex flex-col gap-space-2xs px-0 md:px-space-lg">
+<div class="flex justify-between items-center text-on-surface-variant font-label-sm text-label-sm">
+<span>Tayyorgarlik jarayoni</span>
+<span class="text-secondary font-semibold">33% yakunlandi</span>
+</div>
+<div class="w-full h-2.5 bg-surface-container-highest rounded-full overflow-hidden p-0.5">
+<div class="h-full bg-gradient-to-r from-primary via-tertiary to-secondary rounded-full w-1/3 transition-all duration-700 ease-out shadow-sm"></div>
+</div>
+</div>
+<!-- Streak & Token Pills -->
+<div class="flex items-center gap-space-sm w-full md:w-auto justify-end">
+<div class="flex items-center gap-space-xs bg-surface-container-high px-space-md py-space-xs rounded-xl shadow-inner">
+<span class="text-headline-sm">🔥</span>
+<div class="flex flex-col text-left">
+<span class="font-label-md text-label-md text-on-surface font-bold leading-tight">1 Kunlik</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant leading-tight">Faollik zanjiri</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs bg-secondary-container/20 text-secondary px-space-md py-space-xs rounded-xl">
+<span class="material-symbols-outlined text-label-lg">stars</span>
+<span class="font-label-md text-label-md font-semibold">+150 XP</span>
+</div>
+</div>
+</div>
+<!-- Main Interactive Grid: Hero Mascot + 30s Fast Onboarding Flow -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+<!-- Left Column: 3D Foxy Mascot & Live Dialogue (5 cols) -->
+<div class="lg:col-span-5 flex flex-col gap-space-base sticky top-20">
+<!-- Speech Bubble (Duolingo / Modern Linear Style) -->
+<div class="relative bg-surface-container-high/95 backdrop-blur-md p-space-lg rounded-2xl shadow-xl flex flex-col gap-space-xs transition-transform hover:-translate-y-0.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="font-label-sm text-label-sm font-semibold uppercase tracking-wider text-secondary">Foxy AI Repetitor</span>
+</div>
+<span class="font-code text-label-sm text-on-surface-variant bg-surface-container-lowest px-space-xs py-space-2xs rounded">Audio Sinxron</span>
+</div>
+<p class="font-headline-sm text-headline-sm text-on-surface font-semibold leading-snug">
+            "Salom Madina! Men Foxy — sizning shaxsiy AI repetitoringizman. 🦊"
+          </p>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+            Keling, atigi 30 soniyada maqsadingiz va real darajangizni aniqlab olamiz. Shunda har kungi darslar sizga maxsus moslashtiriladi!
+          </p>
+<!-- Speech bubble beak -->
+<div class="absolute -bottom-3 left-12 w-6 h-6 bg-surface-container-high/95 rotate-45 transform"></div>
+</div>
+<!-- 3D Mascot Character Stage -->
+<div class="relative w-full rounded-2xl bg-gradient-to-b from-surface-container-low via-surface-container to-surface-container-lowest p-space-base overflow-hidden flex flex-col items-center justify-center min-h-[380px] shadow-2xl group">
+<!-- Ambient Glow Layer behind character -->
+<div class="absolute -top-10 w-64 h-64 bg-primary/10 rounded-full blur-3xl pointer-events-none group-hover:bg-primary/20 transition-all duration-500"></div>
+<div class="absolute -bottom-10 w-48 h-48 bg-secondary/10 rounded-full blur-2xl pointer-events-none"></div>
+<!-- 3D Fox Mascot Display Image -->
+<div class="relative z-10 w-64 h-72 flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+<img alt="MockAI 3D Foxy Mascot with graduation cap and scholarly glasses" class="w-full h-full object-contain drop-shadow-[0_20px_25px_rgba(0,0,0,0.5)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxYGHb64w1tn1F2dd5JW1u_katV8SMK7pEeVIC_k-EyUB-xYgI8Zdj7LSYhpAobAONzf4P9GQRZ5tsT4Mf2aD7yXTvNMqrxnW_jUYeepxb4w3ttwqp9rvmIM33dTx3PnugcdeNUCzgRLm_3H7Ar81XpPJO4UKhHpg61W6OcxXkj_5SMsoOTx7NPnCHu83uHyMsk9zv1Lx7NEVXcBqLR21GnV71BpM0Ww1YnQz38kO1sTQN3QcnZ19DKw"/>
+</div>
+<!-- Micro interaction feedback badge -->
+<div class="relative z-10 mt-space-sm flex items-center gap-space-sm bg-surface-container-lowest/80 backdrop-blur-md px-space-md py-space-xs rounded-full shadow-lg">
+<span class="material-symbols-outlined text-secondary text-label-lg animate-spin" style="animation-duration: 4s;">psychology</span>
+<span class="font-label-md text-label-md text-on-surface font-medium">Foxy javoblaringizni real vaqtda tahlil qilmoqda</span>
+</div>
+</div>
+<!-- Mascot Skill Insights Mini Box -->
+<div class="bg-surface-container-low p-space-md rounded-xl flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-label-lg">tune</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-on-surface">Algoritm: CEFR Matrix 2.4</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Xato va leksik boylikni 98% aniqlikda baholaydi</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-secondary font-bold">Faol</span>
+</div>
+</div>
+<!-- Right Column: Interactive Onboarding Flow (7 cols) -->
+<div class="lg:col-span-7 flex flex-col gap-space-xl">
+<!-- SECTION 1: Goal Selection -->
+<div class="bg-surface-container-low rounded-2xl p-space-lg shadow-xl flex flex-col gap-space-base">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-6 h-6 rounded-md bg-primary-container text-on-primary-container font-bold text-label-sm flex items-center justify-center">1</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold">Asosiy maqsadingiz nima?</h2>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Bitta javobni tanlang</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-space-md" id="goal-options">
+<!-- Card 1: Foreign Universities (Default Active) -->
+<button class="goal-card text-left p-space-md rounded-xl bg-surface-container-high transition-all duration-200 flex flex-col justify-between gap-space-md shadow-md cursor-pointer hover:-translate-y-1" onclick="selectGoal(this)" type="button">
+<div class="flex justify-between items-start">
+<span class="text-headline-md">🎓</span>
+<span class="w-5 h-5 rounded-full bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-label-sm font-bold">check</span>
+</span>
+</div>
+<div class="flex flex-col gap-space-2xs">
+<span class="font-label-lg text-label-lg font-bold text-on-surface leading-snug">Xorijiy Universitetlar</span>
+<span class="font-label-sm text-label-sm text-primary font-semibold">IELTS 7.0+ / 7.5</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-space-2xs">Top 500 xalqaro OTM grantlari va stipendiyalar uchun</span>
+</div>
+</button>
+<!-- Card 2: 50% Teacher Bonus -->
+<button class="goal-card text-left p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-all duration-200 flex flex-col justify-between gap-space-md shadow-md cursor-pointer hover:-translate-y-1 opacity-80 hover:opacity-100" onclick="selectGoal(this)" type="button">
+<div class="flex justify-between items-start">
+<span class="text-headline-md">💰</span>
+<span class="w-5 h-5 rounded-full bg-surface-container-highest flex items-center justify-center text-transparent">
+<span class="material-symbols-outlined text-label-sm font-bold">check</span>
+</span>
+</div>
+<div class="flex flex-col gap-space-2xs">
+<span class="font-label-lg text-label-lg font-bold text-on-surface leading-snug">O'qituvchilar Ustamasi</span>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">50% Ustama (CEFR C1)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-space-2xs">Milliy sertifikat yoki CEFR bo'yicha oylik ustama olish</span>
+</div>
+</button>
+<!-- Card 3: Migration & Work -->
+<button class="goal-card text-left p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-all duration-200 flex flex-col justify-between gap-space-md shadow-md cursor-pointer hover:-translate-y-1 opacity-80 hover:opacity-100" onclick="selectGoal(this)" type="button">
+<div class="flex justify-between items-start">
+<span class="text-headline-md">🌍</span>
+<span class="w-5 h-5 rounded-full bg-surface-container-highest flex items-center justify-center text-transparent">
+<span class="material-symbols-outlined text-label-sm font-bold">check</span>
+</span>
+</div>
+<div class="flex flex-col gap-space-2xs">
+<span class="font-label-lg text-label-lg font-bold text-on-surface leading-snug">Migratsiya &amp; Ish</span>
+<span class="font-label-sm text-label-sm text-tertiary font-semibold">IELTS General 6.5</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-space-2xs">Kanada, Buyuk Britaniya, Yevropa vizasi talablari</span>
+</div>
+</button>
+</div>
+</div>
+<!-- SECTION 2: Current Level Selector -->
+<div class="bg-surface-container-low rounded-2xl p-space-lg shadow-xl flex flex-col gap-space-base">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-6 h-6 rounded-md bg-secondary-container text-on-secondary font-bold text-label-sm flex items-center justify-center">2</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold">Hozirgi taxminiy darajangiz qanday?</h2>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">O'zingizga mosini bosing</span>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-space-sm" id="level-options">
+<!-- A1 / A2 -->
+<button class="level-btn p-space-md rounded-xl bg-surface-container-high/60 hover:bg-surface-container-high text-left flex flex-col gap-space-xs transition-all cursor-pointer" onclick="selectLevel(this)" type="button">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">A1 - A2</span>
+<span class="font-label-md text-label-md text-on-surface-variant font-medium">Boshlang'ich</span>
+<div class="w-full bg-surface-container-lowest h-1 rounded-full mt-space-xs overflow-hidden">
+<div class="bg-outline-variant h-full w-1/4"></div>
+</div>
+</button>
+<!-- B1 (Selected) -->
+<button class="level-btn p-space-md rounded-xl bg-surface-container-high text-left flex flex-col gap-space-xs transition-all shadow-md cursor-pointer" onclick="selectLevel(this)" type="button">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm font-bold text-primary">B1</span>
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-medium">O'rta (Intermediate)</span>
+<div class="w-full bg-surface-container-lowest h-1 rounded-full mt-space-xs overflow-hidden">
+<div class="bg-primary h-full w-2/4"></div>
+</div>
+</button>
+<!-- B2 -->
+<button class="level-btn p-space-md rounded-xl bg-surface-container-high/60 hover:bg-surface-container-high text-left flex flex-col gap-space-xs transition-all cursor-pointer" onclick="selectLevel(this)" type="button">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">B2</span>
+<span class="font-label-md text-label-md text-on-surface-variant font-medium">Yuqori O'rta (IELTS 5.5-6.5)</span>
+<div class="w-full bg-surface-container-lowest h-1 rounded-full mt-space-xs overflow-hidden">
+<div class="bg-secondary h-full w-3/4"></div>
+</div>
+</button>
+<!-- C1 -->
+<button class="level-btn p-space-md rounded-xl bg-surface-container-high/60 hover:bg-surface-container-high text-left flex flex-col gap-space-xs transition-all cursor-pointer" onclick="selectLevel(this)" type="button">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">C1</span>
+<span class="font-label-md text-label-md text-on-surface-variant font-medium">Kuchli Ilg'or (7.0 - 8.0)</span>
+<div class="w-full bg-surface-container-lowest h-1 rounded-full mt-space-xs overflow-hidden">
+<div class="bg-tertiary h-full w-full"></div>
+</div>
+</button>
+</div>
+</div>
+<!-- SECTION 3: 30s Interactive Diagnostic Mini-Quiz Widget -->
+<div class="relative bg-surface-container-low rounded-2xl p-space-lg shadow-xl flex flex-col gap-space-md overflow-hidden">
+<!-- Decorative Top Accent Glow -->
+<div class="absolute -right-16 -top-16 w-40 h-40 bg-secondary/10 rounded-full blur-2xl pointer-events-none"></div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-6 h-6 rounded-md bg-tertiary-container text-on-tertiary-container font-bold text-label-sm flex items-center justify-center">3</span>
+<div class="flex flex-col">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold flex items-center gap-space-xs">
+                  Tezkor Diagnostika (30 soniya)
+                  <span class="px-space-xs py-space-2xs bg-secondary-container/30 text-secondary text-label-sm rounded font-code uppercase">C1 Vocab Sinovi</span>
+</h3>
+</div>
+</div>
+<div class="flex items-center gap-space-xs bg-surface-container-high px-space-sm py-space-2xs rounded-lg">
+<span class="material-symbols-outlined text-label-md text-primary animate-pulse">timer</span>
+<span class="font-code text-label-md text-on-surface font-semibold" id="quiz-timer">00:24s</span>
+</div>
+</div>
+<!-- Question Prompt -->
+<div class="bg-surface-container-high p-space-base rounded-xl flex flex-col gap-space-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">IELTS Academic Reading &amp; Lexical Resource:</span>
+<p class="font-body-lg text-body-lg text-on-surface font-medium">
+              Select the best synonym for the underlined academic word: <br/>
+<span class="italic text-primary font-semibold underline decoration-primary/40 underline-offset-4">"Smartphones have become <span class="bg-primary/20 px-1 rounded">ubiquitous</span> in modern educational environments."</span>
+</p>
+</div>
+<!-- Quiz Interactive Options -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm" id="quiz-container">
+<!-- Correct Option (Pre-selected showcase) -->
+<button class="quiz-btn relative p-space-md rounded-xl bg-surface-container-highest text-left flex items-center justify-between transition-all duration-200 cursor-pointer shadow-md group" onclick="answerQuiz(this, true)" type="button">
+<div class="flex items-center gap-space-sm">
+<span class="w-7 h-7 rounded-lg bg-secondary text-on-secondary font-bold text-label-md flex items-center justify-center shadow-sm">A</span>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg font-bold text-secondary">Omnipresent</span>
+<span class="font-body-sm text-body-sm text-secondary/80">Hamma joyda uchraydigan, universal</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-secondary text-headline-sm">check_circle</span>
+</button>
+<!-- Option B -->
+<button class="quiz-btn relative p-space-md rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-left flex items-center justify-between transition-all duration-200 cursor-pointer shadow-sm group opacity-75 hover:opacity-100" onclick="answerQuiz(this, false)" type="button">
+<div class="flex items-center gap-space-sm">
+<span class="w-7 h-7 rounded-lg bg-surface-container-lowest text-on-surface font-bold text-label-md flex items-center justify-center">B</span>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg font-semibold text-on-surface">Rare &amp; Isolated</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Kamdan-kam, yakkalangan</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-transparent text-headline-sm">check_circle</span>
+</button>
+<!-- Option C -->
+<button class="quiz-btn relative p-space-md rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-left flex items-center justify-between transition-all duration-200 cursor-pointer shadow-sm group opacity-75 hover:opacity-100" onclick="answerQuiz(this, false)" type="button">
+<div class="flex items-center gap-space-sm">
+<span class="w-7 h-7 rounded-lg bg-surface-container-lowest text-on-surface font-bold text-label-md flex items-center justify-center">C</span>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg font-semibold text-on-surface">Obsolete</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Eskirgan, iste'moldan chiqqan</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-transparent text-headline-sm">check_circle</span>
+</button>
+<!-- Option D -->
+<button class="quiz-btn relative p-space-md rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-left flex items-center justify-between transition-all duration-200 cursor-pointer shadow-sm group opacity-75 hover:opacity-100" onclick="answerQuiz(this, false)" type="button">
+<div class="flex items-center gap-space-sm">
+<span class="w-7 h-7 rounded-lg bg-surface-container-lowest text-on-surface font-bold text-label-md flex items-center justify-center">D</span>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg font-semibold text-on-surface">Ancient</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Qadimiy, tarixiy</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-transparent text-headline-sm">check_circle</span>
+</button>
+</div>
+<!-- Instant Confetti & XP Feedback Alert Box -->
+<div class="flex items-center justify-between bg-surface-container-highest/90 p-space-md rounded-xl backdrop-blur-sm transition-all duration-300" id="quiz-feedback">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-secondary/20 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-headline-sm">celebration</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-lg text-label-lg font-bold text-secondary">Ajoyib natija! To'g'ri javob</span>
+<span class="px-space-xs py-space-2xs bg-secondary text-on-secondary rounded-full font-bold text-label-sm">+10 XP</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Foxy sizning C1 so'z boyligingiz borligini qayd etdi.</span>
+</div>
+</div>
+<button class="px-space-md py-space-xs bg-surface-container-high hover:bg-surface-bright text-on-surface text-label-sm font-semibold rounded-lg transition-all flex items-center gap-space-2xs shadow-sm" onclick="triggerConfettiBurst()">
+<span class="material-symbols-outlined text-label-md">refresh</span>
+              Yana sinab ko'rish
+            </button>
+</div>
+</div>
+<!-- SECTION 4: 1-Click Fast Auth Bar & Next Action -->
+<div class="bg-surface-container-low rounded-2xl p-space-lg shadow-2xl flex flex-col gap-space-base">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs">
+<div class="flex flex-col">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Natijani saqlash va davom etish</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Kiritilgan ma'lumotlar shaxsiy MockAI hisobingizga biriktiriladi</p>
+</div>
+<span class="font-label-sm text-label-sm text-secondary flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-label-md">lock</span>
+              100% Xavfsiz tizim
+            </span>
+</div>
+<!-- Quick Auth Buttons Bar -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-space-sm">
+<!-- Telegram One-Click (Dominant in Uzbekistan) -->
+<button class="flex items-center justify-center gap-space-sm py-space-md px-space-base bg-surface-container-high hover:bg-surface-container-highest text-on-surface rounded-xl font-label-lg text-label-lg font-semibold transition-all duration-200 shadow-md group">
+<!-- Telegram Paper Plane Icon -->
+<svg class="w-5 h-5 text-[#2AABEE] transition-transform group-hover:scale-110" fill="currentColor" viewbox="0 0 24 24">
+<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.19-.08-.05-.19-.02-.27 0-.12.03-1.99 1.27-5.63 3.73-.53.37-1.02.55-1.45.54-.48-.01-1.4-.27-2.09-.49-.84-.27-1.51-.42-1.45-.89.03-.25.38-.51 1.05-.78 4.12-1.79 6.87-2.98 8.24-3.56 3.93-1.64 4.74-1.92 5.27-1.93.12 0 .37.03.54.17.14.12.18.28.2.4.01.07.02.21 0 .34z"></path>
+</svg>
+<span>Telegram orqali</span>
+</button>
+<!-- Google Sign-in -->
+<button class="flex items-center justify-center gap-space-sm py-space-md px-space-base bg-surface-container-high hover:bg-surface-container-highest text-on-surface rounded-xl font-label-lg text-label-lg font-semibold transition-all duration-200 shadow-md group">
+<svg class="w-5 h-5 transition-transform group-hover:scale-110" viewbox="0 0 24 24">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"></path>
+</svg>
+<span>Google hisobi</span>
+</button>
+<!-- Phone OTP (Uzbekistan SMS) -->
+<button class="flex items-center justify-center gap-space-sm py-space-md px-space-base bg-surface-container-high hover:bg-surface-container-highest text-on-surface rounded-xl font-label-lg text-label-lg font-semibold transition-all duration-200 shadow-md group">
+<span class="material-symbols-outlined text-secondary text-label-lg transition-transform group-hover:scale-110">smartphone</span>
+<span>+998 SMS Kod</span>
+</button>
+</div>
+<!-- Primary Submit / Next Step CTA -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-space-base pt-space-xs">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-label-md text-secondary">verified</span>
+<span>3 kunlik bepul VIP imtiyozlari taqdim etiladi</span>
+</div>
+<button class="w-full sm:w-auto px-space-xl py-space-md bg-gradient-to-r from-primary-container via-inverse-primary to-primary-container hover:opacity-95 text-on-primary-container font-headline-sm text-headline-sm font-bold rounded-xl shadow-xl flex items-center justify-center gap-space-sm transition-all duration-300 hover:scale-[1.02] cursor-pointer">
+<span>Davom etish (Bosqich 3)</span>
+<span class="material-symbols-outlined text-headline-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Benefit Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-base">
+<div class="bg-surface-container-low p-space-base rounded-xl flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-[#FF7A00]">
+<span class="material-symbols-outlined text-headline-md">mic</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg font-bold text-on-surface">3D Foxy Speaking Arena</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Jonli AI bilan IELTS Part 1, 2, 3 intervyulari</span>
+</div>
+</div>
+<div class="bg-surface-container-low p-space-base rounded-xl flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-headline-md">psychology_alt</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg font-bold text-on-surface">AI Writing Tekshiruvi</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Task 1 &amp; Task 2 insho xatolarini 15 soniyada tuzatish</span>
+</div>
+</div>
+<div class="bg-surface-container-low p-space-base rounded-xl flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-headline-md">card_membership</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg font-bold text-on-surface">Milliy BBM &amp; IELTS CEFR</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">O'zbekiston standartlariga 100% mos sinov tizimi</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Interactive JavaScript Logic -->
+<script>
+    function selectGoal(element) {
+      const cards = document.querySelectorAll('.goal-card');
+      cards.forEach(card => {
+        card.classList.remove('bg-surface-container-high', 'opacity-100');
+        card.classList.add('bg-surface-container-low', 'opacity-80');
+        const iconSpan = card.querySelector('.w-5');
+        iconSpan.classList.remove('bg-primary', 'text-on-primary');
+        iconSpan.classList.add('bg-surface-container-highest', 'text-transparent');
+      });
+      element.classList.remove('bg-surface-container-low', 'opacity-80');
+      element.classList.add('bg-surface-container-high', 'opacity-100');
+      const activeIcon = element.querySelector('.w-5');
+      activeIcon.classList.remove('bg-surface-container-highest', 'text-transparent');
+      activeIcon.classList.add('bg-primary', 'text-on-primary');
+    }
+
+    function selectLevel(element) {
+      const btns = document.querySelectorAll('.level-btn');
+      btns.forEach(btn => {
+        btn.classList.remove('bg-surface-container-high');
+        btn.classList.add('bg-surface-container-high/60');
+        const dot = btn.querySelector('.w-2');
+        if (dot) dot.remove();
+      });
+      element.classList.remove('bg-surface-container-high/60');
+      element.classList.add('bg-surface-container-high');
+    }
+
+    function answerQuiz(button, isCorrect) {
+      const feedback = document.getElementById('quiz-feedback');
+      if (isCorrect) {
+        button.classList.add('bg-surface-container-highest');
+        feedback.classList.remove('hidden');
+      } else {
+        button.classList.add('bg-error-container/20');
+        setTimeout(() => {
+          button.classList.remove('bg-error-container/20');
+        }, 600);
+      }
+    }
+
+    function triggerConfettiBurst() {
+      const feedback = document.getElementById('quiz-feedback');
+      feedback.classList.add('scale-105');
+      setTimeout(() => {
+        feedback.classList.remove('scale-105');
+      }, 300);
+    }
+  </script>
+</div></main></div></body></html>

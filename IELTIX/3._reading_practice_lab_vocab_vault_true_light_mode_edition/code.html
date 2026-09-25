@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "on-secondary-fixed": "#002113",
+        "on-primary-container": "#ffffff",
+        "primary-fixed-dim": "#b8c4ff",
+        "surface-container-high": "#e8edfb",
+        "on-tertiary-fixed-variant": "#2f2ebe",
+        "secondary": "#00875a",
+        "secondary-container": "#d1fae5",
+        "surface": "#f8faff",
+        "error": "#ba1a1a",
+        "on-primary": "#ffffff",
+        "on-surface-variant": "#475569",
+        "on-tertiary": "#ffffff",
+        "surface-dim": "#e2e8f0",
+        "tertiary-fixed-dim": "#c0c1ff",
+        "inverse-primary": "#b8c4ff",
+        "outline-variant": "#e2e8f0",
+        "surface-container-low": "#ffffff",
+        "background": "#f8faff",
+        "on-secondary": "#ffffff",
+        "secondary-fixed": "#6ffbbe",
+        "surface-variant": "#f1f5f9",
+        "secondary-fixed-dim": "#4edea3",
+        "on-error": "#ffffff",
+        "on-secondary-container": "#065f46",
+        "tertiary-fixed": "#e1e0ff",
+        "surface-bright": "#ffffff",
+        "inverse-surface": "#1e293b",
+        "on-surface": "#0f172a",
+        "primary": "#1e40af",
+        "surface-container-highest": "#e2e8f0",
+        "surface-container": "#f1f5f9",
+        "primary-fixed": "#dde1ff",
+        "primary-container": "#1e40af",
+        "on-tertiary-container": "#1e3a8a",
+        "on-primary-fixed-variant": "#173bab",
+        "surface-container-lowest": "#ffffff",
+        "tertiary-container": "#dbeafe",
+        "on-secondary-fixed-variant": "#005236",
+        "on-background": "#0f172a",
+        "inverse-on-surface": "#f8fafc",
+        "surface-tint": "#1e40af",
+        "on-primary-fixed": "#001453",
+        "outline": "#94a3b8",
+        "error-container": "#fee2e2",
+        "on-error-container": "#991b1b",
+        "tertiary": "#2563eb",
+        "on-tertiary-fixed": "#07006c"
+      },
+      "borderRadius": {
+        "DEFAULT": "0.25rem",
+        "lg": "0.5rem",
+        "xl": "0.75rem",
+        "full": "9999px"
+      },
+      "spacing": {
+        "space-2xs": "0.25rem",
+        "space-xs": "0.5rem",
+        "space-sm": "0.75rem",
+        "space-base": "1rem",
+        "space-md": "1rem",
+        "space-lg": "1.5rem",
+        "space-xl": "2rem",
+        "space-2xl": "3rem",
+        "space-3xl": "4rem",
+        "gutter-mobile": "1rem",
+        "gutter-desktop": "2rem"
+      },
+      "fontFamily": {
+        "body-sm": ["Inter"],
+        "body-md": ["Inter"],
+        "body-lg": ["Inter"],
+        "label-sm": ["Inter"],
+        "label-md": ["Inter"],
+        "label-lg": ["Inter"],
+        "headline-sm": ["Plus Jakarta Sans"],
+        "headline-md": ["Plus Jakarta Sans"],
+        "headline-lg": ["Plus Jakarta Sans"],
+        "code": ["Inter"]
+      },
+      "fontSize": {
+        "body-sm": ["12px", { "lineHeight": "18px" }],
+        "body-md": ["14px", { "lineHeight": "22px" }],
+        "body-lg": ["16px", { "lineHeight": "26px" }],
+        "label-sm": ["11px", { "lineHeight": "14px" }],
+        "label-md": ["12px", { "lineHeight": "16px" }],
+        "label-lg": ["14px", { "lineHeight": "20px" }],
+        "headline-sm": ["18px", { "lineHeight": "26px", "fontWeight": "600" }],
+        "headline-md": ["22px", { "lineHeight": "30px", "fontWeight": "600" }],
+        "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+        "code": ["13px", { "lineHeight": "20px" }]
+      }
+    }
+  }
+};</script></head><body class="bg-surface font-body-md text-on-surface antialiased min-h-screen selection:bg-primary-container selection:text-white"><header class="fixed top-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm"><div class="h-16 w-full px-gutter-desktop flex items-center justify-between gap-space-base"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-xs"><img alt="MockAI Foxy Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdWCr9y92m0GyEeoq1EnQKx4SgaVSngNo_aR9jJCB4hLPtTUNlRHusMyFZPI64sYYoHm3KIDpJp0KBtEDcM7RFMtQcoumEZ5SaZDl0pvjSqaC8OJDkpVTmxCyB6KnWFDPc80AWnXWplSG4pC-jej6PIDbWNuS_trnnxWwYL6l9s2EeQcIfMmbydxzLe1VzOxqLvHJwOVZWNhdxDXHpeGWIML66GGiT-XyE2dkdHze2vzIid_PFRmiwvA"/><span class="font-headline-sm text-headline-sm font-bold tracking-tight text-slate-900 flex items-center">Mock<span class="text-[#FF7A00]">AI</span></span></div><div class="hidden xl:flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200/80"><button class="px-space-sm py-space-2xs rounded-lg font-label-md text-label-md font-semibold bg-white text-slate-900 shadow-sm transition-all">🌐 International (IELTS/CEFR)</button><button class="px-space-sm py-space-2xs rounded-lg font-label-md text-label-md text-slate-600 hover:text-slate-900 transition-all">🇺🇿 Local (Milliy BBM)</button></div></div><div class="flex items-center gap-space-base"><div class="hidden md:flex items-center gap-space-sm bg-slate-100/90 px-space-md py-space-xs rounded-xl text-slate-500 hover:text-slate-800 transition-colors cursor-pointer w-64 justify-between border border-slate-200/60"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-label-lg text-slate-400">search</span><span class="font-body-sm text-body-sm text-slate-500">Search modules, tips...</span></div><kbd class="bg-white border border-slate-200 px-space-xs py-0.5 rounded font-code text-label-sm text-slate-500 shadow-xs">⌘K</kbd></div><div class="flex items-center gap-space-xs bg-emerald-50 border border-emerald-200/60 px-space-sm py-space-xs rounded-xl"><span class="material-symbols-outlined text-emerald-600 text-label-lg">account_balance_wallet</span><span class="font-label-md text-label-md text-emerald-950 font-semibold">45,000 UZS</span><button class="flex items-center justify-center w-5 h-5 rounded-full bg-emerald-600 text-white hover:bg-emerald-700 transition-colors ml-space-2xs shadow-xs"><span class="material-symbols-outlined text-label-sm leading-none">add</span></button></div><div class="hidden sm:flex items-center gap-space-2xs px-space-sm py-1.5 rounded-full bg-amber-50 border border-amber-200 shadow-xs"><span class="text-label-sm">👑</span><span class="font-label-sm text-label-sm uppercase tracking-wider font-bold text-amber-700">MAX VIP</span></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="relative flex items-center justify-center"><img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-2 ring-slate-200" src="https://lh3.googleusercontent.com/aida/AEtjO1UlOsPkcdzSPImEUBoR0zhlYs7JEQ5eT1tzkbVLLrc-94W0HaQJ3514CX5yCFeoPmvhbiCmhUMsOZoOUnHSyLCS7mfRcUNiIgZ0-yrahMk27_-0vTua8MD1P_h-yk7l9VF4xaKFnRv-vvZklHEp3KGZDtze-2U3MGYiRjjlrjYMHNcr5yzluKVgiBj1RH71gQtFe84MfDhhBjIMRQJla6I2qejuBSlRYoKva8ThrWJrGbjGZc6L2ToQZjPk"/><span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-white"></span></div><div class="hidden lg:flex flex-col text-left"><span class="font-label-md text-label-md font-semibold text-slate-900 leading-tight">Madina Karimova</span><span class="font-label-sm text-label-sm text-slate-500 leading-tight">IELTS Candidate</span></div></div></div></div></header><aside class="fixed left-0 top-16 bottom-0 w-64 bg-white border-r border-slate-200 z-30 flex flex-col justify-between py-space-base shadow-sm"><div class="flex flex-col gap-space-xs px-space-sm"><nav class="flex flex-col gap-space-2xs" data-active-classes="bg-primary text-white font-semibold rounded-xl shadow-sm"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all font-medium" data-path="dashboard-hub" href="#"><span class="material-symbols-outlined text-slate-500">dashboard</span><span class="font-label-lg text-label-lg">Dashboard &amp; Hub</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all font-medium" data-path="onboarding-level-test" href="#"><span class="material-symbols-outlined text-slate-500">track_changes</span><span class="font-label-lg text-label-lg">Onboarding &amp; Test</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm transition-all bg-primary text-white font-semibold rounded-xl shadow-sm" data-path="reading-practice-lab" href="#"><span class="material-symbols-outlined">menu_book</span><span class="font-label-lg text-label-lg">Reading &amp; Vocab</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all font-medium" data-path="foxy-speaking-arena" href="#"><span class="material-symbols-outlined text-[#FF7A00]">smart_toy</span><span class="font-label-lg text-label-lg">3D Foxy Speaking</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all font-medium" data-path="ai-writing-evaluator" href="#"><span class="material-symbols-outlined text-slate-500">edit_note</span><span class="font-label-lg text-label-lg">AI Writing Evaluator</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all font-medium" data-path="pricing-vip-downloads" href="#"><span class="material-symbols-outlined text-blue-600">diamond</span><span class="font-label-lg text-label-lg">Pricing &amp; VIP</span></a></nav></div><div class="px-space-sm flex flex-col gap-space-2xs"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all font-medium" data-path="settings" href="#"><span class="material-symbols-outlined text-slate-500">settings</span><span class="font-label-lg text-label-lg">Settings</span></a><div class="bg-slate-50 border border-slate-200/80 rounded-xl p-space-sm mt-space-xs flex items-center justify-between"><div class="flex flex-col"><span class="font-label-sm text-label-sm text-emerald-700 font-semibold flex items-center gap-space-2xs"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>AI Engine Online</span><span class="font-body-sm text-body-sm text-slate-500">v3.4 GPT-4o Whisper</span></div><span class="material-symbols-outlined text-slate-400 text-label-lg">bolt</span></div></div></aside><div class="pl-64"><main class="relative w-full pt-16 bg-surface min-h-screen px-gutter-desktop py-space-lg"><div class="flex flex-col w-full">
+<div class="flex flex-col gap-space-lg w-full max-w-[1440px] mx-auto pb-space-3xl">
+<!-- Top Section Bar: Status, Mode, and Metadata -->
+<div class="flex flex-wrap items-center justify-between gap-space-md bg-white border border-slate-200/90 p-space-md rounded-2xl shadow-sm">
+<div class="flex items-center gap-space-md">
+<div class="flex items-center justify-center w-10 h-10 rounded-xl bg-blue-50 text-primary border border-blue-100">
+<span class="material-symbols-outlined text-headline-sm">menu_book</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-emerald-700 font-bold">Academic Reading Mock</span>
+<span class="text-slate-400 text-label-sm">•</span>
+<span class="font-label-sm text-label-sm text-blue-700 font-semibold">Passage 2 of 3</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-slate-900 font-bold tracking-tight">Cambridge IELTS 19 • Test 3: Megacities</h2>
+</div>
+</div>
+<div class="flex items-center gap-space-base flex-wrap">
+<!-- Live Timer Badge -->
+<div class="flex items-center gap-space-xs bg-rose-50 border border-rose-200/80 px-space-md py-space-xs rounded-xl shadow-xs">
+<span class="material-symbols-outlined text-rose-600 text-label-lg animate-pulse">timer</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-rose-700 font-medium leading-tight">Time Remaining</span>
+<span class="font-code text-label-lg font-bold text-rose-950 leading-tight" id="reading-timer">18:42</span>
+</div>
+</div>
+<!-- Strategy Tip Pill -->
+<div class="hidden md:flex items-center gap-space-xs bg-emerald-50 border border-emerald-200/80 px-space-sm py-space-xs rounded-xl text-emerald-800">
+<span class="material-symbols-outlined text-label-md text-emerald-600">lightbulb</span>
+<span class="font-label-sm text-label-sm font-medium">Tip: Scan topic sentences first</span>
+</div>
+<!-- Mode Toggle & Finish -->
+<div class="flex items-center gap-space-xs">
+<button class="px-space-md py-space-xs rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 font-label-md text-label-md font-semibold transition-all">
+            Exit Lab
+          </button>
+<button class="px-space-md py-space-xs rounded-xl bg-primary text-white font-label-md text-label-md font-semibold hover:bg-blue-800 shadow-sm transition-all">
+            Submit Passage
+          </button>
+</div>
+</div>
+</div>
+<!-- 2-Column Split Workspace -->
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-space-lg w-full items-start">
+<!-- LEFT COLUMN: Cambridge IELTS Academic Passage Reader -->
+<section class="flex flex-col bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden relative">
+<!-- Reader Toolbar -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm px-space-md py-space-xs bg-slate-50 border-b border-slate-200">
+<!-- Multi-color Highlighter Tools -->
+<div class="flex items-center gap-space-xs">
+<span class="font-label-sm text-label-sm text-slate-600 mr-space-2xs font-medium">Highlighter:</span>
+<button class="w-6 h-6 rounded-full bg-yellow-300 ring-2 ring-yellow-400/50 hover:scale-110 transition-transform shadow-xs flex items-center justify-center text-slate-900" title="Yellow Highlight">
+<span class="material-symbols-outlined text-label-sm font-bold">check</span>
+</button>
+<button class="w-6 h-6 rounded-full bg-emerald-400 hover:scale-110 transition-transform shadow-xs" title="Emerald Highlight"></button>
+<button class="w-6 h-6 rounded-full bg-rose-400 hover:scale-110 transition-transform shadow-xs" title="Neon Red Alert Highlight"></button>
+<button class="flex items-center justify-center w-6 h-6 rounded-full bg-white border border-slate-200 hover:bg-slate-100 text-slate-500 hover:text-slate-800 text-label-sm transition-colors shadow-xs" title="Clear Highlights">
+<span class="material-symbols-outlined text-label-sm">ink_eraser</span>
+</button>
+</div>
+<!-- Typography Adjusters (A- / A+ / Line Height) -->
+<div class="flex items-center gap-space-xs">
+<div class="flex items-center bg-white border border-slate-200 rounded-lg p-0.5 shadow-xs">
+<button class="px-space-xs py-space-2xs hover:bg-slate-100 rounded text-slate-700 font-label-sm text-label-sm font-bold transition-colors" id="font-dec">A−</button>
+<button class="px-space-xs py-space-2xs hover:bg-slate-100 rounded text-slate-700 font-label-md text-label-md font-bold transition-colors" id="font-inc">A+</button>
+</div>
+<div class="flex items-center bg-white border border-slate-200 rounded-lg p-0.5 shadow-xs">
+<button class="flex items-center gap-space-2xs px-space-xs py-space-2xs rounded hover:bg-slate-100 text-slate-600 hover:text-slate-900 text-label-sm" id="spacing-toggle">
+<span class="material-symbols-outlined text-label-md text-slate-500">format_line_spacing</span>
+<span class="font-label-sm text-label-sm font-semibold">1.8x</span>
+</button>
+</div>
+<button class="flex items-center gap-space-2xs px-space-xs py-space-2xs rounded-lg bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 text-label-sm shadow-xs" title="Dictionary Auto-lookup ON">
+<span class="material-symbols-outlined text-emerald-600 text-label-md">translate</span>
+<span class="font-label-sm text-label-sm font-semibold">UZ Active</span>
+</button>
+</div>
+</div>
+<!-- Scrollable Passage Container -->
+<article class="p-space-xl overflow-y-auto max-h-[750px] scroll-smooth font-body-lg text-body-lg text-slate-800 leading-relaxed flex flex-col gap-space-base select-text" id="passage-body">
+<div class="flex flex-col gap-space-xs pb-space-sm border-b border-slate-100">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-primary font-bold">READING PASSAGE 2</span>
+<h1 class="font-headline-lg text-headline-lg font-bold text-slate-900 tracking-tight">
+              The Architecture of Ancient Megacities and Urban Density
+            </h1>
+<p class="font-body-md text-body-md text-slate-500 italic">
+              You should spend about 20 minutes on Questions 1–13, which are based on Reading Passage 2 below.
+            </p>
+</div>
+<!-- Paragraph A -->
+<div class="relative group bg-slate-50/70 border border-slate-100 p-space-md rounded-xl transition-all">
+<span class="font-code text-label-sm font-bold text-blue-700 mr-space-xs">Paragraph A</span>
+            For decades, orthodox archaeological scholarship maintained that hyper-dense metropolitan sprawl was exclusively a product of industrial-era fossil fuel abundance. However, recent LiDAR excavations beneath the dense canopies of Mesoamerica and the Indus River basin have shattered this paradigm. Satellite imaging has revealed intricate civic planning, subterranean water management corridors, and engineered terrace clusters that accommodated populations exceeding half a million inhabitants as early as 300 BCE.
+          </div>
+<!-- Paragraph B (Contains interactive word selection popup on 'Ubiquitous') -->
+<div class="relative bg-slate-50/70 border border-slate-100 p-space-md rounded-xl">
+<span class="font-code text-label-sm font-bold text-blue-700 mr-space-xs">Paragraph B</span>
+            A central paradox of these settlements was food logistics. Without beast-of-burden transit networks, ancient municipal engineers relied heavily on micro-irrigation channels integrated directly into domestic neighborhoods. Elevated agro-aqueducts were 
+            
+            <!-- Target Highlighted Word with active Tooltip Popup -->
+<span class="relative inline-block">
+<mark class="bg-blue-100 text-primary border border-blue-200 px-space-xs py-0.5 rounded cursor-pointer font-semibold shadow-xs transition-all hover:bg-blue-200">
+                ubiquitous
+              </mark>
+<!-- INTERACTIVE 1-CLICK WORD SELECTION POPUP -->
+<div class="absolute left-1/2 -translate-x-1/2 bottom-full mb-space-sm w-80 bg-white border border-slate-200 shadow-2xl rounded-2xl p-space-md z-30 text-left backdrop-blur-xl animate-in fade-in zoom-in-95 duration-150">
+<!-- Popup Arrow -->
+<div class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white border-b border-r border-slate-200 rotate-45"></div>
+<!-- Word Header -->
+<div class="flex items-start justify-between gap-space-xs relative z-10">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm font-bold text-slate-900">ubiquitous</span>
+<button class="flex items-center justify-center text-primary hover:text-blue-700 transition-colors" title="Play pronunciation audio">
+<span class="material-symbols-outlined text-headline-sm">volume_up</span>
+</button>
+</div>
+<span class="font-code text-body-sm text-slate-500 tracking-wide">/juːˈbɪk.wɪ.təs/</span>
+</div>
+<!-- CEFR Badge -->
+<span class="px-space-xs py-space-2xs rounded bg-blue-50 text-primary border border-blue-200 font-label-sm text-label-sm font-bold">
+                    C1 Advanced
+                  </span>
+</div>
+<!-- Uzbek Translation Box -->
+<div class="mt-space-sm p-space-xs bg-emerald-50/80 border border-emerald-200/80 rounded-xl flex flex-col relative z-10">
+<span class="font-label-sm text-label-sm text-emerald-800 font-bold flex items-center gap-space-2xs">
+<span>🇺🇿</span> O‘zbekcha tarjimasi:
+                  </span>
+<p class="font-label-md text-label-md text-emerald-950 font-bold mt-space-2xs">
+                    hamma joyda hozir / keng tarqalgan
+                  </p>
+</div>
+<!-- Contextual Example Sentence -->
+<div class="mt-space-xs relative z-10">
+<p class="font-body-sm text-body-sm text-slate-600">
+<span class="text-slate-900 font-semibold">Misol:</span> "Smartphones have become ubiquitous in modern urban life."
+                  </p>
+</div>
+<!-- CTA Button to save to Vault -->
+<button class="mt-space-sm w-full py-space-xs px-space-md rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-label-md text-label-md font-bold flex items-center justify-center gap-space-xs shadow-sm transition-all relative z-10">
+<span class="material-symbols-outlined text-label-md">bookmark_add</span>
+                  + Save to Vocab Vault
+                </button>
+</div>
+</span>
+
+            throughout Teotihuacan, functioning not merely as drinking infrastructure but as thermal regulators buffering residences against severe temperature swings. Far from chaotic encampments, these complexes demonstrate a calibrated equilibrium between spatial density and hygienic sustainability.
+          </div>
+<!-- Paragraph C -->
+<div class="relative bg-slate-50/70 border border-slate-100 p-space-md rounded-xl">
+<span class="font-code text-label-sm font-bold text-blue-700 mr-space-xs">Paragraph C</span>
+            The defensive layouts of such archaic metropolitan centers further defy straightforward categorization. Traditional bastions emphasized continuous curtain walls and impenetrable perimeter towers. In contrast, Amazonian earthwork mounds (geoglyphs) deployed labyrinthine vegetative ditches and deceptive concentric moats that funneled potential invaders directly into localized agricultural killing zones, preserving civilian core zones intact.
+          </div>
+<!-- Paragraph D -->
+<div class="relative bg-slate-50/70 border border-slate-100 p-space-md rounded-xl">
+<span class="font-code text-label-sm font-bold text-blue-700 mr-space-xs">Paragraph D</span>
+            Contemporary urban planners are now revisiting these archaic precedents to counteract modern urban heat islands. By simulating Harappan wind corridors in Singapore and Bogota, engineers have reduced mechanical air conditioning demands by up to 34%. Thus, far from being historic anomalies, the lost blueprints of antiquity offer actionable frameworks for decarbonized 21st-century habitations.
+          </div>
+</article>
+</section>
+<!-- RIGHT COLUMN: IELTS Question Pane -->
+<section class="flex flex-col gap-space-lg bg-white p-space-lg rounded-2xl shadow-sm border border-slate-200">
+<!-- Question Status Navigation Grid (1 to 13) -->
+<div class="flex flex-col gap-space-xs bg-slate-50 border border-slate-200/80 p-space-md rounded-xl">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-bold uppercase tracking-wider text-slate-600">Question Palette</span>
+<div class="flex items-center gap-space-sm">
+<span class="flex items-center gap-1.5 font-label-sm text-label-sm text-emerald-700 font-semibold">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span> Answered (9)
+              </span>
+<span class="flex items-center gap-1.5 font-label-sm text-label-sm text-slate-500 font-medium">
+<span class="w-2 h-2 rounded-full bg-slate-300"></span> Pending (4)
+              </span>
+</div>
+</div>
+<!-- Buttons 1 to 13 -->
+<div class="grid grid-cols-7 sm:grid-cols-13 gap-space-2xs mt-space-xs">
+<button class="h-9 rounded-lg bg-emerald-500 text-white font-code text-label-md font-bold hover:bg-emerald-600 shadow-xs flex items-center justify-center">1</button>
+<button class="h-9 rounded-lg bg-emerald-500 text-white font-code text-label-md font-bold hover:bg-emerald-600 shadow-xs flex items-center justify-center">2</button>
+<button class="h-9 rounded-lg bg-emerald-500 text-white font-code text-label-md font-bold hover:bg-emerald-600 shadow-xs flex items-center justify-center">3</button>
+<button class="h-9 rounded-lg bg-emerald-500 text-white font-code text-label-md font-bold hover:bg-emerald-600 shadow-xs flex items-center justify-center">4</button>
+<button class="h-9 rounded-lg bg-emerald-500 text-white font-code text-label-md font-bold hover:bg-emerald-600 shadow-xs flex items-center justify-center">5</button>
+<button class="h-9 rounded-lg bg-emerald-500 text-white font-code text-label-md font-bold hover:bg-emerald-600 shadow-xs flex items-center justify-center">6</button>
+<button class="h-9 rounded-lg bg-emerald-500 text-white font-code text-label-md font-bold hover:bg-emerald-600 shadow-xs flex items-center justify-center">7</button>
+<button class="h-9 rounded-lg bg-emerald-500 text-white font-code text-label-md font-bold hover:bg-emerald-600 shadow-xs flex items-center justify-center">8</button>
+<button class="h-9 rounded-lg bg-emerald-500 text-white font-code text-label-md font-bold hover:bg-emerald-600 shadow-xs flex items-center justify-center">9</button>
+<button class="h-9 rounded-lg bg-white border border-slate-300 text-slate-700 font-code text-label-md font-semibold hover:bg-slate-100 flex items-center justify-center shadow-2xs">10</button>
+<button class="h-9 rounded-lg bg-white border border-slate-300 text-slate-700 font-code text-label-md font-semibold hover:bg-slate-100 flex items-center justify-center shadow-2xs">11</button>
+<button class="h-9 rounded-lg bg-white border border-slate-300 text-slate-700 font-code text-label-md font-semibold hover:bg-slate-100 flex items-center justify-center shadow-2xs">12</button>
+<button class="h-9 rounded-lg bg-white border border-slate-300 text-slate-700 font-code text-label-md font-semibold hover:bg-slate-100 flex items-center justify-center shadow-2xs">13</button>
+</div>
+</div>
+<!-- QUESTIONS 1–5: TRUE / FALSE / NOT GIVEN -->
+<div class="flex flex-col gap-space-md">
+<div class="flex flex-col gap-space-2xs">
+<div class="flex items-center gap-space-xs">
+<span class="px-space-xs py-0.5 rounded bg-blue-50 border border-blue-200 text-primary font-code text-label-sm font-bold">TASK 1</span>
+<h3 class="font-headline-sm text-headline-sm font-semibold text-slate-900">Questions 1–5: True / False / Not Given</h3>
+</div>
+<p class="font-body-sm text-body-sm text-slate-600">
+              Do the following statements agree with the information given in Reading Passage 2? Select <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.
+            </p>
+</div>
+<div class="flex flex-col gap-space-sm">
+<!-- Question 1 (Validated Correct Example) -->
+<div class="flex flex-col gap-space-xs p-space-md bg-slate-50 border border-slate-200/80 rounded-xl">
+<div class="flex items-start justify-between gap-space-sm">
+<span class="font-body-md text-body-md text-slate-900">
+<strong class="text-emerald-700 font-code">1.</strong> Traditional archaeologists believed massive dense cities were impossible prior to industrial energy sources.
+                </span>
+<span class="flex items-center gap-1 font-label-sm text-label-sm text-emerald-700 font-bold shrink-0 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+<span class="material-symbols-outlined text-label-md">check_circle</span> Correct
+                </span>
+</div>
+<div class="grid grid-cols-3 gap-space-xs mt-space-2xs">
+<label class="flex items-center justify-center gap-space-2xs py-space-xs px-space-sm rounded-lg bg-emerald-500 text-white font-label-md text-label-md font-semibold cursor-pointer shadow-xs">
+<input checked="" class="hidden" name="q1" type="radio" value="TRUE"/>
+<span>TRUE</span>
+</label>
+<label class="flex items-center justify-center gap-space-2xs py-space-xs px-space-sm rounded-lg bg-white border border-slate-200 text-slate-600 font-label-md text-label-md cursor-pointer hover:bg-slate-100">
+<input class="hidden" name="q1" type="radio" value="FALSE"/>
+<span>FALSE</span>
+</label>
+<label class="flex items-center justify-center gap-space-2xs py-space-xs px-space-sm rounded-lg bg-white border border-slate-200 text-slate-600 font-label-md text-label-md cursor-pointer hover:bg-slate-100">
+<input class="hidden" name="q1" type="radio" value="NOT GIVEN"/>
+<span>NOT GIVEN</span>
+</label>
+</div>
+</div>
+<!-- Question 2 (Interactive Radio Group) -->
+<div class="flex flex-col gap-space-xs p-space-md bg-slate-50 border border-slate-200/80 rounded-xl">
+<div class="flex items-start justify-between gap-space-sm">
+<span class="font-body-md text-body-md text-slate-900">
+<strong class="text-blue-700 font-code">2.</strong> Mesoamerican engineers transported food supplies primarily with domestic pack horses.
+                </span>
+<span class="flex items-center gap-1 font-label-sm text-label-sm text-emerald-700 font-bold shrink-0 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+<span class="material-symbols-outlined text-label-md">check_circle</span> Correct
+                </span>
+</div>
+<div class="grid grid-cols-3 gap-space-xs mt-space-2xs">
+<label class="flex items-center justify-center gap-space-2xs py-space-xs px-space-sm rounded-lg bg-white border border-slate-200 text-slate-600 font-label-md text-label-md cursor-pointer hover:bg-slate-100">
+<input class="hidden" name="q2" type="radio" value="TRUE"/>
+<span>TRUE</span>
+</label>
+<label class="flex items-center justify-center gap-space-2xs py-space-xs px-space-sm rounded-lg bg-emerald-500 text-white font-label-md text-label-md font-semibold cursor-pointer shadow-xs">
+<input checked="" class="hidden" name="q2" type="radio" value="FALSE"/>
+<span>FALSE</span>
+</label>
+<label class="flex items-center justify-center gap-space-2xs py-space-xs px-space-sm rounded-lg bg-white border border-slate-200 text-slate-600 font-label-md text-label-md cursor-pointer hover:bg-slate-100">
+<input class="hidden" name="q2" type="radio" value="NOT GIVEN"/>
+<span>NOT GIVEN</span>
+</label>
+</div>
+</div>
+<!-- Question 3 (Interactive Radio Group) -->
+<div class="flex flex-col gap-space-xs p-space-md bg-slate-50 border border-slate-200/80 rounded-xl">
+<div class="flex items-start justify-between gap-space-sm">
+<span class="font-body-md text-body-md text-slate-900">
+<strong class="text-blue-700 font-code">3.</strong> Aqueducts in Teotihuacan performed a dual role in moisture provision and atmospheric cooling.
+                </span>
+<span class="flex items-center gap-1 font-label-sm text-label-sm text-emerald-700 font-bold shrink-0 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+<span class="material-symbols-outlined text-label-md">check_circle</span> Correct
+                </span>
+</div>
+<div class="grid grid-cols-3 gap-space-xs mt-space-2xs">
+<label class="flex items-center justify-center gap-space-2xs py-space-xs px-space-sm rounded-lg bg-emerald-500 text-white font-label-md text-label-md font-semibold cursor-pointer shadow-xs">
+<input checked="" class="hidden" name="q3" type="radio" value="TRUE"/>
+<span>TRUE</span>
+</label>
+<label class="flex items-center justify-center gap-space-2xs py-space-xs px-space-sm rounded-lg bg-white border border-slate-200 text-slate-600 font-label-md text-label-md cursor-pointer hover:bg-slate-100">
+<input class="hidden" name="q3" type="radio" value="FALSE"/>
+<span>FALSE</span>
+</label>
+<label class="flex items-center justify-center gap-space-2xs py-space-xs px-space-sm rounded-lg bg-white border border-slate-200 text-slate-600 font-label-md text-label-md cursor-pointer hover:bg-slate-100">
+<input class="hidden" name="q3" type="radio" value="NOT GIVEN"/>
+<span>NOT GIVEN</span>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- QUESTIONS 6–9: MATCHING HEADINGS (Interactive Drag & Drop Style) -->
+<div class="flex flex-col gap-space-md">
+<div class="flex flex-col gap-space-2xs">
+<div class="flex items-center gap-space-xs">
+<span class="px-space-xs py-0.5 rounded bg-blue-50 border border-blue-200 text-primary font-code text-label-sm font-bold">TASK 2</span>
+<h3 class="font-headline-sm text-headline-sm font-semibold text-slate-900">Questions 6–9: Matching Headings</h3>
+</div>
+<p class="font-body-sm text-body-sm text-slate-600">
+              Drag or assign the most suitable heading from the list below to each paragraph.
+            </p>
+</div>
+<!-- Draggable Heading Tiles Pool -->
+<div class="flex flex-col gap-space-xs p-space-md bg-slate-50 border border-slate-200/80 rounded-xl">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-slate-500 font-bold">Available Headings Bank</span>
+<div class="grid grid-cols-1 gap-space-xs mt-space-2xs">
+<div class="flex items-center justify-between px-space-sm py-space-xs rounded-lg bg-white border border-slate-200 text-slate-800 font-body-sm text-body-sm cursor-grab hover:bg-slate-50 transition-all shadow-xs">
+<span class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-label-md text-slate-400">drag_indicator</span>
+<strong>i.</strong> Non-linear defensive perimeter topologies
+                </span>
+<span class="font-label-sm text-label-sm text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded">Assigned to [C]</span>
+</div>
+<div class="flex items-center justify-between px-space-sm py-space-xs rounded-lg bg-white border border-slate-200 text-slate-800 font-body-sm text-body-sm cursor-grab hover:bg-slate-50 transition-all shadow-xs">
+<span class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-label-md text-slate-400">drag_indicator</span>
+<strong>ii.</strong> Overturning historical biases via remote sensors
+                </span>
+<span class="font-label-sm text-label-sm text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded">Assigned to [A]</span>
+</div>
+<div class="flex items-center justify-between px-space-sm py-space-xs rounded-lg bg-white border border-slate-200 text-slate-800 font-body-sm text-body-sm cursor-grab hover:bg-slate-50 transition-all shadow-xs">
+<span class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-label-md text-slate-400">drag_indicator</span>
+<strong>iii.</strong> Microclimatic engineering and caloric logistics
+                </span>
+<span class="font-label-sm text-label-sm text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded">Assigned to [B]</span>
+</div>
+<div class="flex items-center justify-between px-space-sm py-space-xs rounded-lg bg-blue-50/60 border border-dashed border-blue-300 text-slate-800 font-body-sm text-body-sm cursor-grab hover:bg-blue-50 transition-all">
+<span class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-label-md text-blue-600">drag_indicator</span>
+<strong>iv.</strong> Modern adaptation of archaic ventilation patterns
+                </span>
+<span class="font-label-sm text-label-sm text-blue-700 font-semibold">Ready to drop</span>
+</div>
+</div>
+</div>
+<!-- Matching Drop Zones -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+<!-- Drop target 8 -->
+<div class="p-space-sm bg-slate-50 border border-slate-200/80 rounded-xl flex flex-col gap-space-2xs">
+<span class="font-label-sm text-label-sm font-semibold text-slate-600">Paragraph C</span>
+<div class="p-space-xs rounded-lg bg-white border border-slate-200 text-emerald-800 flex items-center justify-between shadow-2xs">
+<span class="font-label-md text-label-md font-medium truncate">i. Non-linear defensive perimeter topologies</span>
+<span class="material-symbols-outlined text-label-md text-emerald-600">lock</span>
+</div>
+</div>
+<!-- Drop target 9 (Active slot) -->
+<div class="p-space-sm bg-slate-50 border border-slate-200/80 rounded-xl flex flex-col gap-space-2xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-bold text-blue-800">Question 9 (Paragraph D)</span>
+<span class="font-label-sm text-label-sm font-semibold text-rose-600 bg-rose-50 px-1.5 py-0.5 rounded border border-rose-200">Unanswered</span>
+</div>
+<div class="p-space-sm rounded-lg bg-white border-2 border-dashed border-slate-300 text-slate-500 font-label-md text-label-md text-center cursor-pointer hover:bg-slate-100 hover:border-slate-400 transition-colors">
+                Drop heading for Paragraph D here
+              </div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- BOTTOM FLOATING BAR -->
+<div class="sticky bottom-space-md z-40 w-full bg-white/95 border border-slate-200 backdrop-blur-xl p-space-md rounded-2xl shadow-xl flex flex-col md:flex-row items-center justify-between gap-space-base">
+<!-- Counter: Vocab Vault Saved -->
+<div class="flex items-center gap-space-sm">
+<div class="flex items-center justify-center w-11 h-11 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 shrink-0">
+<span class="material-symbols-outlined text-headline-sm">collections_bookmark</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-2xs">
+<span class="font-label-lg text-label-lg font-bold text-slate-900">18 words saved today</span>
+<span class="px-space-xs py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-label-sm text-label-sm font-bold border border-emerald-200">+3 C1</span>
+</div>
+<span class="font-body-sm text-body-sm text-slate-500">Vault auto-syncs with your spaced-repetition deck</span>
+</div>
+</div>
+<!-- Section Progress Bar -->
+<div class="flex flex-col gap-space-2xs w-full md:w-64">
+<div class="flex items-center justify-between font-label-sm text-label-sm">
+<span class="text-slate-600 font-medium">Progress</span>
+<span class="text-emerald-700 font-bold font-code">9 / 13 Answered</span>
+</div>
+<div class="w-full h-2 rounded-full bg-slate-200 overflow-hidden">
+<div class="h-full bg-gradient-to-r from-blue-600 via-emerald-500 to-emerald-400 rounded-full" style="width: 69.2%;"></div>
+</div>
+</div>
+<!-- Prominent Button with Foxy Character Integration -->
+<div class="flex items-center gap-space-sm shrink-0">
+<button class="px-space-lg py-space-sm rounded-xl bg-gradient-to-r from-[#FF7A00] to-[#E05300] hover:brightness-105 text-white font-label-lg text-label-lg font-bold shadow-md hover:shadow-lg flex items-center gap-space-xs transition-all transform hover:-translate-y-0.5">
+<!-- Small stylized Foxy Avatar -->
+<img alt="Foxy" class="w-6 h-6 object-contain rounded-full bg-white/20 p-0.5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdWCr9y92m0GyEeoq1EnQKx4SgaVSngNo_aR9jJCB4hLPtTUNlRHusMyFZPI64sYYoHm3KIDpJp0KBtEDcM7RFMtQcoumEZ5SaZDl0pvjSqaC8OJDkpVTmxCyB6KnWFDPc80AWnXWplSG4pC-jej6PIDbWNuS_trnnxWwYL6l9s2EeQcIfMmbydxzLe1VzOxqLvHJwOVZWNhdxDXHpeGWIML66GGiT-XyE2dkdHze2vzIid_PFRmiwvA"/>
+<span>Review with Foxy Flashcards</span>
+<span class="material-symbols-outlined text-label-lg">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Simple Font Size Scaling Interactive Behavior
+  const passage = document.getElementById('passage-body');
+  const incBtn = document.getElementById('font-inc');
+  const decBtn = document.getElementById('font-dec');
+  let currentScale = 16;
+
+  if (incBtn && decBtn && passage) {
+    incBtn.addEventListener('click', () => {
+      if (currentScale < 22) {
+        currentScale += 2;
+        passage.style.fontSize = currentScale + 'px';
+      }
+    });
+    decBtn.addEventListener('click', () => {
+      if (currentScale > 12) {
+        currentScale -= 2;
+        passage.style.fontSize = currentScale + 'px';
+      }
+    });
+  }
+
+  // Live Timer Count Down
+  const timerElem = document.getElementById('reading-timer');
+  if (timerElem) {
+    let totalSeconds = 18 * 60 + 42;
+    setInterval(() => {
+      if (totalSeconds > 0) {
+        totalSeconds--;
+        const mins = Math.floor(totalSeconds / 60);
+        const secs = totalSeconds % 60;
+        timerElem.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      }
+    }, 1000);
+  }
+</script></main></div></body></html>
