@@ -59,3 +59,49 @@ class OnboardingTests(unittest.IsolatedAsyncioTestCase):
         self.assertTrue(result.profile.is_complete)
         self.assertEqual(result.step, "complete")
         self.assertEqual(result.profile.weak_skills, ["writing", "speaking"])
+
+    async def test_full_diagnostic_quiz_flow_and_callback_data_lengths(self) -> None:
+        from apps.telegram_bot.keyboards.main import onboarding_keyboard
+        service = await self._service()
+        await service.begin(404, "Sardor", "uz")
+
+        await service.answer(404, "name", "Sardor")
+        await service.answer(404, "phone", "+998901234567")
+        await service.answer(404, "target_band", "7.5")
+        await service.answer(404, "exam_type", "academic")
+        await service.answer(404, "weak_skills", "reading,listening")
+
+        # Questions 1 to 10
+        quiz_answers = [
+            ("quiz_1", "opt_a"),
+            ("quiz_2", "opt_a"),
+            ("quiz_3", "opt_a"),
+            ("quiz_4", "opt_a"),
+            ("quiz_5", "opt_a"),
+            ("quiz_6", "opt_a"),
+            ("quiz_7", "opt_a"),
+            ("quiz_8", "opt_a"),
+            ("quiz_9", "opt_a"),
+            ("quiz_10", "opt_a"),
+        ]
+
+        expected_next = [
+            "quiz_2", "quiz_3", "quiz_4", "quiz_5", "quiz_6",
+            "quiz_7", "quiz_8", "quiz_9", "quiz_10", "quiz_speaking"
+        ]
+
+        for (q, ans), exp in zip(quiz_answers, expected_next):
+            res = await service.answer(404, q, ans)
+            self.assertEqual(res.step, exp)
+            kb = onboarding_keyboard(res.step, "uz")
+            self.assertIsNotNone(kb)
+            for row in kb.inline_keyboard:
+                for btn in row:
+                    # Telegram limits callback_data to 64 bytes
+                    self.assertLessEqual(len(btn.callback_data.encode("utf-8")), 64)
+
+        # Speaking step
+        final_res = await service.answer(404, "quiz_speaking", "I live in Samarkand. It is an ancient and historical city with remarkable monuments.")
+        self.assertTrue(final_res.profile.is_complete)
+        self.assertEqual(final_res.step, "complete")
+        self.assertGreaterEqual(final_res.profile.current_band, 7.0)

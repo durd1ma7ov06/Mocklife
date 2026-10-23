@@ -132,10 +132,17 @@ async def onboarding_answer(callback: CallbackQuery, database: Database) -> None
             reply_markup=contact_keyboard(result.user.locale),
         )
     else:
-        await callback.message.answer(
-            result.prompt,
-            reply_markup=onboarding_keyboard(result.step, result.user.locale),
-        )
+        try:
+            await callback.message.answer(
+                result.prompt,
+                reply_markup=onboarding_keyboard(result.step, result.user.locale),
+                parse_mode="HTML",
+            )
+        except Exception:
+            await callback.message.answer(
+                result.prompt,
+                reply_markup=onboarding_keyboard(result.step, result.user.locale),
+            )
 
 
 @router.message(F.contact)

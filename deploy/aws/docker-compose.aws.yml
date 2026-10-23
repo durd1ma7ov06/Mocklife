@@ -49,6 +49,9 @@ services:
     environment:
       DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-ieltix_user}:${POSTGRES_PASSWORD:-ieltix_secret_123}@postgres:5432/${POSTGRES_DB:-ieltix}
       REDIS_URL: redis://redis:6379/0
+    volumes:
+      - ../../apps:/app/apps
+      - ../../packages:/app/packages
     expose:
       - "8000"
 
@@ -70,6 +73,9 @@ services:
     environment:
       DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-ieltix_user}:${POSTGRES_PASSWORD:-ieltix_secret_123}@postgres:5432/${POSTGRES_DB:-ieltix}
       REDIS_URL: redis://redis:6379/0
+    volumes:
+      - ../../apps:/app/apps
+      - ../../packages:/app/packages
 
   backend:
     build:
