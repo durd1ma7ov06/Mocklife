@@ -17,7 +17,7 @@ import { Footer } from './components/Footer';
 import { MockTestModal } from './components/MockTestModal';
 import { AuthModal } from './components/auth/AuthModal';
 import { apiClient } from './config/api';
-import { X, CheckCircle, ArrowRight, ShieldCheck, Check } from 'lucide-react';
+import { X, CheckCircle, ArrowRight, ShieldCheck, Check, Lock } from 'lucide-react';
 
 // MockLife Platform Components & Pages
 import { Header } from './components/Header';
@@ -38,6 +38,93 @@ import { StreakModal } from './components/StreakModal';
 import { ProfileModal } from './components/ProfileModal';
 import { QuizPage } from './pages/QuizPage';
 import { AdminPage } from './pages/AdminPage';
+
+// ==========================================
+// Web Locked Notice & Modal ("Hali Ishga Tushmadi")
+// ==========================================
+export const WebLockedNoticeBanner: React.FC = () => {
+  return (
+    <div className="w-full bg-[#10152b] text-white py-2 px-4 text-xs font-bold flex flex-wrap items-center justify-center gap-2 border-b border-[#ef3b2d]/30 z-40 relative shadow-sm">
+      <div className="flex items-center gap-1.5">
+        <span className="w-5 h-5 rounded-full bg-[#ef3b2d]/20 text-[#ef3b2d] flex items-center justify-center shrink-0">
+          <Lock className="w-3 h-3" />
+        </span>
+        <span className="text-amber-400 uppercase tracking-wider text-[11px] font-black">Eslatma:</span>
+        <span className="text-gray-200">Web platformamiz hali rasman ishga tushmadi (yakuniy sozlash ketmoqda). Barcha 4 ta modul Telegram botimizda 100% to'liq faol!</span>
+      </div>
+      <a
+        href="https://t.me/Mocklife_bot"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#ef3b2d] hover:bg-[#d62f22] text-white text-[11px] font-black uppercase tracking-wider transition shrink-0 ml-1 shadow-xs"
+      >
+        <span>Botga O'tish</span>
+        <ArrowRight className="w-3 h-3" />
+      </a>
+    </div>
+  );
+};
+
+export const WebLockedModal: React.FC<{ isOpen: boolean; onClose: () => void; onProceedPreview?: () => void }> = ({
+  isOpen,
+  onClose,
+  onProceedPreview,
+}) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-[120] bg-black/75 backdrop-blur-md flex items-center justify-center p-4 animate-fadeIn">
+      <div className="bg-[#fffaf0] border-2 border-[#ef3b2d] rounded-[32px] p-6 sm:p-8 max-w-md w-full text-center shadow-2xl relative">
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/5 hover:bg-black/10 text-gray-500 flex items-center justify-center transition"
+        >
+          <X className="w-4 h-4" />
+        </button>
+
+        <div className="w-16 h-16 rounded-full bg-[#fde3dc] text-[#ef3b2d] flex items-center justify-center mx-auto mb-4 border border-[#ef3b2d]/30">
+          <Lock className="w-8 h-8" />
+        </div>
+
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-[11px] font-black uppercase tracking-wider mb-3">
+          <span>⏳ Hali Ishga Tushmadi (Tez Kunda)</span>
+        </div>
+
+        <h3 className="font-unbounded font-black text-xl text-[#10152b] mb-2">
+          Web Platforma Hali Ishga Tushmadi!
+        </h3>
+
+        <p className="text-xs text-[#4a5068] font-semibold leading-relaxed mb-6">
+          MockLife Web ilovasi (katta ekrandagi Mock Arena va Writing Studio) hozirda yakuniy sozlash jarayonida va tez kunda rasman to'liq ishga tushiriladi.
+          <br /><br />
+          Hozirda barcha 4 ta modul (<b>Writing, Reading, Speaking, Listening</b>) mashqlari va <b>3D Foxy AI Examiner</b> rasmiy Telegram botimizda 100% to'liq va bepul ishlamoqda!
+        </p>
+
+        <div className="space-y-2.5">
+          <a
+            href="https://t.me/Mocklife_bot"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full py-3.5 rounded-full bg-[#ef3b2d] hover:bg-[#d62f22] text-white font-black text-xs uppercase tracking-wider shadow-lg flex items-center justify-center gap-2 transition"
+          >
+            <span>🤖 Telegram Botga O'tish (@Mocklife_bot)</span>
+            <ArrowRight className="w-4 h-4" />
+          </a>
+
+          <button
+            onClick={() => {
+              onClose();
+              if (onProceedPreview) onProceedPreview();
+            }}
+            className="w-full py-2.5 rounded-full bg-transparent hover:bg-black/5 text-[#7a7f95] font-bold text-xs transition cursor-pointer"
+          >
+            👀 Shunchaki ko'rib chiqish (Admin / Preview)
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 // ==========================================
 // 1. MockLife Inner Platform Portal
@@ -109,6 +196,9 @@ const MockLifePlatformView: React.FC<MockLifePlatformViewProps> = ({ onOpenLandi
 
   return (
     <div className="min-h-screen bg-[#fdf6e9] text-[#10152b] antialiased flex flex-col font-nunito selection:bg-[#ef3b2d] selection:text-white">
+      {/* Web Locked Notice Banner */}
+      <WebLockedNoticeBanner />
+
       {/* Top Header with Universal Sidebar Toggle & Return to Landing */}
       <Header
         onOpenSearch={() => setSearchModalOpen(true)}
@@ -218,6 +308,7 @@ interface LandingViewProps {
 const LandingView: React.FC<LandingViewProps> = ({ onOpenPlatform, onOpenAuth, onStartOnboarding }) => {
   const { t } = useLanguage();
   const [subModalOpen, setSubModalOpen] = useState(false);
+  const [lockedModalOpen, setLockedModalOpen] = useState(false);
   const [activeTestId, setActiveTestId] = useState<string | null>(null);
   const [selectedPlanType, setSelectedPlanType] = useState<'gift' | 'weekly' | 'monthly'>('gift');
 
@@ -228,11 +319,7 @@ const LandingView: React.FC<LandingViewProps> = ({ onOpenPlatform, onOpenAuth, o
   const [subSuccess, setSubSuccess] = useState<string | null>(null);
 
   const handleStart = () => {
-    if (onStartOnboarding) {
-      onStartOnboarding();
-    } else {
-      onOpenPlatform();
-    }
+    setLockedModalOpen(true);
   };
 
   const handleOpenSubscription = (planId?: 'gift' | 'weekly' | 'monthly') => {
@@ -251,7 +338,7 @@ const LandingView: React.FC<LandingViewProps> = ({ onOpenPlatform, onOpenAuth, o
         setTimeout(() => {
           setSubModalOpen(false);
           setSubSuccess(null);
-          onOpenPlatform();
+          setLockedModalOpen(true);
         }, 1200);
       }, 600);
       return;
@@ -266,18 +353,21 @@ const LandingView: React.FC<LandingViewProps> = ({ onOpenPlatform, onOpenAuth, o
         alert(`${selectedProvider} (${priceText}) to'lov sahifasiga yo'naltirilmoqda...`);
         setSubModalOpen(false);
         setSubSuccess(null);
-        onOpenPlatform();
+        setLockedModalOpen(true);
       }, 1200);
     }
   };
 
   return (
     <div className="min-h-screen bg-[#fdf6e9] text-[#10152b] font-nunito selection:bg-[#ef3b2d] selection:text-white flex flex-col">
+      {/* 0. Web Locked Banner Notice */}
+      <WebLockedNoticeBanner />
+
       {/* 1. Navbar */}
       <Navbar
         onStartClick={handleStart}
         onLoginClick={onOpenAuth}
-        onOpenPlatform={onOpenPlatform}
+        onOpenPlatform={() => setLockedModalOpen(true)}
       />
 
       <main className="flex-grow">
@@ -455,6 +545,13 @@ const LandingView: React.FC<LandingViewProps> = ({ onOpenPlatform, onOpenAuth, o
           </div>
         </div>
       )}
+
+      {/* Web Platform Locked Modal ("Hali ishga tushmadi") */}
+      <WebLockedModal
+        isOpen={lockedModalOpen}
+        onClose={() => setLockedModalOpen(false)}
+        onProceedPreview={onOpenPlatform}
+      />
     </div>
   );
 };
@@ -465,8 +562,8 @@ const LandingView: React.FC<LandingViewProps> = ({ onOpenPlatform, onOpenAuth, o
 const AppOrchestrator: React.FC = () => {
   const { isAuthenticated } = useAuth();
   const [authModalOpen, setAuthModalOpen] = useState(false);
-  // Default directly to platform preparation desk (tayyorgarlik stoli)
-  const [viewMode, setViewMode] = useState<'landing' | 'platform'>('platform');
+  // Default to landing view so visitors see the locked status & coming soon info
+  const [viewMode, setViewMode] = useState<'landing' | 'platform'>('landing');
 
   // Automatically transition to platform if user logs in
   const handleAuthSuccess = () => {

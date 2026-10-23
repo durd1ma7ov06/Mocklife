@@ -4,19 +4,18 @@ from packages.ieltix_core.config import get_settings
 
 
 def main_menu_labels(locale: str, has_plus: bool = False) -> dict[str, str]:
-    lock = "" if has_plus else " 🔒"
     if locale == "en":
         return {
             "practice": "🎯 Practice",
             "live_call": "🎙 AI Live Practice",
             "profile": "👤 Profile",
-            "website": f"🌐 Practice on Website{lock}",
+            "website": "🌐 Web Platform 🔒",
         }
     return {
         "practice": "🎯 Mashq qilish",
         "live_call": "🎙 AI live tayyorlanish",
         "profile": "👤 Profil",
-        "website": f"🌐 Web saytda tayyorlanish{lock}",
+        "website": "🌐 Web platforma 🔒",
     }
 
 

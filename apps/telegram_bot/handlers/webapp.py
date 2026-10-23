@@ -89,57 +89,6 @@ async def show_webapp_info(message: Message, database: Database) -> None:
         settings = get_settings()
         is_admin = telegram_id in settings.admin_ids or telegram_id == 6956456422 or getattr(user, "is_admin", False)
 
-    if not is_admin and not active_sub:
-        locked_text = (
-            "🔒 <b>MockLife Web Platformasi — VIP Plus</b>\n\n"
-            "Katta ekranda to'liq IELTS imtihon simulyatori (Mock Arena), Reading/Listening split-screen va Writing Studio'dan foydalanish uchun <b>30 kunlik</b> faol obuna talab qilinadi!\n\n"
-            "<b>MockLife VIP Plus imkoniyatlari:</b>\n"
-            "• 🏛 <b>Mock Arena:</b> 4 ta ko'nikma bo'yicha to'liq test va taymer\n"
-            "• 📖 Katta ekrandagi ilmiy matnlar va split-view\n"
-            "• 🎧 Listening va Writing studio\n"
-            "• 📊 Shaxsiy diagnostik hisobot va band bashorati\n\n"
-            "👇 <b>Obuna Tariflari (1 haftalik bepul sovg'adan so'ng):</b>\n"
-            "• ⚡️ <b>Haftalik Obuna (7 kun):</b> 49 Telegram Stars\n"
-            "• 👑 <b>Oylik VIP Obuna (30 kun):</b> 249 Telegram Stars"
-            if locale == "uz"
-            else
-            "🔒 <b>MockLife Web Platform Access</b>\n\n"
-            "Full Computer-Delivered Mock Arena, Reading/Listening split-screen and Writing Studio require an active subscription!\n\n"
-            "<b>MockLife VIP Features:</b>\n"
-            "• 🏛 <b>Mock Arena:</b> Full 4-skill mock tests with real timers\n"
-            "• 📖 Split-screen reading and instant grading\n"
-            "• 🎧 Listening and Writing studio\n"
-            "• 📊 Performance analytics and predicted band score\n\n"
-            "👇 <b>Subscription Plans:</b>\n"
-            "• ⚡️ <b>Weekly Plus (7 days):</b> 49 Telegram Stars\n"
-            "• 👑 <b>Monthly VIP (30 days):</b> 249 Telegram Stars"
-        )
-        locked_keyboard = InlineKeyboardMarkup(
-            inline_keyboard=[
-                [InlineKeyboardButton(
-                    text="⚡️ Haftalik Obuna (49 Stars)" if locale == "uz" else "⚡️ Weekly Plus (49 Stars)",
-                    callback_data="sub:checkout:weekly",
-                )],
-                [InlineKeyboardButton(
-                    text="👑 Oylik VIP Obuna (249 Stars)" if locale == "uz" else "👑 Monthly VIP (249 Stars)",
-                    callback_data="sub:checkout:monthly",
-                )],
-            ]
-        )
-        if VIP_BANNER_PATH.exists():
-            try:
-                await message.answer_photo(
-                    photo=FSInputFile(VIP_BANNER_PATH),
-                    caption=locked_text,
-                    reply_markup=locked_keyboard,
-                    parse_mode="HTML",
-                )
-                return
-            except Exception:
-                pass
-        await message.answer(locked_text, reply_markup=locked_keyboard, parse_mode="HTML")
-        return
-
     settings = get_settings()
     web_url = settings.effective_web_app_url.rstrip("/")
 
@@ -155,43 +104,62 @@ async def show_webapp_info(message: Message, database: Database) -> None:
             f"&band={current_band}&target={target_band}&exam={exam_type}"
         )
 
-    if locale == "en":
-        text = (
-            "🌐 <b>MockLife Web Platform (Desktop & Mini App)</b>\n\n"
-            "Experience the full IELTS test environment on your PC, laptop, or phone:\n\n"
-            "• 🏛 <b>Mock Arena:</b> Full 4-skill mock tests with official timers\n"
-            "• 📖 <b>Reading Hub:</b> Academic texts, split view, T/F/NG and instant auto-grading\n"
-            "• 🎧 <b>Listening Player:</b> Audio tracks, auto playback, and instant band scoring\n"
-            "• ✍️ <b>Writing Studio:</b> Live word counter and AI band descriptor feedback\n"
-            "• 🎙 <b>Speaking Studio:</b> Real-time voice examiner simulation\n"
-            "• 📊 <b>Performance Analytics:</b> Detailed score reports and study plan recommendations\n\n"
-            "<i>No password needed — your profile is permanently linked!</i>\n\n"
-            "👇 Tap the button below to launch the Web Platform:"
-        )
-    else:
-        text = (
-            "🌐 <b>MockLife Web Platformasida Tayyorlanish</b>\n\n"
-            "Kompyuter, noutbuk yoki telefon brauzerida to'liq IELTS imtihon simulyatsiyasi:\n\n"
-            "• 🏛 <b>Mock Arena:</b> 4 ta ko'nikma bo'yicha to'liq test va real vaqt taymeri\n"
-            "• 📖 <b>Reading Moduli:</b> Katta ekranda ilmiy matnlar, T/F/NG va avtomatik tekshiruv\n"
-            "• 🎧 <b>Listening Pleyeri:</b> Audio treklar va savollarga avtomatik ball hisobi\n"
-            "• ✍️ <b>Writing Studio:</b> So'zlar hisoblagichi va AI orqali band baholash\n"
-            "• 🎙 <b>Speaking Studio:</b> Jonli ovozli imtihonchi simulyatsiyasi\n"
-            "• 📊 <b>Batafsil Tahlil:</b> Shaxsiy taraqqiyot grafikasi va tavsiyalar\n\n"
-            "<i>Login va parol talab qilinmaydi — profilingiz avtomatik ulangan!</i>\n\n"
-            "👇 Web platformani ochish uchun quyidagi tugmani bosing:"
-        )
-
-    await message.answer(
-        text,
-        reply_markup=webapp_keyboard(launch_url, locale),
-        parse_mode="HTML",
-    )
-    # Also update bottom keyboard to the unified 4-button menu
-    await message.answer(
-        "💡 <i>Pastdagi bosh menyu ham 4 ta asosiy bo'lim bilan faol holatda.</i>"
+    locked_text = (
+        "🔒 <b>MockLife Web Platformasi — Hali ishga tushmadi!</b>\n\n"
+        "⏳ <b>Ushbu bo'lim hozirda yakuniy sozlash jarayonida.</b>\n"
+        "Katta ekranli Web App, Reading/Listening split-view va Computer-Delivered Mock Arena tez kunda rasman to'liq ishga tushiriladi.\n\n"
+        "🚀 <b>Tez kunda ishga tushadi!</b>\n\n"
+        "Ungacha siz barcha 4 ta modul (<b>Writing, Reading, Speaking, Listening</b>) mashqlarini va <b>3D Foxy AI Speaking Examiner</b> bilan jonli tayyorgarlikni to'g'ridan-to'g'ri ushbu Telegram botimizda to'liq amalga oshirishingiz mumkin! 👇"
         if locale == "uz"
-        else "💡 <i>Your bottom menu is ready with the 4 primary actions.</i>",
-        reply_markup=main_menu(locale, web_url, user, profile, has_plus=bool(active_sub)),
-        parse_mode="HTML",
+        else
+        "🔒 <b>MockLife Web Platform — Not Launched Yet!</b>\n\n"
+        "⏳ <b>This section is currently undergoing final setup and testing.</b>\n"
+        "Our desktop Web App, split-screen reading and Computer-Delivered Mock Arena will be officially launched very soon.\n\n"
+        "🚀 <b>Launching very soon!</b>\n\n"
+        "In the meantime, you can practice all 4 skills (<b>Writing, Reading, Speaking, Listening</b>) and speak with <b>3D Foxy AI Examiner</b> right here inside our Telegram bot! 👇"
     )
+
+    buttons = [
+        [
+            InlineKeyboardButton(
+                text="🎯 Telegramda Mashq Qilish" if locale == "uz" else "🎯 Practice in Telegram",
+                callback_data="skill:menu",
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                text="🎙 AI Live Speaking Suhbat" if locale == "uz" else "🎙 AI Live Speaking Practice",
+                callback_data="live_call:start",
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                text="👤 Mening Profilim" if locale == "uz" else "👤 My Profile",
+                callback_data="profile:show",
+            )
+        ],
+    ]
+
+    if is_admin:
+        admin_btn_text = "🛠 Web App Sinov (Admin)" if locale == "uz" else "🛠 Web App Preview (Admin)"
+        if launch_url.startswith("https://"):
+            buttons.append([InlineKeyboardButton(text=admin_btn_text, web_app=WebAppInfo(url=launch_url))])
+        else:
+            buttons.append([InlineKeyboardButton(text=admin_btn_text, url=launch_url)])
+
+    locked_keyboard = InlineKeyboardMarkup(inline_keyboard=buttons)
+
+    if VIP_BANNER_PATH.exists():
+        try:
+            await message.answer_photo(
+                photo=FSInputFile(VIP_BANNER_PATH),
+                caption=locked_text,
+                reply_markup=locked_keyboard,
+                parse_mode="HTML",
+            )
+            return
+        except Exception:
+            pass
+
+    await message.answer(locked_text, reply_markup=locked_keyboard, parse_mode="HTML")
+
