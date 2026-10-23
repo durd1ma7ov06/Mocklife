@@ -8,6 +8,33 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Landing palette
+        cream: {
+          50: '#faf9f5',
+          100: '#fdf6e9',
+          200: '#faf5ea',
+          300: '#f3ead6',
+          400: '#f0d9b9',
+        },
+        coral: {
+          50: '#fef2f0',
+          100: '#fde3dc',
+          500: '#ef3b2d',
+          600: '#d62f22',
+        },
+        navy: {
+          900: '#10152b',
+          800: '#2a3048',
+          600: '#4a5068',
+          400: '#7a7f95',
+        },
+        traffic: {
+          red: '#ff5f57',
+          yellow: '#febc2e',
+          green: '#28c840',
+        },
+
+        // IELTIX Design System (CSS variable tokens)
         'secondary-container': 'var(--secondary-container)',
         'surface-container': 'var(--surface-container)',
         'outline-variant': 'var(--outline-variant)',
@@ -55,6 +82,7 @@ export default {
         'on-primary-fixed-variant': 'var(--on-primary-fixed-variant)',
         'on-secondary-fixed': 'var(--on-secondary-fixed)',
         'surface': 'var(--surface)',
+
         // Brand & Cyber accents
         'foxy-orange': '#FF7A00',
         'cyber-orange': '#FF6B00',
@@ -72,6 +100,9 @@ export default {
         'glow-indigo': '0 0 25px -5px rgba(99, 102, 241, 0.4)',
         'glow-violet': '0 0 25px -5px rgba(139, 92, 246, 0.4)',
         'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
+        'card-soft': '0 2px 10px rgba(80, 60, 20, 0.06)',
+        'card-hover': '0 4px 16px rgba(80, 60, 20, 0.1)',
+        'browser': '0 8px 30px rgba(80, 60, 20, 0.08)',
       },
       spacing: {
         'space-2xs': '0.125rem',
@@ -90,6 +121,13 @@ export default {
         'margin-tablet': '2rem',
         'margin-desktop': '3rem',
       },
+      borderRadius: {
+        'card-sm': '16px',
+        'card': '20px',
+        'card-lg': '26px',
+        'card-xl': '32px',
+        'pill': '999px',
+      },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
         headline: ['Plus Jakarta Sans', 'sans-serif'],
@@ -103,6 +141,8 @@ export default {
         'label-md': ['Inter', 'sans-serif'],
         'label-sm': ['Inter', 'sans-serif'],
         'code': ['Inter', 'monospace'],
+        unbounded: ['Unbounded', 'sans-serif'],
+        nunito: ['Nunito', 'system-ui', 'sans-serif'],
       },
       animation: {
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
@@ -117,4 +157,4 @@ export default {
     },
   },
   plugins: [],
-}
+};

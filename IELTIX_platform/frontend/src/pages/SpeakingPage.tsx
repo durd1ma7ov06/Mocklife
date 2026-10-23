@@ -45,6 +45,26 @@ export const SpeakingPage: React.FC = () => {
   const [evalResult, setEvalResult] = useState<SpeakingEvaluationResult | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
+  // Interactive Live AI Suhbat (Dialogue Mode) states
+  const [practiceMode, setPracticeMode] = useState<'dialogue' | 'single'>('dialogue');
+  const [chatMessages, setChatMessages] = useState<Array<{
+    id: string;
+    role: 'examiner' | 'user';
+    text: string;
+    time: string;
+    instantCorrection?: string;
+  }>>([]);
+  const [liveBandScore, setLiveBandScore] = useState<number>(7.0);
+  const [liveRubrics, setLiveRubrics] = useState<{ fluency: number; lexical: number; grammar: number; pronunciation: number }>({
+    fluency: 7.0,
+    lexical: 7.0,
+    grammar: 7.0,
+    pronunciation: 7.0,
+  });
+  const [isExaminerReplying, setIsExaminerReplying] = useState(false);
+  const [chatInput, setChatInput] = useState('');
+  const chatScrollRef = useRef<HTMLDivElement>(null);
+
   // Speech Recognition ref
   const recognitionRef = useRef<any>(null);
 
@@ -319,7 +339,7 @@ export const SpeakingPage: React.FC = () => {
             'What specific tasks it helps you accomplish',
             'And explain why you consider this innovation impactful for future education',
           ],
-          modelAnswer: 'I would like to speak about generative AI educational platforms such as IELTIX and ChatGPT. I first started using these tools around two years ago. They serve as an on-demand personal academic mentor, evaluating essays with instant feedback on coherence, lexical resource, and grammatical accuracy. I believe this technology democratizes high-tier education by making personalized instruction accessible to all motivated students.',
+          modelAnswer: 'I would like to speak about intelligent educational platforms such as MockLife and modern adaptive learning tools. I first started using these digital resources around two years ago. They serve as an on-demand personal academic mentor, evaluating essays with instant feedback on coherence, lexical resource, and grammatical accuracy. I believe this technology democratizes high-tier education by making personalized instruction accessible to all motivated students.',
         },
       ],
     },
@@ -386,7 +406,9 @@ export const SpeakingPage: React.FC = () => {
         for (let i = 0; i < event.results.length; i++) {
           currentText += event.results[i][0].transcript + ' ';
         }
-        setTranscript(currentText);
+        const clean = currentText.trim();
+        setTranscript(clean);
+        setChatInput(clean);
       };
 
       recognition.onerror = () => {
@@ -401,6 +423,13 @@ export const SpeakingPage: React.FC = () => {
       recognitionRef.current = recognition;
     }
   }, []);
+
+  // Auto scroll chat messages
+  useEffect(() => {
+    if (chatScrollRef.current) {
+      chatScrollRef.current.scrollTop = chatScrollRef.current.scrollHeight;
+    }
+  }, [chatMessages, isExaminerReplying]);
 
   // Foxy Text to Speech
   const speakFoxy = (text: string) => {
@@ -420,12 +449,118 @@ export const SpeakingPage: React.FC = () => {
   };
 
   // Open Foxy Practice Studio modal
-  const openPractice = (topic: SpeakingTopic, question: QuestionItem, qIndex: number) => {
+  const openPractice = (topic: SpeakingTopic, question: QuestionItem, qIndex: number, mode: 'dialogue' | 'single' = 'dialogue') => {
     setActivePracticeQ({ topic, question, qIndex });
+    setPracticeMode(mode);
     setTranscript("");
+    setChatInput("");
     setEvalResult(null);
-    setFoxyMessage(question.question);
-    speakFoxy(question.question);
+
+    const initialGreeting = `Good day! I am Dr. Sarah Parker, your Cambridge IELTS Speaking Examiner. Today we are exploring "${topic.title.split('(')[0].trim()}". Let's begin: ${question.question}`;
+
+    setChatMessages([
+      {
+        id: `msg-${Date.now()}`,
+        role: 'examiner',
+        text: initialGreeting,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      },
+    ]);
+    setFoxyMessage(initialGreeting);
+    speakFoxy(initialGreeting);
+  };
+
+  const handleSendChatMessage = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    const userText = chatInput.trim() || transcript.trim();
+    if (!userText || !activePracticeQ || isExaminerReplying) return;
+
+    if (isRecording && recognitionRef.current) {
+      try { recognitionRef.current.stop(); } catch {}
+      setIsRecording(false);
+    }
+
+    const newMsg = {
+      id: `usr-${Date.now()}`,
+      role: 'user' as const,
+      text: userText,
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    };
+
+    const updatedHistory = [...chatMessages, newMsg];
+    setChatMessages(updatedHistory);
+    setChatInput('');
+    setTranscript('');
+    setIsExaminerReplying(true);
+    setFoxyStatus('evaluating');
+    setFoxyMessage("Examiner is evaluating your response and preparing the next question...");
+
+    try {
+      const apiHistory = updatedHistory.slice(-6).map(m => ({
+        role: m.role === 'examiner' ? 'assistant' as const : 'user' as const,
+        content: m.text,
+      }));
+
+      const res = await api.chatLiveAiExaminer({
+        message: userText,
+        history: apiHistory,
+        topic: activePracticeQ.topic.title,
+        part: activePracticeQ.topic.part,
+      });
+
+      if (res?.data) {
+        const examinerReply = {
+          id: `ai-${Date.now()}`,
+          role: 'examiner' as const,
+          text: res.data.reply,
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          instantCorrection: res.data.instantCorrection,
+        };
+        setChatMessages(prev => [...prev, examinerReply]);
+        if (res.data.estimatedBand) setLiveBandScore(res.data.estimatedBand);
+        if (res.data.rubricScores) setLiveRubrics(res.data.rubricScores);
+        setFoxyMessage(res.data.reply);
+        speakFoxy(res.data.reply);
+      }
+    } catch (err: any) {
+      console.warn("Live chat error:", err);
+      const fallbackReply = {
+        id: `ai-${Date.now()}`,
+        role: 'examiner' as const,
+        text: "Thank you for sharing that. Could you explain how this impacts your everyday routine or future choices?",
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        instantCorrection: "Try using 'fundamental' or 'pivotal' to enhance academic vocabulary.",
+      };
+      setChatMessages(prev => [...prev, fallbackReply]);
+      speakFoxy(fallbackReply.text);
+    } finally {
+      setIsExaminerReplying(false);
+    }
+  };
+
+  const handleFinishDialogue = async () => {
+    if (!activePracticeQ) return;
+    setIsSubmitting(true);
+    setFoxyStatus('evaluating');
+    setFoxyMessage("Generating comprehensive Cambridge IELTS Speaking diagnostic report...");
+
+    const candidateReplies = chatMessages.filter(m => m.role === 'user').map(m => m.text).join(". ");
+    const textToEval = candidateReplies || activePracticeQ.question.modelAnswer;
+
+    try {
+      const res = await api.evaluateSpeaking(textToEval, activePracticeQ.topic.part);
+      if (res?.data) {
+        setEvalResult(res.data);
+        setPracticeMode('single');
+        setFoxyMessage(`Outstanding work! Overall Band ${res.data.overallBand} achieved.`);
+        speakFoxy(`Interview concluded. You achieved an estimated IELTS Band score of ${res.data.overallBand}. Review your feedback below.`);
+      }
+    } catch {
+      handleEvaluate();
+      setPracticeMode('single');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const toggleRecording = () => {
@@ -513,6 +648,36 @@ export const SpeakingPage: React.FC = () => {
     <div className="w-full max-w-4xl mx-auto pb-20 space-y-6 animate-fadeIn px-2 sm:px-4">
 
       {/* ========================================================================= */}
+      {/* 0. HERO: JONLI CAMBRIDGE AI EXAMINER SUHBATI                              */}
+      {/* ========================================================================= */}
+      <div className="p-5 sm:p-6 rounded-3xl bg-surface-container border border-surface-container-high/60 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-5 relative overflow-hidden">
+        <div className="space-y-1.5 flex-1">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-extrabold uppercase tracking-wider border border-primary/20">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            Live AI Cambridge Examiner • Dr. Sarah Parker
+          </div>
+          <h2 className="text-xl sm:text-2xl font-black text-on-surface tracking-tight">
+            🎙️ Jonli IELTS Speaking Muloqot (AI Suhbat)
+          </h2>
+          <p className="text-xs text-on-surface-variant max-w-xl leading-relaxed">
+            Haqiqiy Cambridge imtihonchisi bilan yuzma-yuz ovozli intervyu. O'zingiz tanlagan yoki ngrok API modelingiz orqali savol-javob qiling, real vaqtda grammatika tahlili va Band 9.0 tavsiyalarini oling.
+          </p>
+        </div>
+
+        <button
+          onClick={() => {
+            const firstTopic = filteredTopics[0] || allTopics[0];
+            const firstQ = firstTopic.questions[0];
+            openPractice(firstTopic, firstQ, 0, 'dialogue');
+          }}
+          className="px-6 py-3.5 rounded-2xl bg-primary text-on-primary text-xs font-black flex items-center gap-2 cursor-pointer shadow-md hover:opacity-95 active:scale-95 transition-all whitespace-nowrap flex-shrink-0"
+        >
+          <span className="material-symbols-outlined text-lg animate-pulse">record_voice_over</span>
+          <span>⚡ Jonli Suhbatni Boshlash</span>
+        </button>
+      </div>
+
+      {/* ========================================================================= */}
       {/* 1. TOP 4 ICONIC SPLIT CARDS (PART 1, PART 2, PART 3, BOOKMARKS)          */}
       {/* ========================================================================= */}
       <div className="flex flex-wrap items-center justify-start gap-3 sm:gap-4 pt-1">
@@ -592,11 +757,11 @@ export const SpeakingPage: React.FC = () => {
       </div>
 
       {/* ========================================================================= */}
-      {/* 2. THE EXPANSIVE RESPONSIVE LIST CONTAINER (ADAPTED TO IELTIX THEME)      */}
+      {/* 2. THE EXPANSIVE RESPONSIVE LIST CONTAINER (ADAPTED TO MockLife THEME)      */}
       {/* ========================================================================= */}
       <div className="rounded-3xl overflow-hidden border border-surface-container-high/70 shadow-lg bg-surface-container-lowest dark:bg-surface-container-low transition-all">
         
-        {/* TOP HEADER BAR (RESPONSIVE, IELTIX CLEAN STYLE) */}
+        {/* TOP HEADER BAR (RESPONSIVE, MockLife CLEAN STYLE) */}
         <div className="bg-primary text-on-primary py-3.5 px-5 sm:px-6 flex items-center justify-between shadow-sm">
           <div className="flex items-center gap-3">
             {activeTab === 'questions' ? (
@@ -778,9 +943,37 @@ export const SpeakingPage: React.FC = () => {
               </button>
             </div>
 
+            {/* Mode Switcher: Live AI Suhbat vs Single Question Practice */}
+            <div className="flex items-center justify-between p-1 rounded-2xl bg-white/5 border border-white/10 gap-1">
+              <button
+                type="button"
+                onClick={() => setPracticeMode('dialogue')}
+                className={`flex-1 py-2 px-3 rounded-xl text-xs font-black flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                  practiceMode === 'dialogue'
+                    ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-md'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                <span className="material-symbols-outlined text-sm">record_voice_over</span>
+                <span>🎙️ Jonli AI Suhbat (Live Dialogue)</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setPracticeMode('single')}
+                className={`flex-1 py-2 px-3 rounded-xl text-xs font-black flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                  practiceMode === 'single'
+                    ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-md'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                <span className="material-symbols-outlined text-sm">assignment</span>
+                <span>📝 Yakkalik Savol Mashqi</span>
+              </button>
+            </div>
+
             {/* Centered High-Definition 3D Foxy AI Examiner Stage */}
-            <div className="flex flex-col items-center text-center space-y-3 pt-1">
-              
+            <div className="flex flex-col items-center text-center space-y-2 pt-1">
               {/* Interactive 3D Foxy AI Examiner Stage */}
               <div className="relative flex flex-col items-center">
                 {/* Ambient Aura */}
@@ -788,169 +981,329 @@ export const SpeakingPage: React.FC = () => {
 
                 {/* 3D Model Viewport Stage (Seamless, Floating) */}
                 <div className="relative flex items-center justify-center">
-                  <Foxy3DModel status={foxyStatus} size={260} />
+                  <Foxy3DModel status={foxyStatus} size={practiceMode === 'dialogue' ? 180 : 230} />
                 </div>
 
                 {/* Live Status Indicator Pill */}
-                <div className="mt-2 px-4 py-1.5 rounded-full bg-slate-800/90 border border-slate-700 shadow-sm flex items-center gap-2 whitespace-nowrap z-10">
+                <div className="mt-1.5 px-3.5 py-1 rounded-full bg-slate-800/90 border border-slate-700 shadow-sm flex items-center gap-2 whitespace-nowrap z-10">
                   <span className={`w-2.5 h-2.5 rounded-full ${
                     foxyStatus === 'speaking' ? 'bg-sky-400 animate-ping' :
                     foxyStatus === 'listening' ? 'bg-emerald-400 animate-pulse' :
                     foxyStatus === 'evaluating' ? 'bg-amber-400 animate-spin' :
                     'bg-sky-400'
                   }`} />
-                  <span className="text-xs font-semibold text-slate-200">
-                    {foxyStatus === 'speaking' ? 'AI Examiner Speaking...' :
-                     foxyStatus === 'listening' ? 'Listening to Candidate...' :
-                     foxyStatus === 'evaluating' ? 'Analyzing Response...' :
-                     '3D AI Examiner • Ready'}
+                  <span className="text-[11px] font-semibold text-slate-200">
+                    {foxyStatus === 'speaking' ? 'Examiner gapirmoqda (Speaking)...' :
+                     foxyStatus === 'listening' ? 'Sizni tinglamoqda (Listening)...' :
+                     foxyStatus === 'evaluating' ? 'Javobni tahlil qilmoqda (Analyzing)...' :
+                     'Dr. Sarah Parker • Cambridge Examiner Ready'}
                   </span>
                 </div>
               </div>
-
-              {/* Question Label & Text */}
-              <div className="pt-2 max-w-md mx-auto space-y-1">
-                <span className="text-[11px] font-extrabold uppercase tracking-widest text-primary">
-                  Question
-                </span>
-                <h3 className="text-base sm:text-lg font-bold text-on-surface leading-snug">
-                  "{activePracticeQ.question.question}"
-                </h3>
-              </div>
-
-              {/* Prominent High-Visibility Action Button */}
-              <button
-                onClick={() => speakFoxy(activePracticeQ.question.question)}
-                className={`group mt-1 px-5 py-2.5 rounded-2xl font-bold text-xs sm:text-sm transition-all duration-200 flex items-center gap-2 cursor-pointer shadow-md active:scale-95 ${
-                  foxyStatus === 'speaking'
-                     ? 'bg-amber-500 hover:bg-amber-600 text-white shadow-amber-500/30 ring-2 ring-amber-400/50 animate-pulse'
-                     : 'bg-primary hover:bg-primary/90 text-on-primary shadow-primary/25 hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-0.5'
-                }`}
-                title="Listen to AI Examiner speaking the question"
-              >
-                <span className={`material-symbols-outlined text-lg ${foxyStatus === 'speaking' ? 'animate-bounce' : 'group-hover:scale-110 transition-transform'}`}>
-                  {foxyStatus === 'speaking' ? 'graphic_eq' : 'volume_up'}
-                </span>
-                <span className="tracking-wide">
-                  {foxyStatus === 'speaking' ? 'AI Examiner Speaking...' : 'Listen to Question'}
-                </span>
-              </button>
-
             </div>
 
-            {/* Cue Points (if Part 2 Cue Card) */}
-            {activePracticeQ.question.cuePoints && (
-              <div className="p-3 rounded-xl bg-surface-container-low border border-surface-container-high/40 text-xs space-y-1">
-                <span className="font-bold text-primary text-[11px] block">You should say:</span>
-                <ul className="space-y-0.5 text-on-surface-variant pl-3">
-                  {activePracticeQ.question.cuePoints.map((pt, i) => (
-                    <li key={i} className="list-disc leading-tight">{pt}</li>
+            {/* ========================================================= */}
+            {/* 1. DIALOGUE MODE: LIVE CONVERSATION & CHAT THREAD         */}
+            {/* ========================================================= */}
+            {practiceMode === 'dialogue' && (
+              <div className="space-y-3 animate-fadeIn">
+                {/* Real-time IELTS Band & Rubrics Tracker */}
+                <div className="p-3 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-2">
+                    <span className="material-symbols-outlined text-amber-400 text-base">verified</span>
+                    <span className="text-slate-300 font-bold">Jonli Baholash:</span>
+                    <span className="text-sm font-black text-amber-400">Band {liveBandScore.toFixed(1)}</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 text-[10px] text-slate-400">
+                    <span className="px-2 py-0.5 rounded-md bg-white/5">F: {liveRubrics.fluency.toFixed(1)}</span>
+                    <span className="px-2 py-0.5 rounded-md bg-white/5">L: {liveRubrics.lexical.toFixed(1)}</span>
+                    <span className="px-2 py-0.5 rounded-md bg-white/5">G: {liveRubrics.grammar.toFixed(1)}</span>
+                    <span className="px-2 py-0.5 rounded-md bg-white/5">P: {liveRubrics.pronunciation.toFixed(1)}</span>
+                  </div>
+                </div>
+
+                {/* Conversational Transcript Thread */}
+                <div
+                  ref={chatScrollRef}
+                  className="max-h-56 sm:max-h-64 overflow-y-auto space-y-3 p-3.5 rounded-2xl bg-black/40 border border-white/10 text-xs scroll-smooth"
+                >
+                  {chatMessages.map((m) => (
+                    <div
+                      key={m.id}
+                      className={`flex flex-col ${m.role === 'user' ? 'items-end' : 'items-start'} space-y-1`}
+                    >
+                      <div className="flex items-center gap-1.5 text-[10px] text-slate-400 px-1">
+                        {m.role === 'examiner' ? (
+                          <>
+                            <span className="text-xs">🇬🇧</span>
+                            <span className="font-bold text-cyan-300">Dr. Sarah Parker</span>
+                          </>
+                        ) : (
+                          <>
+                            <span className="material-symbols-outlined text-xs text-emerald-400">person</span>
+                            <span className="font-bold text-slate-300">You (Nomzod)</span>
+                          </>
+                        )}
+                        <span>•</span>
+                        <span>{m.time}</span>
+                      </div>
+
+                      <div
+                        className={`p-3 rounded-2xl max-w-[85%] leading-relaxed ${
+                          m.role === 'user'
+                            ? 'bg-primary text-on-primary rounded-tr-xs shadow-md'
+                            : 'bg-slate-800/90 text-slate-100 rounded-tl-xs border border-white/10 shadow-sm'
+                        }`}
+                      >
+                        <p>{m.text}</p>
+
+                        {/* Instant Band 8.5 Upgrade Suggestion */}
+                        {m.instantCorrection && (
+                          <div className="mt-2 pt-2 border-t border-white/10 text-[11px] text-amber-300 flex items-start gap-1.5 font-medium">
+                            <span className="material-symbols-outlined text-xs mt-0.5 text-amber-400">lightbulb</span>
+                            <span><strong>Band 8.5 Taklif:</strong> {m.instantCorrection}</span>
+                          </div>
+                        )}
+
+                        {/* Re-play Audio Button for Examiner */}
+                        {m.role === 'examiner' && (
+                          <button
+                            type="button"
+                            onClick={() => speakFoxy(m.text)}
+                            className="mt-2 text-[10px] text-cyan-300 hover:text-cyan-200 flex items-center gap-1 font-semibold cursor-pointer"
+                          >
+                            <span className="material-symbols-outlined text-xs">volume_up</span>
+                            <span>Qayta eshitish</span>
+                          </button>
+                        )}
+                      </div>
+                    </div>
                   ))}
-                </ul>
+
+                  {/* Thinking status */}
+                  {isExaminerReplying && (
+                    <div className="flex items-center gap-2 text-xs text-cyan-300 italic p-2 animate-pulse">
+                      <span className="material-symbols-outlined text-sm animate-spin">sync</span>
+                      <span>Dr. Sarah Parker javobingizni tahlil qilib, savol tayyorlamoqda...</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Candidate Interactive Response Bar */}
+                <form onSubmit={handleSendChatMessage} className="space-y-2">
+                  <div className="relative flex items-center">
+                    <input
+                      type="text"
+                      value={chatInput}
+                      onChange={(e) => setChatInput(e.target.value)}
+                      placeholder="Javobingizni gapiring yoki bu yerga yozing..."
+                      className="w-full bg-slate-900 text-xs text-white pl-4 pr-24 py-3 rounded-2xl border border-white/15 focus:outline-hidden focus:border-cyan-400 leading-relaxed placeholder:text-slate-500"
+                    />
+
+                    {/* Mic button inside input */}
+                    <div className="absolute right-2 flex items-center gap-1.5">
+                      <button
+                        type="button"
+                        onClick={toggleRecording}
+                        className={`p-2 rounded-xl transition-all cursor-pointer ${
+                          isRecording
+                            ? 'bg-rose-500 text-white animate-pulse'
+                            : 'bg-white/10 hover:bg-white/20 text-slate-200'
+                        }`}
+                        title={isRecording ? "Yozishni to'xtatish" : "Mikrofon orqali gapirish"}
+                      >
+                        <span className="material-symbols-outlined text-base">
+                          {isRecording ? 'stop_circle' : 'mic'}
+                        </span>
+                      </button>
+
+                      {/* Send button */}
+                      <button
+                        type="submit"
+                        disabled={!chatInput.trim() && !transcript.trim() || isExaminerReplying}
+                        className="p-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 transition-all cursor-pointer disabled:opacity-40 font-bold"
+                        title="Yuborish"
+                      >
+                        <span className="material-symbols-outlined text-base">send</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Helpers: Use sample answer & finish interview */}
+                  <div className="flex items-center justify-between text-xs pt-1 flex-wrap gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setChatInput(activePracticeQ.question.modelAnswer)}
+                      className="text-[11px] text-cyan-400 hover:underline font-semibold cursor-pointer flex items-center gap-1"
+                    >
+                      <span className="material-symbols-outlined text-xs">auto_fix_high</span>
+                      <span>Namunaviy Band 8.5 javobni qo'yish</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      disabled={isSubmitting || chatMessages.length < 2}
+                      onClick={handleFinishDialogue}
+                      className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-black flex items-center gap-1.5 cursor-pointer shadow-md transition-all active:scale-95 disabled:opacity-40"
+                    >
+                      <span className="material-symbols-outlined text-sm">workspace_premium</span>
+                      <span>{isSubmitting ? 'Hisoblanmoqda...' : 'Imtihonni Yakunlash (Natija)'}</span>
+                    </button>
+                  </div>
+                </form>
               </div>
             )}
 
-            {/* Model Answer (Band 8.5) — Clean & Compact */}
-            <div className="p-3.5 rounded-2xl bg-surface-container-low/70 border border-surface-container-high/40 space-y-1.5">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-secondary flex items-center gap-1">
-                  <span className="material-symbols-outlined text-sm">verified</span>
-                  Band 8.5 Model Answer
-                </span>
-                <button
-                  onClick={() => speakFoxy(activePracticeQ.question.modelAnswer)}
-                  className="px-2.5 py-1 rounded-xl bg-secondary/15 hover:bg-secondary/25 text-secondary text-[11px] font-bold flex items-center gap-1 transition-all cursor-pointer shadow-xs active:scale-95"
-                  title="Listen to model answer"
-                >
-                  <span className="material-symbols-outlined text-xs">volume_up</span>
-                  <span>Listen to Answer</span>
-                </button>
-              </div>
-              <p className="text-xs text-on-surface/90 leading-relaxed italic">
-                "{activePracticeQ.question.modelAnswer}"
-              </p>
-            </div>
-
-            {/* User Speech & Practice Area */}
-            <div className="p-3.5 rounded-2xl bg-surface-container-low border border-surface-container-high/40 space-y-2.5">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-on-surface flex items-center gap-1.5">
-                  <span className={`w-2 h-2 rounded-full ${isRecording ? 'bg-red-500 animate-ping' : 'bg-secondary'}`} />
-                  {isRecording ? "Recording speech..." : "Your Response:"}
-                </span>
-
-                <button
-                  onClick={handleAutoFill}
-                  className="text-[11px] text-primary hover:underline font-semibold cursor-pointer"
-                  title="Insert sample model answer"
-                >
-                  Use Sample Answer
-                </button>
-              </div>
-
-              <textarea
-                value={transcript}
-                onChange={(e) => setTranscript(e.target.value)}
-                placeholder="Click 'Record Answer' to speak, or type your response here..."
-                rows={2}
-                className="w-full bg-surface-container-lowest text-xs text-on-surface p-2.5 rounded-xl border border-surface-container-high/40 focus:outline-none focus:border-primary resize-none leading-relaxed"
-              />
-
-              {/* Action Buttons: Mic + Evaluate */}
-              <div className="flex items-center justify-between gap-2 pt-0.5">
-                <button
-                  onClick={toggleRecording}
-                  className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 ${
-                    isRecording
-                      ? 'bg-red-500 text-white animate-pulse'
-                      : 'bg-surface-container-high hover:bg-surface-container-highest text-on-surface border border-surface-container-high/40'
-                  }`}
-                >
-                  <span className="material-symbols-outlined text-base">
-                    {isRecording ? 'stop_circle' : 'mic'}
+            {/* ========================================================= */}
+            {/* 2. SINGLE PRACTICE MODE (ORIGINAL IELTS QUESTION PRACTICE) */}
+            {/* ========================================================= */}
+            {practiceMode === 'single' && (
+              <div className="space-y-3.5 animate-fadeIn">
+                {/* Question Label & Text */}
+                <div className="pt-1 max-w-md mx-auto space-y-1 text-center">
+                  <span className="text-[10px] font-extrabold uppercase tracking-widest text-primary">
+                    Question {activePracticeQ.qIndex + 1}
                   </span>
-                  <span>{isRecording ? "Stop Recording" : "Record Answer"}</span>
-                </button>
+                  <h3 className="text-base font-bold text-white leading-snug">
+                    "{activePracticeQ.question.question}"
+                  </h3>
+                </div>
 
-                <button
-                  onClick={handleEvaluate}
-                  disabled={isSubmitting}
-                  className="px-4 py-1.5 rounded-xl bg-primary text-on-primary hover:bg-primary/90 text-xs font-bold transition-all shadow-xs active:scale-95 disabled:opacity-50 cursor-pointer flex items-center gap-1"
-                >
-                  <span className="material-symbols-outlined text-xs">analytics</span>
-                  <span>{isSubmitting ? "Evaluating..." : "Evaluate"}</span>
-                </button>
+                {/* Listen to Question Action Button */}
+                <div className="flex justify-center">
+                  <button
+                    onClick={() => speakFoxy(activePracticeQ.question.question)}
+                    className="px-4 py-2 rounded-xl bg-primary text-on-primary text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-sm hover:opacity-95"
+                  >
+                    <span className="material-symbols-outlined text-base">volume_up</span>
+                    <span>Savolni Ovozli Eshitish</span>
+                  </button>
+                </div>
+
+                {/* Cue Points (if Part 2 Cue Card) */}
+                {activePracticeQ.question.cuePoints && (
+                  <div className="p-3 rounded-xl bg-slate-900/90 border border-white/10 text-xs space-y-1">
+                    <span className="font-bold text-primary text-[11px] block">You should say:</span>
+                    <ul className="space-y-0.5 text-slate-300 pl-3">
+                      {activePracticeQ.question.cuePoints.map((pt, i) => (
+                        <li key={i} className="list-disc leading-tight">{pt}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Model Answer (Band 8.5) */}
+                <div className="p-3.5 rounded-2xl bg-slate-900/80 border border-white/10 space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-emerald-400 flex items-center gap-1">
+                      <span className="material-symbols-outlined text-sm">verified</span>
+                      Band 8.5 Model Answer
+                    </span>
+                    <button
+                      onClick={() => speakFoxy(activePracticeQ.question.modelAnswer)}
+                      className="px-2.5 py-1 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 text-[11px] font-bold flex items-center gap-1 transition-all cursor-pointer shadow-xs active:scale-95"
+                    >
+                      <span className="material-symbols-outlined text-xs">volume_up</span>
+                      <span>Eshitish</span>
+                    </button>
+                  </div>
+                  <p className="text-xs text-slate-300 leading-relaxed italic font-serif">
+                    "{activePracticeQ.question.modelAnswer}"
+                  </p>
+                </div>
+
+                {/* User Speech & Practice Area */}
+                <div className="p-3.5 rounded-2xl bg-slate-900 border border-white/10 space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-semibold text-slate-200 flex items-center gap-1.5">
+                      <span className={`w-2 h-2 rounded-full ${isRecording ? 'bg-red-500 animate-ping' : 'bg-emerald-400'}`} />
+                      {isRecording ? "Ovoz yozilmoqda..." : "Sizning Javobingiz:"}
+                    </span>
+
+                    <button
+                      onClick={handleAutoFill}
+                      className="text-[11px] text-cyan-400 hover:underline font-semibold cursor-pointer"
+                    >
+                      Namunaviy javobni olish
+                    </button>
+                  </div>
+
+                  <textarea
+                    value={transcript}
+                    onChange={(e) => setTranscript(e.target.value)}
+                    placeholder="'Javobni Yozish' tugmasini bosib gapiring yoki bu yerga yozing..."
+                    rows={2}
+                    className="w-full bg-slate-950 text-xs text-white p-2.5 rounded-xl border border-white/10 focus:outline-hidden focus:border-cyan-400 resize-none leading-relaxed"
+                  />
+
+                  {/* Action Buttons: Mic + Evaluate */}
+                  <div className="flex items-center justify-between gap-2 pt-0.5">
+                    <button
+                      onClick={toggleRecording}
+                      className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 ${
+                        isRecording
+                          ? 'bg-red-500 text-white animate-pulse'
+                          : 'bg-white/10 hover:bg-white/15 text-slate-200 border border-white/10'
+                      }`}
+                    >
+                      <span className="material-symbols-outlined text-base">
+                        {isRecording ? 'stop_circle' : 'mic'}
+                      </span>
+                      <span>{isRecording ? "To'xtatish" : "Javobni Yozish (Mic)"}</span>
+                    </button>
+
+                    <button
+                      onClick={handleEvaluate}
+                      disabled={isSubmitting}
+                      className="px-4 py-2 rounded-xl bg-primary text-on-primary hover:bg-primary/90 text-xs font-bold transition-all shadow-xs active:scale-95 disabled:opacity-50 cursor-pointer flex items-center gap-1"
+                    >
+                      <span className="material-symbols-outlined text-xs">analytics</span>
+                      <span>{isSubmitting ? "Baholanmoqda..." : "Baholash (Evaluate)"}</span>
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Diagnostic Score Card (When Evaluated) */}
             {evalResult && (
-              <div className="p-3 rounded-xl bg-surface-container border border-secondary/30 space-y-1.5 animate-fadeIn">
+              <div className="p-4 rounded-2xl bg-slate-900 border border-emerald-500/30 space-y-2 animate-fadeIn">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-on-surface">IELTS Diagnostic Result:</span>
-                  <span className="text-sm font-black text-secondary">
-                    Band {evalResult.overallBand}
+                  <span className="text-xs font-bold text-slate-200">IELTS Diagnostic Natijasi:</span>
+                  <span className="text-sm font-black text-emerald-400">
+                    Band {evalResult.overallBand} (C1)
                   </span>
                 </div>
-                <div className="grid grid-cols-4 gap-1.5 text-center text-[11px]">
-                  <div className="p-1 rounded-lg bg-surface-container-low font-semibold text-on-surface">F: {evalResult.fluencyScore}</div>
-                  <div className="p-1 rounded-lg bg-surface-container-low font-semibold text-on-surface">L: {evalResult.lexicalScore}</div>
-                  <div className="p-1 rounded-lg bg-surface-container-low font-semibold text-on-surface">G: {evalResult.grammarScore}</div>
-                  <div className="p-1 rounded-lg bg-surface-container-low font-semibold text-on-surface">P: {evalResult.pronunciationScore}</div>
+                <div className="grid grid-cols-4 gap-2 text-center text-[11px]">
+                  <div className="p-2 rounded-xl bg-white/5 font-semibold text-slate-200">Fluency: {evalResult.fluencyScore}</div>
+                  <div className="p-2 rounded-xl bg-white/5 font-semibold text-slate-200">Lexical: {evalResult.lexicalScore}</div>
+                  <div className="p-2 rounded-xl bg-white/5 font-semibold text-slate-200">Grammar: {evalResult.grammarScore}</div>
+                  <div className="p-2 rounded-xl bg-white/5 font-semibold text-slate-200">Pronunciation: {evalResult.pronunciationScore}</div>
                 </div>
+
+                {evalResult.feedback?.strengths && (
+                  <div className="pt-1 text-[11px] text-slate-300 space-y-1">
+                    <span className="font-bold text-emerald-400 block">Kuchli tomonlar:</span>
+                    <ul className="list-disc pl-4 space-y-0.5">
+                      {evalResult.feedback.strengths.slice(0, 2).map((s, idx) => (
+                        <li key={idx}>{s}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
             )}
 
             {/* Footer Navigation */}
-            <div className="flex items-center justify-between pt-1 border-t border-surface-container-high/30">
+            <div className="flex items-center justify-between pt-2 border-t border-white/10">
               <button
                 onClick={() => {
                   if ('speechSynthesis' in window) window.speechSynthesis.cancel();
                   setActivePracticeQ(null);
                 }}
-                className="px-3.5 py-1.5 rounded-xl text-xs font-semibold text-on-surface-variant hover:bg-surface-container transition-all cursor-pointer"
+                className="px-3.5 py-1.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/10 transition-all cursor-pointer"
               >
-                Back to Topics
+                Yopish & Mavzularga qaytish
               </button>
 
               {activePracticeQ.qIndex < activePracticeQ.topic.questions.length - 1 && (
@@ -958,11 +1311,11 @@ export const SpeakingPage: React.FC = () => {
                   onClick={() => {
                     const nextIndex = activePracticeQ.qIndex + 1;
                     const nextQ = activePracticeQ.topic.questions[nextIndex];
-                    openPractice(activePracticeQ.topic, nextQ, nextIndex);
+                    openPractice(activePracticeQ.topic, nextQ, nextIndex, practiceMode);
                   }}
-                  className="px-3.5 py-1.5 rounded-xl bg-primary/10 hover:bg-primary/20 text-primary text-xs font-bold transition-all cursor-pointer flex items-center gap-1 active:scale-95"
+                  className="px-4 py-2 rounded-xl bg-primary/20 hover:bg-primary/30 text-primary text-xs font-bold transition-all cursor-pointer flex items-center gap-1 active:scale-95"
                 >
-                  <span>Next Question</span>
+                  <span>Keyingi Savol</span>
                   <span className="material-symbols-outlined text-xs">arrow_forward</span>
                 </button>
               )}
@@ -975,3 +1328,4 @@ export const SpeakingPage: React.FC = () => {
     </div>
   );
 };
+

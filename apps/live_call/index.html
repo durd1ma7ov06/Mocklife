@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>IELTIX AI Live Speaking Examiner</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container" id="app">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-left">
+        <div class="brand-badge">
+          <span class="live-indicator"></span>
+          <span class="brand-name">IELTIX LIVE</span>
+        </div>
+        <div class="session-part-badge" id="partBadge">Part 1</div>
+      </div>
+      <div class="header-right">
+        <div class="lang-pill" id="langPill">
+          <span class="flag-icon">🌐</span>
+          <span id="currentLangText">UZ / EN</span>
+        </div>
+        <button id="endCallBtn" class="btn-icon" title="End Call">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6L6 18M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Examiner Stage -->
+    <main class="main-stage">
+      <div class="examiner-card">
+        <div class="avatar-wrapper" id="avatarWrapper">
+          <div class="avatar-ring ring-1"></div>
+          <div class="avatar-ring ring-2"></div>
+          <div class="avatar-core">
+            <div class="avatar-icon">🦊</div>
+          </div>
+        </div>
+        <div class="examiner-status-box">
+          <h2 class="examiner-title">IELTIX AI Examiner</h2>
+          <p class="status-label" id="statusLabel">Ulanmoqda... / Connecting...</p>
+        </div>
+      </div>
+
+      <!-- Waveform Visualizer -->
+      <div class="visualizer-container" id="visualizerContainer">
+        <canvas id="waveformCanvas" width="320" height="48"></canvas>
+      </div>
+
+      <!-- Live Transcript Scroll Area -->
+      <div class="transcript-viewport" id="transcriptViewport">
+        <div class="transcript-list" id="transcriptList">
+          <!-- Chat bubbles will appear here -->
+        </div>
+      </div>
+
+      <!-- Result Modal (Hidden by default) -->
+      <div class="report-modal" id="reportModal" style="display: none;">
+        <div class="report-card">
+          <div class="report-header">
+            <span class="report-tag">IELTS SPEAKING REPORT</span>
+            <div class="band-circle">
+              <span class="band-val" id="reportBand">6.5</span>
+              <span class="band-lbl">Band</span>
+            </div>
+          </div>
+          <div class="criteria-grid" id="criteriaGrid">
+            <!-- Criterion items -->
+          </div>
+          <div class="feedback-section">
+            <h4>💡 Tavsiyalar / Recommendations</h4>
+            <ul id="recommendationsList"></ul>
+          </div>
+          <button id="closeReportBtn" class="btn btn-primary btn-block">Telegram botga qaytish</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Bottom Action Dock -->
+    <footer class="action-dock">
+      <!-- Fallback Text Input Toggle -->
+      <div class="input-mode-panel" id="textInputPanel" style="display: none;">
+        <input type="text" id="manualTextInput" placeholder="Javobingizni yozing / Type your answer..." autocomplete="off">
+        <button id="sendTextBtn" class="btn btn-primary btn-sm">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </div>
+
+      <div class="dock-buttons">
+        <button id="toggleKeyboardBtn" class="btn-round-secondary" title="Type response">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+            <path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M6 12h.01M10 12h.01M14 12h.01M18 12h.01M8 16h8"></path>
+          </svg>
+        </button>
+
+        <button id="micBtn" class="mic-button idle" title="Gapirish uchun bosing / Press to speak">
+          <div class="mic-glow"></div>
+          <svg class="mic-svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+            <line x1="12" y1="19" x2="12" y2="23"></line>
+            <line x1="8" y1="23" x2="16" y2="23"></line>
+          </svg>
+        </button>
+
+        <button id="interruptBtn" class="btn-round-secondary" title="Bo'lish / Interrupt">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="6" y="4" width="4" height="16"></rect>
+            <rect x="14" y="4" width="4" height="16"></rect>
+          </svg>
+        </button>
+      </div>
+      <div class="dock-hint" id="dockHint">Mikrofonni bosing va gapiring</div>
+    </footer>
+  </div>
+
+  <audio id="examinerAudio" playsinline style="display: none;"></audio>
+  <script src="app.js"></script>
+</body>
+</html>

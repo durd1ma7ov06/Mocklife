@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { UserProfile } from '../types/index.js';
 import { api } from '../services/api.js';
 import { supabase } from '../services/supabaseClient.js';
+import { useAuth } from './AuthContext.js';
 
 interface UserContextType {
   user: UserProfile;
@@ -23,7 +24,7 @@ const defaultUser: UserProfile = {
   avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
   targetBand: '7.5 Academic',
   examDate: 'Oct 26, 2025',
-  daysLeft: 38,
+  daysLeft: 7,
   vipTier: 'MAX_VIP',
   activeExamMode: 'IELTS',
   stats: {
@@ -40,8 +41,9 @@ const defaultUser: UserProfile = {
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const auth = useAuth();
   const [user, setUser] = useState<UserProfile>(() => {
-    const saved = localStorage.getItem('ieltix_user_profile');
+    const saved = localStorage.getItem('mocklife_user_profile');
     if (saved) {
       try {
         return JSON.parse(saved);
@@ -51,18 +53,69 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   });
 
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
-    return localStorage.getItem('ieltix_auth') === 'true';
+    return auth.isAuthenticated || localStorage.getItem('mocklife_auth') === 'true';
   });
 
   const [profileModalOpen, setProfileModalOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
 
+  // Sync with AuthContext user & Telegram session
   useEffect(() => {
+    if (auth.isAuthenticated && auth.user) {
+      setIsAuthenticated(true);
+      setUser(prev => {
+        const updated: UserProfile = {
+          ...prev,
+          id: auth.user!.id,
+          name: auth.user!.name || prev.name,
+          phone: auth.user!.phone || prev.phone,
+          telegramId: auth.user!.telegramId || prev.telegramId,
+          isTelegramLinked: auth.user!.isTelegramLinked ?? true,
+          targetBand: auth.user!.targetBand || prev.targetBand,
+          currentBand: auth.user!.currentBand || prev.currentBand || 6.0,
+          role: auth.user!.isTelegramLinked ? 'Telegram Tasdiqlangan Nomzod' : prev.role,
+          vipTier: 'MAX_VIP',
+          daysLeft: 14,
+          stats: {
+            ...prev.stats,
+            overallBand: auth.user!.currentBand || prev.stats.overallBand,
+          },
+        };
+        localStorage.setItem('mocklife_user_profile', JSON.stringify(updated));
+        return updated;
+      });
+    }
+  }, [auth.isAuthenticated, auth.user]);
+
+  useEffect(() => {
+    // Auto-detect Telegram Mini App user session directly
+    try {
+      const tg = (window as any).Telegram?.WebApp;
+      if (tg?.initDataUnsafe?.user) {
+        const tgUser = tg.initDataUnsafe.user;
+        const fullName = [tgUser.first_name, tgUser.last_name].filter(Boolean).join(' ') || tgUser.username || 'IELTS Nomzod';
+        setIsAuthenticated(true);
+        localStorage.setItem('mocklife_auth', 'true');
+        setUser(prev => ({
+          ...prev,
+          id: `tg-${tgUser.id}`,
+          telegramId: tgUser.id,
+          name: fullName,
+          role: 'Telegram Tasdiqlangan Nomzod',
+          vipTier: 'MAX_VIP',
+          isTelegramLinked: true,
+          daysLeft: 30,
+        }));
+      }
+    } catch (e) {
+      console.warn('Telegram WebApp init check:', e);
+    }
+
     // Check Supabase session on startup
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
         setIsAuthenticated(true);
-        localStorage.setItem('ieltix_auth', 'true');
+        localStorage.setItem('mocklife_auth', 'true');
         const meta = session.user.user_metadata || {};
         setUser(prev => {
           const updated = {
@@ -73,7 +126,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
             examDate: meta.examDate || prev.examDate,
             activeExamMode: meta.activeExamMode || prev.activeExamMode,
           };
-          localStorage.setItem('ieltix_user_profile', JSON.stringify(updated));
+          localStorage.setItem('mocklife_user_profile', JSON.stringify(updated));
           return updated;
         });
       }
@@ -109,8 +162,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
           };
           setUser(updated);
           setIsAuthenticated(true);
-          localStorage.setItem('ieltix_auth', 'true');
-          localStorage.setItem('ieltix_user_profile', JSON.stringify(updated));
+          localStorage.setItem('mocklife_auth', 'true');
+          localStorage.setItem('mocklife_user_profile', JSON.stringify(updated));
           setLoading(false);
           return true;
         }
@@ -121,8 +174,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (res?.data) {
         setUser(res.data);
         setIsAuthenticated(true);
-        localStorage.setItem('ieltix_auth', 'true');
-        localStorage.setItem('ieltix_user_profile', JSON.stringify(res.data));
+        localStorage.setItem('mocklife_auth', 'true');
+        localStorage.setItem('mocklife_user_profile', JSON.stringify(res.data));
         setLoading(false);
         return true;
       }
@@ -138,8 +191,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
     setUser(updated);
     setIsAuthenticated(true);
-    localStorage.setItem('ieltix_auth', 'true');
-    localStorage.setItem('ieltix_user_profile', JSON.stringify(updated));
+    localStorage.setItem('mocklife_auth', 'true');
+    localStorage.setItem('mocklife_user_profile', JSON.stringify(updated));
     setLoading(false);
     return true;
   };
@@ -192,8 +245,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       };
       setUser(updated);
       setIsAuthenticated(true);
-      localStorage.setItem('ieltix_auth', 'true');
-      localStorage.setItem('ieltix_user_profile', JSON.stringify(updated));
+      localStorage.setItem('mocklife_auth', 'true');
+      localStorage.setItem('mocklife_user_profile', JSON.stringify(updated));
       setLoading(false);
       return true;
     } catch (err) {
@@ -208,8 +261,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       };
       setUser(updated);
       setIsAuthenticated(true);
-      localStorage.setItem('ieltix_auth', 'true');
-      localStorage.setItem('ieltix_user_profile', JSON.stringify(updated));
+      localStorage.setItem('mocklife_auth', 'true');
+      localStorage.setItem('mocklife_user_profile', JSON.stringify(updated));
       setLoading(false);
       return true;
     }
@@ -219,8 +272,10 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       await supabase.auth.signOut();
     } catch {}
+    auth.logout();
     setIsAuthenticated(false);
-    localStorage.removeItem('ieltix_auth');
+    localStorage.removeItem('mocklife_auth');
+    localStorage.removeItem('mocklife_user_profile');
     setProfileModalOpen(false);
   };
 
@@ -229,11 +284,11 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const res = await api.updateUserProfile(updates);
       if (res?.data) {
         setUser(res.data);
-        localStorage.setItem('ieltix_user_profile', JSON.stringify(res.data));
+        localStorage.setItem('mocklife_user_profile', JSON.stringify(res.data));
       } else {
         setUser(prev => {
           const updated = { ...prev, ...updates };
-          localStorage.setItem('ieltix_user_profile', JSON.stringify(updated));
+          localStorage.setItem('mocklife_user_profile', JSON.stringify(updated));
           return updated;
         });
       }
@@ -241,7 +296,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } catch {
       setUser(prev => {
         const updated = { ...prev, ...updates };
-        localStorage.setItem('ieltix_user_profile', JSON.stringify(updated));
+        localStorage.setItem('mocklife_user_profile', JSON.stringify(updated));
         return updated;
       });
       return true;
@@ -271,3 +326,4 @@ export const useUser = () => {
   if (!ctx) throw new Error('useUser must be used within UserProvider');
   return ctx;
 };
+

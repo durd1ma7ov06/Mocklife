@@ -1,7 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { useUser } from '../context/UserContext.js';
-import { useExam } from '../context/ExamContext.js';
-import { PageTab } from '../components/Sidebar.js';
+import { useUser } from '../context/UserContext';
+import { useExam } from '../context/ExamContext';
+import { PageTab } from '../components/Sidebar';
+import { 
+  Award, 
+  Clock, 
+  Play, 
+  Settings2, 
+  ShieldCheck, 
+  ArrowRight, 
+  CheckCircle2, 
+  Headphones, 
+  BookOpen, 
+  FileEdit, 
+  Mic,
+  AlertCircle
+} from 'lucide-react';
 
 interface MockArenaPageProps {
   onNavigate: (tab: PageTab) => void;
@@ -13,7 +27,7 @@ export interface MockExamSession {
   subtitle: string;
   duration: string;
   totalQuestions: number;
-  modules: { name: string; duration: string; icon: string; tab: PageTab }[];
+  modules: { name: string; duration: string; icon: any; tab: PageTab }[];
   difficulty: 'Standard' | 'Hard' | 'Diagnostic';
   badgeColor: string;
   status: 'READY' | 'COMPLETED' | 'IN_PROGRESS';
@@ -28,9 +42,6 @@ export const MockArenaPage: React.FC<MockArenaPageProps> = ({ onNavigate }) => {
   const [simulationActive, setSimulationActive] = useState<boolean>(false);
   const [activeStageIndex, setActiveStageIndex] = useState<number>(0);
   const [timeLeftSec, setTimeLeftSec] = useState<number>(9900); // 2 hours 45 mins
-  const [configModalOpen, setConfigModalOpen] = useState<boolean>(false);
-  const [accentPreference, setAccentPreference] = useState<'UK' | 'AU' | 'US'>('UK');
-  const [proctoringEnabled, setProctoringEnabled] = useState<boolean>(true);
 
   const mockExams: MockExamSession[] = [
     {
@@ -40,13 +51,13 @@ export const MockArenaPage: React.FC<MockArenaPageProps> = ({ onNavigate }) => {
       duration: '2h 45m',
       totalQuestions: 82,
       modules: [
-        { name: 'Listening (40 questions)', duration: '30 mins', icon: 'headset', tab: 'listening' },
-        { name: 'Reading (40 questions)', duration: '60 mins', icon: 'chrome_reader_mode', tab: 'reading' },
-        { name: 'Writing (Task 1 & Task 2)', duration: '60 mins', icon: 'edit_document', tab: 'writing' },
-        { name: '3D Foxy Speaking Arena', duration: '15 mins', icon: 'mic', tab: 'speaking' },
+        { name: 'Listening (40 questions)', duration: '30 mins', icon: Headphones, tab: 'listening' },
+        { name: 'Reading (40 questions)', duration: '60 mins', icon: BookOpen, tab: 'reading' },
+        { name: 'Writing (Task 1 & Task 2)', duration: '60 mins', icon: FileEdit, tab: 'writing' },
+        { name: '3D Foxy Speaking Arena', duration: '15 mins', icon: Mic, tab: 'speaking' },
       ],
       difficulty: 'Standard',
-      badgeColor: 'bg-primary-container text-on-primary-container',
+      badgeColor: 'bg-emerald-50 text-emerald-800 border border-emerald-200',
       status: 'READY',
       lastScore: 7.5,
     },
@@ -57,13 +68,13 @@ export const MockArenaPage: React.FC<MockArenaPageProps> = ({ onNavigate }) => {
       duration: '2h 45m',
       totalQuestions: 82,
       modules: [
-        { name: 'Listening (40 questions)', duration: '30 mins', icon: 'headset', tab: 'listening' },
-        { name: 'Reading (40 questions)', duration: '60 mins', icon: 'chrome_reader_mode', tab: 'reading' },
-        { name: 'Writing (Task 1 & Task 2)', duration: '60 mins', icon: 'edit_document', tab: 'writing' },
-        { name: '3D Foxy Speaking Arena', duration: '15 mins', icon: 'mic', tab: 'speaking' },
+        { name: 'Listening (40 questions)', duration: '30 mins', icon: Headphones, tab: 'listening' },
+        { name: 'Reading (40 questions)', duration: '60 mins', icon: BookOpen, tab: 'reading' },
+        { name: 'Writing (Task 1 & Task 2)', duration: '60 mins', icon: FileEdit, tab: 'writing' },
+        { name: '3D Foxy Speaking Arena', duration: '15 mins', icon: Mic, tab: 'speaking' },
       ],
       difficulty: 'Hard',
-      badgeColor: 'bg-secondary-container text-on-secondary',
+      badgeColor: 'bg-amber-50 text-amber-800 border border-amber-200',
       status: 'READY',
     },
     {
@@ -73,20 +84,19 @@ export const MockArenaPage: React.FC<MockArenaPageProps> = ({ onNavigate }) => {
       duration: '2h 15m',
       totalQuestions: 75,
       modules: [
-        { name: 'Listening Section', duration: '35 mins', icon: 'headset', tab: 'listening' },
-        { name: 'Reading Section', duration: '50 mins', icon: 'chrome_reader_mode', tab: 'reading' },
-        { name: 'Writing Module', duration: '45 mins', icon: 'edit_document', tab: 'writing' },
-        { name: 'Speaking Interview', duration: '15 mins', icon: 'mic', tab: 'speaking' },
+        { name: 'Listening Section', duration: '35 mins', icon: Headphones, tab: 'listening' },
+        { name: 'Reading Section', duration: '50 mins', icon: BookOpen, tab: 'reading' },
+        { name: 'Writing Module', duration: '45 mins', icon: FileEdit, tab: 'writing' },
+        { name: 'Speaking Interview', duration: '15 mins', icon: Mic, tab: 'speaking' },
       ],
       difficulty: 'Diagnostic',
-      badgeColor: 'bg-tertiary-container text-on-tertiary-container',
+      badgeColor: 'bg-sky-50 text-sky-800 border border-sky-200',
       status: 'READY',
     },
   ];
 
   const selectedExam = mockExams.find(e => e.id === selectedExamId) || mockExams[0];
 
-  // Timer Tick during simulation
   useEffect(() => {
     let timer: any = null;
     if (simulationActive && timeLeftSec > 0) {
@@ -107,7 +117,7 @@ export const MockArenaPage: React.FC<MockArenaPageProps> = ({ onNavigate }) => {
   const handleStartExam = () => {
     setSimulationActive(true);
     setActiveStageIndex(0);
-    setTimeLeftSec(9900); // 2h 45m
+    setTimeLeftSec(9900);
   };
 
   const handleProceedToModule = (tab: PageTab) => {
@@ -115,77 +125,71 @@ export const MockArenaPage: React.FC<MockArenaPageProps> = ({ onNavigate }) => {
   };
 
   return (
-    <div className="flex flex-col gap-space-lg pb-20 max-w-6xl mx-auto selection:bg-primary-container selection:text-on-primary-container animate-fadeIn">
+    <div className="flex flex-col w-full gap-8 pb-16 font-nunito animate-fadeIn">
       
-      {/* Top Banner */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-surface-container-low p-6 rounded-3xl border border-surface-container-high/40 shadow-sm relative overflow-hidden">
-        <div className="space-y-1">
+      {/* 1. Header Banner */}
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-5 bg-white p-6 sm:p-8 rounded-[28px] border border-[#eadfc9] shadow-[0_4px_25px_rgba(80,60,20,0.05)]">
+        <div className="space-y-1.5">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="w-2.5 h-2.5 rounded-full bg-secondary animate-pulse" />
-            <span className="text-xs font-black uppercase tracking-wider text-secondary">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#ef3b2d] animate-pulse" />
+            <span className="text-xs font-black uppercase tracking-wider text-[#ef3b2d]">
               Official CD-IELTS Simulation Engine • Proctoring Active
             </span>
-            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-surface-container-highest text-on-surface">
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-[#10152b] text-white">
               {mode} Mode
             </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-on-surface tracking-tight">
+          <h1 className="font-unbounded font-black text-2xl sm:text-3xl text-[#10152b] tracking-tight">
             Official Computer-Delivered Mock Exam Arena
           </h1>
-          <p className="text-xs sm:text-sm text-on-surface-variant font-medium">
-            Experience real-world 2h 45m continuous exam conditions with timed module transitions, AI Proctoring, and QR-Verified TRF Certificates.
+          <p className="text-xs sm:text-sm text-[#4a5068] font-bold">
+            Haqiqiy 2h 45m uzluksiz imtihon rejimi: Listening, Reading, Writing va Speaking bitta sessiyada. Yakunlangach, QR-kodli xalqaro TRF sertifikat shakllanadi.
           </p>
         </div>
 
-        <div className="flex items-center gap-2.5 flex-wrap">
+        <div className="flex items-center gap-2.5 flex-wrap shrink-0">
           <button
             type="button"
             onClick={() => onNavigate('system-check')}
-            className="px-4 py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high border border-surface-container-high/60 text-xs font-bold text-on-surface flex items-center gap-1.5 transition-all shadow-xs cursor-pointer active:scale-95"
+            className="px-4 py-2.5 rounded-full bg-[#fdf6e9] hover:bg-[#f3ead6] border border-[#eadfc9] text-xs font-extrabold text-[#10152b] flex items-center gap-1.5 transition-all shadow-xs cursor-pointer active:scale-95"
           >
-            <span className="material-symbols-outlined text-base text-primary">tune</span>
-            <span>System Hardware Check</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setConfigModalOpen(true)}
-            className="px-4 py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high border border-surface-container-high/60 text-xs font-bold text-on-surface flex items-center gap-1.5 transition-all shadow-xs cursor-pointer active:scale-95"
-          >
-            <span className="material-symbols-outlined text-base text-secondary">settings</span>
-            <span>Exam Settings</span>
+            <Settings2 className="w-4 h-4 text-[#ef3b2d]" />
+            <span>Tizim Tekshiruvi</span>
           </button>
         </div>
       </div>
 
-      {/* ACTIVE LIVE SIMULATION RUNNER BAR */}
+      {/* 2. LIVE SIMULATION RUNNER (Agar test boshlansa) */}
       {simulationActive && (
-        <div className="p-6 rounded-3xl bg-surface-container-highest border-2 border-primary shadow-2xl space-y-4 animate-fadeIn">
+        <div className="p-6 sm:p-7 rounded-[28px] bg-white border-2 border-[#ef3b2d] shadow-xl space-y-5 animate-fadeIn">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <span className="w-4 h-4 rounded-full bg-error animate-ping" />
+              <span className="relative flex h-3.5 w-3.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-rose-500" />
+              </span>
               <div>
-                <span className="text-[10px] font-black uppercase tracking-wider text-error">
-                  🔴 LIVE CD-IELTS EXAM IN PROGRESS
+                <span className="text-[11px] font-black uppercase tracking-wider text-[#ef3b2d]">
+                  Jonli CD-IELTS Imtihon Jarayoni
                 </span>
-                <h3 className="text-lg font-black text-on-surface">
+                <h3 className="font-unbounded font-black text-base sm:text-lg text-[#10152b]">
                   {selectedExam.title}
                 </h3>
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2 bg-surface-container-lowest px-4 py-2 rounded-2xl border border-surface-container-high font-code text-sm">
-                <span className="material-symbols-outlined text-base text-primary">timer</span>
-                <span className="font-black text-on-surface">{formatExamTime(timeLeftSec)}</span>
-                <span className="text-[10px] text-on-surface-variant font-sans uppercase">Remaining</span>
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 bg-[#fdf6e9] px-4 py-2 rounded-full border border-[#eadfc9] text-sm">
+                <Clock className="w-4 h-4 text-[#ef3b2d]" />
+                <span className="font-unbounded font-black text-[#10152b]">{formatExamTime(timeLeftSec)}</span>
+                <span className="text-[10px] text-[#7a7f95] font-bold uppercase">Qoldi</span>
               </div>
 
               <button
                 onClick={() => setSimulationActive(false)}
-                className="px-4 py-2 rounded-xl bg-error/20 text-error hover:bg-error/30 text-xs font-bold transition-all cursor-pointer"
+                className="px-4 py-2 rounded-full bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-200 text-xs font-extrabold transition-all cursor-pointer"
               >
-                End Simulation
+                Imtihonni Yakunlash
               </button>
             </div>
           </div>
@@ -195,6 +199,7 @@ export const MockArenaPage: React.FC<MockArenaPageProps> = ({ onNavigate }) => {
             {selectedExam.modules.map((mod, idx) => {
               const isCurrent = activeStageIndex === idx;
               const isPassed = activeStageIndex > idx;
+              const ModIcon = mod.icon;
 
               return (
                 <div
@@ -205,23 +210,21 @@ export const MockArenaPage: React.FC<MockArenaPageProps> = ({ onNavigate }) => {
                   }}
                   className={`p-4 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between ${
                     isCurrent
-                      ? 'bg-primary text-on-primary border-primary shadow-lg scale-102'
+                      ? 'bg-[#10152b] text-white border-[#10152b] shadow-md scale-[1.02]'
                       : isPassed
-                      ? 'bg-surface-container-low border-secondary/40 text-on-surface'
-                      : 'bg-surface-container-low border-surface-container-high/40 text-on-surface-variant hover:bg-surface-container'
+                      ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
+                      : 'bg-[#fdf6e9] border-[#eadfc9] text-[#4a5068] hover:bg-white'
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className={`text-[10px] font-black uppercase tracking-wider ${isCurrent ? 'text-white' : 'text-on-surface-variant'}`}>
-                      Stage {idx + 1}
+                    <span className={`text-[10px] font-black uppercase tracking-wider ${isCurrent ? 'text-white' : 'text-[#7a7f95]'}`}>
+                      Bosqich {idx + 1}
                     </span>
-                    <span className="material-symbols-outlined text-base">
-                      {isPassed ? 'check_circle' : mod.icon}
-                    </span>
+                    <ModIcon className="w-4 h-4" />
                   </div>
                   <div className="mt-2">
-                    <div className="text-xs font-bold leading-tight">{mod.name}</div>
-                    <div className={`text-[11px] mt-0.5 ${isCurrent ? 'text-white/80' : 'text-on-surface-variant'}`}>
+                    <div className="text-xs font-black leading-tight">{mod.name}</div>
+                    <div className={`text-[11px] mt-0.5 font-bold ${isCurrent ? 'text-slate-300' : 'text-[#7a7f95]'}`}>
                       {mod.duration}
                     </div>
                   </div>
@@ -232,17 +235,16 @@ export const MockArenaPage: React.FC<MockArenaPageProps> = ({ onNavigate }) => {
         </div>
       )}
 
-      {/* MOCK EXAMS CATALOG */}
+      {/* 3. MOCK EXAMS CATALOG */}
       <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-lg sm:text-xl font-black text-on-surface">
-              Available Full Mock Simulations
-            </h2>
-            <p className="text-xs text-on-surface-variant">
-              Select an exam pack to run complete 4-skill testing with official Cambridge marking rubrics.
-            </p>
-          </div>
+        <div>
+          <h2 className="font-unbounded font-black text-xl text-[#10152b] flex items-center gap-2.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#ef3b2d]" />
+            Mavjud Rasmiy Mock Testlar
+          </h2>
+          <p className="text-xs sm:text-sm text-[#4a5068] font-bold mt-0.5">
+            Cambridge rubrikalari asosida to'liq 4 ta ko'nikma sinovidan o'tish uchun imtihon paketini tanlang:
+          </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -253,49 +255,52 @@ export const MockArenaPage: React.FC<MockArenaPageProps> = ({ onNavigate }) => {
               <div
                 key={exam.id}
                 onClick={() => setSelectedExamId(exam.id)}
-                className={`rounded-3xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 cursor-pointer border relative overflow-hidden ${
+                className={`rounded-[28px] p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 cursor-pointer border bg-white shadow-xs hover:shadow-lg ${
                   isSelected
-                    ? 'bg-surface-container border-2 border-primary shadow-2xl scale-[1.02]'
-                    : 'bg-surface-container-low border-surface-container-high/50 hover:bg-surface-container hover:border-surface-container-high shadow-md'
+                    ? 'border-2 border-[#10152b] shadow-md scale-[1.01]'
+                    : 'border-[#eadfc9] hover:border-[#10152b]'
                 }`}
               >
                 <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <span className={`px-2.5 py-1 rounded-xl text-[10px] font-black uppercase tracking-wider ${exam.badgeColor}`}>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${exam.badgeColor}`}>
                       {exam.difficulty}
                     </span>
-                    <span className="text-xs font-code text-on-surface-variant flex items-center gap-1 font-bold">
-                      <span className="material-symbols-outlined text-sm text-primary">timer</span>
+                    <span className="text-xs text-[#7a7f95] flex items-center gap-1 font-bold">
+                      <Clock className="w-3.5 h-3.5 text-[#ef3b2d]" />
                       {exam.duration}
                     </span>
                   </div>
 
-                  <h3 className="text-lg sm:text-xl font-black text-on-surface leading-snug">
+                  <h3 className="font-unbounded font-black text-lg text-[#10152b] leading-snug">
                     {exam.title}
                   </h3>
-                  <p className="text-xs text-on-surface-variant mt-1.5 leading-relaxed">
+                  <p className="text-xs text-[#4a5068] font-bold mt-1.5 leading-relaxed">
                     {exam.subtitle}
                   </p>
 
                   {/* Module Breakdown Box */}
-                  <div className="my-5 p-4 rounded-2xl bg-surface-container-lowest border border-surface-container-high/40 space-y-2.5">
-                    <span className="text-[10px] font-black uppercase tracking-wider text-on-surface-variant block">
-                      Exam Composition (4 Modules):
+                  <div className="my-5 p-4 rounded-2xl bg-[#fdf6e9] border border-[#eadfc9] space-y-2.5">
+                    <span className="text-[10px] font-black uppercase tracking-wider text-[#7a7f95] block">
+                      Imtihon Tarkibi (4 Modul):
                     </span>
-                    {exam.modules.map((m, i) => (
-                      <div key={i} className="flex items-center justify-between text-xs text-on-surface font-medium">
-                        <div className="flex items-center gap-2">
-                          <span className="material-symbols-outlined text-sm text-secondary">{m.icon}</span>
-                          <span>{m.name}</span>
+                    {exam.modules.map((m, i) => {
+                      const Icon = m.icon;
+                      return (
+                        <div key={i} className="flex items-center justify-between text-xs text-[#10152b] font-bold">
+                          <div className="flex items-center gap-2">
+                            <Icon className="w-3.5 h-3.5 text-[#ef3b2d]" />
+                            <span>{m.name}</span>
+                          </div>
+                          <span className="text-[11px] text-[#7a7f95]">{m.duration}</span>
                         </div>
-                        <span className="text-[11px] text-on-surface-variant font-code">{m.duration}</span>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
 
                 {/* Card Action Footer */}
-                <div className="pt-4 border-t border-surface-container-high/40 flex flex-col gap-2.5">
+                <div className="pt-4 border-t border-[#eadfc9] flex flex-col gap-2.5">
                   <button
                     type="button"
                     onClick={(e) => {
@@ -303,10 +308,10 @@ export const MockArenaPage: React.FC<MockArenaPageProps> = ({ onNavigate }) => {
                       setSelectedExamId(exam.id);
                       handleStartExam();
                     }}
-                    className="w-full py-3.5 rounded-2xl bg-primary hover:bg-primary/90 text-on-primary font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg transition-all active:scale-95 cursor-pointer"
+                    className="w-full py-4 rounded-full bg-[#ef3b2d] hover:bg-[#d62f22] text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all active:scale-95 cursor-pointer"
                   >
-                    <span className="material-symbols-outlined text-lg">play_circle</span>
-                    <span>Start Complete 2h 45m Mock</span>
+                    <Play className="w-4 h-4 fill-white" />
+                    <span>To'liq 2h 45m Mockni Boshlash</span>
                   </button>
 
                   <div className="grid grid-cols-2 gap-2">
@@ -316,9 +321,9 @@ export const MockArenaPage: React.FC<MockArenaPageProps> = ({ onNavigate }) => {
                         e.stopPropagation();
                         onNavigate('listening');
                       }}
-                      className="py-2 px-3 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-on-surface text-[11px] font-bold flex items-center justify-center gap-1 transition-all"
+                      className="py-2.5 px-3 rounded-xl bg-[#fdf6e9] hover:bg-[#f3ead6] border border-[#eadfc9] text-[#10152b] text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                     >
-                      <span className="material-symbols-outlined text-xs text-tertiary">headset</span>
+                      <Headphones className="w-3.5 h-3.5 text-[#0284c7]" />
                       <span>Listening</span>
                     </button>
                     <button
@@ -327,9 +332,9 @@ export const MockArenaPage: React.FC<MockArenaPageProps> = ({ onNavigate }) => {
                         e.stopPropagation();
                         onNavigate('reading');
                       }}
-                      className="py-2 px-3 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-on-surface text-[11px] font-bold flex items-center justify-center gap-1 transition-all"
+                      className="py-2.5 px-3 rounded-xl bg-[#fdf6e9] hover:bg-[#f3ead6] border border-[#eadfc9] text-[#10152b] text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                     >
-                      <span className="material-symbols-outlined text-xs text-primary">chrome_reader_mode</span>
+                      <BookOpen className="w-3.5 h-3.5 text-[#10b981]" />
                       <span>Reading</span>
                     </button>
                   </div>
@@ -340,186 +345,7 @@ export const MockArenaPage: React.FC<MockArenaPageProps> = ({ onNavigate }) => {
         </div>
       </div>
 
-      {/* Past Mock Attempt History & Benchmark Cards */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-surface-container border border-surface-container-high/60 shadow-md space-y-6">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-          <div>
-            <h3 className="text-base sm:text-lg font-black text-on-surface">
-              Past Mock Exam Records & Official TRFs
-            </h3>
-            <p className="text-xs text-on-surface-variant">
-              Your previous full-scale mock results with certified QR verification badges.
-            </p>
-          </div>
-
-          <button
-            onClick={() => onNavigate('report')}
-            className="px-4 py-2 rounded-xl bg-surface-container-low hover:bg-surface-container-high border border-surface-container-high text-xs font-bold text-primary flex items-center gap-1.5 transition-all"
-          >
-            <span className="material-symbols-outlined text-base">verified</span>
-            <span>View Full QR Certificate</span>
-          </button>
-        </div>
-
-        {/* History Table */}
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs text-on-surface">
-            <thead>
-              <tr className="border-b border-surface-container-high/60 text-[10px] font-black uppercase tracking-wider text-on-surface-variant">
-                <th className="pb-3">Test Title</th>
-                <th className="pb-3">Date Completed</th>
-                <th className="pb-3 text-center">Listening</th>
-                <th className="pb-3 text-center">Reading</th>
-                <th className="pb-3 text-center">Writing</th>
-                <th className="pb-3 text-center">Speaking</th>
-                <th className="pb-3 text-center">Overall Band</th>
-                <th className="pb-3 text-right">Action</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-surface-container-high/40 font-medium">
-              <tr className="hover:bg-surface-container-low/60 transition-colors">
-                <td className="py-3.5 font-bold">Cambridge 19 Academic Mock #1</td>
-                <td className="py-3.5 text-on-surface-variant">Yesterday, 15:40</td>
-                <td className="py-3.5 text-center font-bold text-tertiary">8.0</td>
-                <td className="py-3.5 text-center font-bold text-primary">7.5</td>
-                <td className="py-3.5 text-center font-bold text-secondary">7.0</td>
-                <td className="py-3.5 text-center font-bold text-[#FF7A00]">7.5</td>
-                <td className="py-3.5 text-center">
-                  <span className="px-2.5 py-1 rounded-lg bg-secondary text-on-secondary font-black text-xs">
-                    7.5
-                  </span>
-                </td>
-                <td className="py-3.5 text-right">
-                  <button
-                    onClick={() => onNavigate('report')}
-                    className="px-3 py-1.5 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-bold text-[11px] transition-all"
-                  >
-                    View Report
-                  </button>
-                </td>
-              </tr>
-              <tr className="hover:bg-surface-container-low/60 transition-colors">
-                <td className="py-3.5 font-bold">Diagnostic Baseline Simulation</td>
-                <td className="py-3.5 text-on-surface-variant">3 days ago</td>
-                <td className="py-3.5 text-center font-bold text-tertiary">7.0</td>
-                <td className="py-3.5 text-center font-bold text-primary">6.5</td>
-                <td className="py-3.5 text-center font-bold text-secondary">6.5</td>
-                <td className="py-3.5 text-center font-bold text-[#FF7A00]">7.0</td>
-                <td className="py-3.5 text-center">
-                  <span className="px-2.5 py-1 rounded-lg bg-primary-container text-on-primary-container font-black text-xs">
-                    7.0
-                  </span>
-                </td>
-                <td className="py-3.5 text-right">
-                  <button
-                    onClick={() => onNavigate('report')}
-                    className="px-3 py-1.5 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-bold text-[11px] transition-all"
-                  >
-                    View Report
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* Info & Security Guarantee Strip */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="p-5 rounded-2xl bg-surface-container-low border border-surface-container-high/40 flex items-center gap-3">
-          <span className="material-symbols-outlined text-3xl text-secondary">verified_user</span>
-          <div>
-            <h4 className="font-bold text-xs text-on-surface">Xalqaro IELTS Standarti</h4>
-            <p className="text-[11px] text-on-surface-variant">100% haqiqiy CD-IELTS savollar banki</p>
-          </div>
-        </div>
-
-        <div className="p-5 rounded-2xl bg-surface-container-low border border-surface-container-high/40 flex items-center gap-3">
-          <span className="material-symbols-outlined text-3xl text-primary">qr_code_2</span>
-          <div>
-            <h4 className="font-bold text-xs text-on-surface">QR Tasdiqlangan Sertifikat</h4>
-            <p className="text-[11px] text-on-surface-variant">Sinovdan so'ng darhol TRF yuklab oling</p>
-          </div>
-        </div>
-
-        <div className="p-5 rounded-2xl bg-surface-container-low border border-surface-container-high/40 flex items-center gap-3">
-          <span className="material-symbols-outlined text-3xl text-[#FF7A00]">smart_toy</span>
-          <div>
-            <h4 className="font-bold text-xs text-on-surface">AI Examiner Baholashi</h4>
-            <p className="text-[11px] text-on-surface-variant">Writing & Speaking uchun chuqur tahlil</p>
-          </div>
-        </div>
-      </div>
-
-      {/* CONFIGURATION MODAL */}
-      {configModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 animate-fadeIn">
-          <div className="w-full max-w-md bg-surface-container-lowest rounded-3xl p-6 border border-surface-container-high shadow-2xl space-y-5">
-            <div className="flex items-center justify-between pb-3 border-b border-surface-container-high/50">
-              <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-xl text-primary">settings</span>
-                <h3 className="text-base font-black text-on-surface">Exam Preferences</h3>
-              </div>
-              <button
-                onClick={() => setConfigModalOpen(false)}
-                className="w-7 h-7 rounded-full bg-surface-container-high flex items-center justify-center text-xs"
-              >
-                ✕
-              </button>
-            </div>
-
-            <div className="space-y-4 text-xs">
-              <div>
-                <label className="font-bold text-on-surface block mb-1.5">Listening Audio Accent:</label>
-                <div className="grid grid-cols-3 gap-2">
-                  {(['UK', 'AU', 'US'] as const).map(acc => (
-                    <button
-                      key={acc}
-                      type="button"
-                      onClick={() => setAccentPreference(acc)}
-                      className={`p-2.5 rounded-xl font-bold border transition-all ${
-                        accentPreference === acc
-                          ? 'bg-primary text-on-primary border-primary'
-                          : 'bg-surface-container text-on-surface border-surface-container-high'
-                      }`}
-                    >
-                      {acc === 'UK' ? '🇬🇧 British' : acc === 'AU' ? '🇦🇺 Australian' : '🇺🇸 American'}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <label className="font-bold text-on-surface block mb-1.5">Proctoring Mode:</label>
-                <button
-                  type="button"
-                  onClick={() => setProctoringEnabled(!proctoringEnabled)}
-                  className={`w-full p-3 rounded-xl border flex items-center justify-between font-bold ${
-                    proctoringEnabled
-                      ? 'bg-secondary/15 text-secondary border-secondary/40'
-                      : 'bg-surface-container text-on-surface border-surface-container-high'
-                  }`}
-                >
-                  <span>AI Proctoring & Webcam Tracker</span>
-                  <span className="material-symbols-outlined text-base">
-                    {proctoringEnabled ? 'toggle_on' : 'toggle_off'}
-                  </span>
-                </button>
-              </div>
-            </div>
-
-            <div className="pt-3 border-t border-surface-container-high/50 text-right">
-              <button
-                onClick={() => setConfigModalOpen(false)}
-                className="px-5 py-2 rounded-xl bg-primary text-on-primary font-bold text-xs uppercase"
-              >
-                Save Settings
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
     </div>
   );
 };
+export default MockArenaPage;

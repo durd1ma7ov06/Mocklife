@@ -1,0 +1,76 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ieltix-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-ieltix}
+      POSTGRES_USER: ${POSTGRES_USER:-ieltix_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ieltix_secret_123}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-ieltix_user} -d ${POSTGRES_DB:-ieltix}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: ieltix-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  core-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.core-api
+    container_name: ieltix-core-api
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    env_file:
+      - .env.bot
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-ieltix_user}:${POSTGRES_PASSWORD:-ieltix_secret_123}@postgres:5432/${POSTGRES_DB:-ieltix}
+      REDIS_URL: redis://redis:6379/0
+    ports:
+      - "8000:8000"
+
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile.bot
+    container_name: ieltix-bot
+    restart: unless-stopped
+    depends_on:
+      core-api:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    env_file:
+      - .env.bot
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-ieltix_user}:${POSTGRES_PASSWORD:-ieltix_secret_123}@postgres:5432/${POSTGRES_DB:-ieltix}
+      REDIS_URL: redis://redis:6379/0
+
+volumes:
+  postgres_data:
+  redis_data:

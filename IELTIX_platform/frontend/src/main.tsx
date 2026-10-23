@@ -1,19 +1,42 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { AppContent } from './App.js';
-import { ThemeProvider } from './context/ThemeContext.js';
-import { ExamProvider } from './context/ExamContext.js';
-import { UserProvider } from './context/UserContext.js';
+import App from './App';
 import './index.css';
+
+declare global {
+  interface Window {
+    Telegram?: {
+      WebApp?: {
+        ready: () => void;
+        expand: () => void;
+        enableClosingConfirmation?: () => void;
+        colorScheme?: 'light' | 'dark';
+        initDataUnsafe?: {
+          user?: {
+            id: number;
+            first_name: string;
+            last_name?: string;
+            username?: string;
+            language_code?: string;
+          };
+        };
+      };
+    };
+  }
+}
+
+if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
+  try {
+    window.Telegram.WebApp.ready();
+    window.Telegram.WebApp.expand();
+    window.Telegram.WebApp.enableClosingConfirmation?.();
+  } catch (e) {
+    console.warn('Telegram WebApp initialization error:', e);
+  }
+}
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <ThemeProvider>
-      <ExamProvider>
-        <UserProvider>
-          <AppContent />
-        </UserProvider>
-      </ExamProvider>
-    </ThemeProvider>
+    <App />
   </React.StrictMode>
 );

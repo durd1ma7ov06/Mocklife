@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import { useUser } from '../context/UserContext.js';
 import { useExam } from '../context/ExamContext.js';
 import { PageTab } from '../components/Sidebar.js';
@@ -766,7 +766,7 @@ export const SystemCheckPage: React.FC<SystemCheckPageProps> = ({ onNavigate }) 
                   )}
                 </div>
                 <p className="text-xs text-on-surface-variant mt-0.5">
-                  AI baholash serveri va Whisper ovoz uzatish tizimi bilan uzluksiz sinxronizatsiya.
+                  AI baholash serveri va MockLife ovozni aniqlash tizimi bilan uzluksiz sinxronizatsiya.
                 </p>
               </div>
             </div>
@@ -819,7 +819,7 @@ export const SystemCheckPage: React.FC<SystemCheckPageProps> = ({ onNavigate }) 
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-secondary animate-pulse" />
-                <span className="text-on-surface font-medium">IELTIX Server:</span>
+                <span className="text-on-surface font-medium">MockLife Server:</span>
                 <strong className="text-secondary">{pingMs ? `${pingMs} ms (Tezkor)` : 'Barqaror (24 ms)'}</strong>
               </div>
               <div className="text-on-surface-variant">
@@ -904,3 +904,4 @@ export const SystemCheckPage: React.FC<SystemCheckPageProps> = ({ onNavigate }) 
     </div>
   );
 };
+

@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  /* Default Light Mode (EduTest AI) */
+  /* Default Light Mode */
   --surface: #faf8ff;
   --surface-dim: #d2d9f4;
   --surface-bright: #faf8ff;
@@ -105,28 +105,31 @@ html.dark {
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
   body {
-    background-color: var(--background);
-    color: var(--on-surface);
-    font-family: 'Inter', sans-serif;
-    overscroll-behavior: none;
+    background-color: #fdf6e9;
+    color: #10152b;
+    overflow-x: hidden;
   }
 }
 
-/* Custom scrollbar */
+/* Custom scrollbars & utilities */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--surface-container-lowest);
+  background: #fdf6e9;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--outline-variant);
-  border-radius: 9999px;
+  background: #eadfc9;
+  border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--outline);
+  background: #d4c5a9;
 }
 
 /* Material Symbols alignment */

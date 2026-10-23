@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+﻿import React, { createContext, useContext, useEffect, useState } from 'react';
 
 type Theme = 'dark' | 'light';
 
@@ -12,7 +12,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme, setTheme] = useState<Theme>(() => {
-    const saved = localStorage.getItem('ieltix_theme');
+    const saved = localStorage.getItem('mocklife_theme');
     return (saved === 'light' || saved === 'dark') ? saved : 'dark';
   });
 
@@ -25,7 +25,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       root.classList.remove('dark');
       root.classList.add('light');
     }
-    localStorage.setItem('ieltix_theme', theme);
+    localStorage.setItem('mocklife_theme', theme);
   }, [theme]);
 
   const toggleTheme = () => {
@@ -44,3 +44,4 @@ export const useTheme = () => {
   if (!ctx) throw new Error('useTheme must be used within ThemeProvider');
   return ctx;
 };
+

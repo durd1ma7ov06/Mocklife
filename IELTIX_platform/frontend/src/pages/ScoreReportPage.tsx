@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { useUser } from '../context/UserContext.js';
 import { useExam } from '../context/ExamContext.js';
 import { PageTab } from '../components/Sidebar.js';
@@ -32,7 +32,7 @@ export const ScoreReportPage: React.FC<ScoreReportPageProps> = ({ onNavigate }) 
       id: 'res-cam-19-1',
       examTitle: 'Cambridge 19 Academic • Full Mock Simulation 1',
       testDate: '07 Sentabr, 2025',
-      centerNumber: 'UZ008 • Tashkent IELTIX Test Center',
+      centerNumber: 'UZ008 • Tashkent MockLife Test Center',
       candidateNumber: '004921',
       overallBand: user.stats?.overallBand || 7.5,
       cefrLevel: 'C1 (Advanced User)',
@@ -69,7 +69,7 @@ export const ScoreReportPage: React.FC<ScoreReportPageProps> = ({ onNavigate }) 
       id: 'res-cam-18-2',
       examTitle: 'Cambridge 18 Academic • Full Mock Simulation 2',
       testDate: '28 Avgust, 2025',
-      centerNumber: 'UZ008 • Tashkent IELTIX Test Center',
+      centerNumber: 'UZ008 • Tashkent MockLife Test Center',
       candidateNumber: '004921',
       overallBand: 7.0,
       cefrLevel: 'C1 (Good User)',
@@ -215,7 +215,7 @@ export const ScoreReportPage: React.FC<ScoreReportPageProps> = ({ onNavigate }) 
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-6 border-b-2 border-surface-container-high gap-4">
             <div className="space-y-1">
               <div className="flex items-center gap-3">
-                <span className="text-2xl font-black tracking-tight text-primary">IELTIX</span>
+                <span className="text-2xl font-black tracking-tight text-primary">MockLife</span>
                 <span className="px-2.5 py-0.5 rounded bg-primary-container/30 text-primary text-[10px] font-black uppercase tracking-widest border border-primary/30">
                   {mode === 'IELTS' ? 'IELTS ACADEMIC' : 'MILLIY BBM'}
                 </span>
@@ -360,7 +360,7 @@ export const ScoreReportPage: React.FC<ScoreReportPageProps> = ({ onNavigate }) 
           <div className="p-5 rounded-2xl bg-surface-container-low border border-surface-container-high/50 space-y-2">
             <div className="flex items-center gap-2 text-xs font-bold text-on-surface">
               <span className="material-symbols-outlined text-primary text-base">psychology</span>
-              <span>IELTIX Katta Imtihon Komissiyasi Xulosasi (Examiner Remarks)</span>
+              <span>MockLife Katta Imtihon Komissiyasi Xulosasi (Examiner Remarks)</span>
             </div>
             <p className="text-xs sm:text-sm text-on-surface-variant leading-relaxed italic">
               "{currentResult.examinerNotes}"
@@ -624,7 +624,7 @@ export const ScoreReportPage: React.FC<ScoreReportPageProps> = ({ onNavigate }) 
                 </div>
               </div>
               <p className="text-xs text-on-surface-variant">
-                Ushbu sertifikat va natijalar IELTIX Blockchain/Kriptografik bazasida tasdiqlangan.
+                Ushbu sertifikat va natijalar MockLife Blockchain/Kriptografik bazasida tasdiqlangan.
               </p>
             </div>
 
@@ -645,3 +645,4 @@ export const ScoreReportPage: React.FC<ScoreReportPageProps> = ({ onNavigate }) 
     </div>
   );
 };
+

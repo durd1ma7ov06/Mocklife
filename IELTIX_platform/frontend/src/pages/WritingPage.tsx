@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { api } from '../services/api.js';
 import { WritingEvaluationResult } from '../types/index.js';
 
@@ -928,7 +928,7 @@ export const WritingPage: React.FC = () => {
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse" />
             <span className="text-[11px] font-bold uppercase tracking-widest text-primary">
-              IELTIX Assessment Lab
+              MockLife Assessment Lab
             </span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black text-on-surface tracking-tight mt-1">
@@ -1859,3 +1859,4 @@ export const WritingPage: React.FC = () => {
     </div>
   );
 };
+

@@ -1,4 +1,4 @@
-import { UserProfile, VocabItem, ReadingTest, ExamReport, SpeakingQuestion } from '../types/index.js';
+﻿import { UserProfile, VocabItem, ReadingTest, ExamReport, SpeakingQuestion } from '../types/index.js';
 
 export const initialUserProfile: UserProfile = {
   id: 'usr-98124',
@@ -183,7 +183,8 @@ export const sampleReport: ExamReport = {
     speaking: 7.5,
   },
   cefrLevel: 'C1',
-  verificationCode: 'IELTIX-7840-X9K2',
-  qrPayload: 'https://ieltix.uz/verify/REP-2026-98124?sig=c4ca4238a0b923820dcc509a6f75849b',
+  verificationCode: 'MockLife-7840-X9K2',
+  qrPayload: 'https://mocklife.uz/verify/REP-2026-98124?sig=c4ca4238a0b923820dcc509a6f75849b',
   percentile: 94,
 };
+

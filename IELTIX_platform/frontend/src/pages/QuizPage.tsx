@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { useUser } from '../context/UserContext.js';
 import { useExam } from '../context/ExamContext.js';
 import { PageTab } from '../components/Sidebar.js';
@@ -145,7 +145,7 @@ export const QuizPage: React.FC<QuizPageProps> = ({ onNavigate }) => {
             </button>
           ) : (
             <div className="flex items-center gap-2">
-              <img src="/ieltix-logo.png" alt="IELTIX" className="w-7 h-7 rounded-lg object-cover shadow-xs" />
+              <img src="/ieltix-logo.png" alt="MockLife" className="w-7 h-7 rounded-lg object-cover shadow-xs" />
               <span className="font-extrabold text-sm tracking-tight text-slate-800">
                 IELTI<span className="text-sky-600">X</span> Quiz
               </span>
@@ -578,7 +578,7 @@ export const QuizPage: React.FC<QuizPageProps> = ({ onNavigate }) => {
             <div className="text-center space-y-2">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold uppercase tracking-wider">
                 <span className="material-symbols-outlined text-sm">verified</span>
-                IELTIX AI Diagnostic Complete
+                MockLife AI Diagnostic Complete
               </div>
               <h1 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
                 Your Path to <span className="text-sky-600">Band {targetBand}</span> is Ready
@@ -604,7 +604,7 @@ export const QuizPage: React.FC<QuizPageProps> = ({ onNavigate }) => {
                 <div className="text-sky-500 font-black text-2xl">→</div>
 
                 <div className="text-center">
-                  <div className="text-[11px] font-bold text-emerald-600 uppercase tracking-wider">With IELTIX AI</div>
+                  <div className="text-[11px] font-bold text-emerald-600 uppercase tracking-wider">With MockLife AI</div>
                   <div className="text-3xl font-black text-emerald-600 mt-0.5">
                     {targetBand}
                   </div>
@@ -637,7 +637,7 @@ export const QuizPage: React.FC<QuizPageProps> = ({ onNavigate }) => {
               </div>
             </div>
 
-            {/* Comparison: Without Plan vs With IELTIX */}
+            {/* Comparison: Without Plan vs With MockLife */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="p-4 rounded-2xl bg-white border border-slate-200 space-y-2 shadow-xs">
                 <span className="text-[11px] font-extrabold uppercase tracking-wider text-rose-600 flex items-center gap-1">
@@ -654,7 +654,7 @@ export const QuizPage: React.FC<QuizPageProps> = ({ onNavigate }) => {
               <div className="p-4 rounded-2xl bg-sky-50/70 border border-sky-200 space-y-2 shadow-xs">
                 <span className="text-[11px] font-extrabold uppercase tracking-wider text-sky-700 flex items-center gap-1">
                   <span className="material-symbols-outlined text-sm">check</span>
-                  With IELTIX AI Master Plan
+                  With MockLife AI Master Plan
                 </span>
                 <ul className="space-y-1.5 text-xs text-slate-700 font-medium">
                   <li>• 15-min daily targeted modules based on your weak spots</li>
@@ -698,7 +698,7 @@ export const QuizPage: React.FC<QuizPageProps> = ({ onNavigate }) => {
                 <span className="material-symbols-outlined text-lg">arrow_forward</span>
               </button>
               <p className="text-[11px] text-slate-400">
-                Your plan is automatically saved to your IELTIX candidate profile.
+                Your plan is automatically saved to your MockLife candidate profile.
               </p>
             </div>
 
@@ -709,9 +709,10 @@ export const QuizPage: React.FC<QuizPageProps> = ({ onNavigate }) => {
 
       {/* Footer */}
       <footer className="w-full max-w-3xl mx-auto px-4 py-4 text-center text-xs text-slate-400 border-t border-slate-200/80">
-        <p>© 2026 IELTIX • AI Diagnostic Engine based on Cambridge IELTS & CEFR Standards</p>
+        <p>© 2026 MockLife • AI Diagnostic Engine based on Cambridge IELTS & CEFR Standards</p>
       </footer>
 
     </div>
   );
 };
+

@@ -170,6 +170,36 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ onNavigate }) => {
             </button>
           </div>
 
+          {/* Telegram Seamless Integration Card */}
+          <div className="p-5 rounded-3xl bg-gradient-to-r from-[#0088cc]/10 via-[#0088cc]/5 to-transparent border border-[#0088cc]/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-3.5">
+              <div className="w-12 h-12 rounded-2xl bg-[#0088cc] text-white flex items-center justify-center shadow-md shadow-[#0088cc]/20 shrink-0">
+                <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+                </svg>
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h4 className="text-sm font-black text-on-surface">Telegram Akkaunt Integratsiyasi</h4>
+                  <span className="px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-black uppercase tracking-wider flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    Bog'langan & Tasdiqlangan
+                  </span>
+                </div>
+                <p className="text-xs text-on-surface-variant mt-0.5">
+                  Telegram: <span className="font-bold text-on-surface">ID: {user.telegramId || user.id.replace('tg-', '')}</span> • Telefon: <span className="font-bold text-on-surface">{user.phone || '+998 90 123 45 67'}</span>
+                </p>
+                <p className="text-[11px] text-[#0088cc] font-medium mt-1">
+                  ✨ Web appga kirishda login va parol talab qilinmaydi, profilingiz to'liq Telegram bilan bog'langan.
+                </p>
+              </div>
+            </div>
+            <div className="shrink-0 sm:text-right">
+              <span className="text-[10px] text-on-surface-variant block uppercase font-bold">Aniqlangan Boshlang'ich Ball</span>
+              <span className="text-base font-black text-primary block">Band {user.currentBand || user.stats.overallBand || 6.0}</span>
+            </div>
+          </div>
+
           {/* Avatar Preset Picker (If opened) */}
           {showAvatarPicker && (
             <div className="p-4 rounded-2xl bg-surface-container border border-primary/30 space-y-2 animate-fadeIn">
@@ -376,7 +406,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ onNavigate }) => {
           <div className="pt-2 flex items-center justify-between border-t border-surface-container-high/40 text-xs">
             <div className="flex items-center gap-2">
               <span className="text-[11px] text-on-surface-variant">
-                Tizim: <strong className="text-on-surface">IELTIX 2026</strong>
+                Tizim: <strong className="text-on-surface">MockLife 2026</strong>
               </span>
             </div>
 
@@ -396,3 +426,4 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ onNavigate }) => {
     </div>
   );
 };
+

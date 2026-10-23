@@ -136,4 +136,76 @@ export const api = {
     });
     return res.json();
   },
+
+  async chatLiveAiExaminer(params: {
+    message: string;
+    history?: Array<{ role: 'user' | 'assistant'; content: string }>;
+    topic?: string;
+    part?: number;
+    customApiUrl?: string;
+    apiKey?: string;
+    model?: string;
+    systemPrompt?: string;
+  }): Promise<{
+    success: boolean;
+    data: {
+      reply: string;
+      estimatedBand: number;
+      instantCorrection?: string;
+      followUpQuestion?: string;
+      rubricScores: {
+        fluency: number;
+        lexical: number;
+        grammar: number;
+        pronunciation: number;
+      };
+    };
+  }> {
+    const res = await fetch(`${API_BASE}/speaking/live-ai-chat`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(params),
+    });
+    return res.json();
+  },
+
+  async getAdminConfig(): Promise<{ success: boolean; data: any }> {
+    const res = await fetch(`${API_BASE}/admin/config`);
+    return res.json();
+  },
+
+  async updateAdminConfig(config: any): Promise<{ success: boolean; message: string; data: any }> {
+    const res = await fetch(`${API_BASE}/admin/config`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(config),
+    });
+    return res.json();
+  },
+
+  async testAdminConfig(payload: {
+    url?: string;
+    apiKey?: string;
+    model?: string;
+    systemPrompt?: string;
+  }): Promise<{ success: boolean; message: string; latencyMs?: number; sampleResponse?: string }> {
+    const res = await fetch(`${API_BASE}/admin/config/test`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    return res.json();
+  },
+
+  async getAdminContent(): Promise<{ success: boolean; data: any }> {
+    const res = await fetch(`${API_BASE}/admin/content/all`);
+    return res.json();
+  },
+
+  async deleteAdminContent(category: string, id: string): Promise<{ success: boolean; message?: string }> {
+    const res = await fetch(`${API_BASE}/admin/content/${category}/${encodeURIComponent(id)}`, {
+      method: 'DELETE',
+    });
+    return res.json();
+  },
 };

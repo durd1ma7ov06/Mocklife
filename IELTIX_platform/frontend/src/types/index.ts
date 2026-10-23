@@ -10,6 +10,10 @@ export interface UserProfile {
   daysLeft: number;
   vipTier: 'FREE' | 'PRO' | 'MAX_VIP';
   activeExamMode: ExamMode;
+  phone?: string;
+  telegramId?: number;
+  isTelegramLinked?: boolean;
+  currentBand?: number;
   stats: {
     testsCompleted: number;
     overallBand: number;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { useUser } from '../context/UserContext.js';
 import { api } from '../services/api.js';
 
@@ -117,7 +117,7 @@ export const PricingPage: React.FC = () => {
           VIP & A'zolik Tariflari
         </div>
         <h1 className="text-3xl lg:text-4xl font-black text-on-surface tracking-tight">
-          <span className="text-[#FF7A00]">IELTIX VIP</span> Bilan Band 7.5+ Natijaga Tezroq Erishing
+          <span className="text-[#FF7A00]">MockLife VIP</span> Bilan Band 7.5+ Natijaga Tezroq Erishing
         </h1>
         <p className="text-xs sm:text-sm text-on-surface-variant leading-relaxed">
           3D Foxy AI Speaking, batafsil Writing tahlili va barcha rasmiy Cambridge test modullariga cheksiz kirish imkoniyatini oching.
@@ -279,3 +279,4 @@ export const PricingPage: React.FC = () => {
     </div>
   );
 };
+

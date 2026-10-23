@@ -1,0 +1,1 @@
+"""IELTIX Telegram bot adapter."""

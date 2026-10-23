@@ -7,3 +7,13 @@ Thumbs.db
 *.log
 .env
 .env.local
+.env.bot
+*.db
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+*.egg-info/
+.venv/
+.vscode/
+.kiro/
