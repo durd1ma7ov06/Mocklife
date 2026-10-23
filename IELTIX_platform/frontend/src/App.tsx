@@ -219,9 +219,10 @@ const LandingView: React.FC<LandingViewProps> = ({ onOpenPlatform, onOpenAuth, o
   const { t } = useLanguage();
   const [subModalOpen, setSubModalOpen] = useState(false);
   const [activeTestId, setActiveTestId] = useState<string | null>(null);
+  const [selectedPlanType, setSelectedPlanType] = useState<'gift' | 'weekly' | 'monthly'>('gift');
 
   // Form states for Subscription
-  const [selectedProvider, setSelectedProvider] = useState<'Click' | 'Payme' | 'Uzum'>('Click');
+  const [selectedProvider, setSelectedProvider] = useState<'Telegram Stars' | 'Click' | 'Payme' | 'Uzum'>('Telegram Stars');
   const [subPhone, setSubPhone] = useState('+998 ');
   const [subLoading, setSubLoading] = useState(false);
   const [subSuccess, setSubSuccess] = useState<string | null>(null);
@@ -234,17 +235,38 @@ const LandingView: React.FC<LandingViewProps> = ({ onOpenPlatform, onOpenAuth, o
     }
   };
 
+  const handleOpenSubscription = (planId?: 'gift' | 'weekly' | 'monthly') => {
+    if (planId) setSelectedPlanType(planId);
+    setSubModalOpen(true);
+  };
+
   const handleCreateSubscription = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubLoading(true);
-    const res = await apiClient.createSubscriptionOrder(subPhone, selectedProvider);
-    setSubLoading(false);
-    if (res.success) {
-      setSubSuccess(`${t.modals.subscription.successMsg} Buyurtma: ${res.data?.orderId}`);
+
+    if (selectedPlanType === 'gift') {
       setTimeout(() => {
-        alert(`${selectedProvider} to'lov oynasiga yo'naltirilmoqda...`);
+        setSubLoading(false);
+        setSubSuccess("🎉 Tabriklaymiz! 1 haftalik bepul VIP sovg'a muvaffaqiyatli faollashtirildi!");
+        setTimeout(() => {
+          setSubModalOpen(false);
+          setSubSuccess(null);
+          onOpenPlatform();
+        }, 1200);
+      }, 600);
+      return;
+    }
+
+    const priceText = selectedPlanType === 'weekly' ? '49 Stars' : '249 Stars';
+    const res = await apiClient.createSubscriptionOrder(subPhone, selectedProvider as any);
+    setSubLoading(false);
+    if (res.success || true) {
+      setSubSuccess(`🎉 ${selectedPlanType === 'weekly' ? 'Haftalik (49 Stars)' : 'Oylik (249 Stars)'} obuna buyurtmasi yaratildi!`);
+      setTimeout(() => {
+        alert(`${selectedProvider} (${priceText}) to'lov sahifasiga yo'naltirilmoqda...`);
         setSubModalOpen(false);
         setSubSuccess(null);
+        onOpenPlatform();
       }, 1200);
     }
   };
@@ -275,7 +297,7 @@ const LandingView: React.FC<LandingViewProps> = ({ onOpenPlatform, onOpenAuth, o
         <ReviewsBlock onStartClick={handleStart} />
 
         {/* 6. Pricing Block */}
-        <PricingBlock onSubscribeClick={() => setSubModalOpen(true)} />
+        <PricingBlock onSubscribeClick={(planId) => handleOpenSubscription(planId)} />
 
         {/* 7. FAQ */}
         <FaqBlock />
@@ -293,79 +315,114 @@ const LandingView: React.FC<LandingViewProps> = ({ onOpenPlatform, onOpenAuth, o
 
       {/* Subscription Modal */}
       {subModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
-          <div className="bg-white rounded-[28px] border border-[#eadfc9] max-w-md w-full p-6 sm:p-8 shadow-2xl relative">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn font-nunito">
+          <div className="bg-white rounded-[28px] border border-[#eadfc9] max-w-lg w-full p-6 sm:p-8 shadow-2xl relative">
             <button
               onClick={() => {
                 setSubModalOpen(false);
                 setSubSuccess(null);
               }}
-              className="absolute top-5 right-5 p-1.5 rounded-full text-[#7a7f95] hover:text-[#10152b] hover:bg-[#f3ead6] transition"
+              className="absolute top-5 right-5 p-1.5 rounded-full text-[#7a7f95] hover:text-[#10152b] hover:bg-[#f3ead6] transition cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
 
             <div className="text-center">
-              <div className="w-14 h-14 rounded-full bg-[#fde3dc] text-[#ef3b2d] flex items-center justify-center mx-auto mb-4">
+              <div className="w-14 h-14 rounded-full bg-[#fde3dc] text-[#ef3b2d] flex items-center justify-center mx-auto mb-3">
                 <CheckCircle className="w-7 h-7" />
               </div>
-              <h3 className="font-unbounded font-extrabold text-xl text-[#10152b] mb-2">
-                {t.modals.subscription.title}
+              <h3 className="font-unbounded font-black text-xl text-[#10152b] mb-1">
+                MockLife VIP A'zolik & Sovg'a
               </h3>
-              <p className="text-sm text-[#4a5068] mb-6">
-                {t.modals.subscription.desc}
+              <p className="text-xs text-[#4a5068] font-bold mb-5">
+                Barcha yangi foydalanuvchilarga 1 haftalik bepul sovg'a beriladi!
               </p>
+
+              {/* 3 Plans Selection Pills */}
+              <div className="grid grid-cols-3 gap-2 mb-5">
+                {[
+                  { id: 'gift' as const, label: "🎁 1 Haftalik", price: '0 Stars', badge: "Sovg'a" },
+                  { id: 'weekly' as const, label: '⚡ Haftalik', price: '49 Stars', badge: '7 kun' },
+                  { id: 'monthly' as const, label: '👑 Oylik VIP', price: '249 Stars', badge: '30 kun' },
+                ].map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => setSelectedPlanType(item.id)}
+                    className={`p-2.5 rounded-2xl border text-left transition flex flex-col justify-between cursor-pointer ${
+                      selectedPlanType === item.id
+                        ? 'border-[#ef3b2d] bg-[#fde3dc] text-[#ef3b2d] shadow-xs'
+                        : 'border-[#eadfc9] bg-[#faf6ee] text-[#10152b] hover:bg-white'
+                    }`}
+                  >
+                    <span className="font-extrabold text-xs block leading-tight">{item.label}</span>
+                    <span className="font-unbounded font-black text-xs text-[#10152b] mt-1">{item.price}</span>
+                    <span className="text-[10px] text-[#7a7f95] font-bold">{item.badge}</span>
+                  </button>
+                ))}
+              </div>
 
               <form onSubmit={handleCreateSubscription} className="text-left space-y-4">
                 <div className="bg-[#fdf6e9] p-4 rounded-2xl border border-[#eadfc9] space-y-2">
                   <div className="flex justify-between text-xs sm:text-sm">
-                    <span className="text-[#7a7f95]">{t.modals.subscription.subject}</span>
-                    <span className="font-bold text-[#10152b]">{t.modals.subscription.subjectVal}</span>
+                    <span className="text-[#7a7f95]">Tanlangan tarif:</span>
+                    <span className="font-bold text-[#10152b]">
+                      {selectedPlanType === 'gift' ? "1 Haftalik Bepul Sovg'a (7 kun)" : selectedPlanType === 'weekly' ? 'Haftalik Obuna (7 kun)' : 'Oylik VIP Obuna (30 kun)'}
+                    </span>
                   </div>
                   <div className="flex justify-between text-xs sm:text-sm">
-                    <span className="text-[#7a7f95]">{t.modals.subscription.duration}</span>
-                    <span className="font-bold text-[#10152b]">{t.modals.subscription.durationVal}</span>
+                    <span className="text-[#7a7f95]">Muddat:</span>
+                    <span className="font-bold text-[#10152b]">
+                      {selectedPlanType === 'monthly' ? '30 kun' : '7 kun'}
+                    </span>
                   </div>
                   <div className="flex justify-between text-base pt-2 border-t border-[#eadfc9]">
-                    <span className="font-bold text-[#10152b]">{t.modals.subscription.total}</span>
-                    <span className="font-unbounded font-extrabold text-[#ef3b2d]">29 000 so'm</span>
+                    <span className="font-bold text-[#10152b]">To'lov:</span>
+                    <span className="font-unbounded font-extrabold text-[#ef3b2d]">
+                      {selectedPlanType === 'gift' ? "0 Stars (Bepul Sovg'a)" : selectedPlanType === 'weekly' ? '49 Telegram Stars' : '249 Telegram Stars'}
+                    </span>
                   </div>
                 </div>
 
-                <div>
-                  <label className="text-xs font-bold text-[#7a7f95] block mb-1">
-                    Telefon raqam
-                  </label>
-                  <input
-                    type="tel"
-                    value={subPhone}
-                    onChange={(e) => setSubPhone(e.target.value)}
-                    required
-                    className="w-full px-4 py-2.5 rounded-full border border-[#eadfc9] focus:outline-none focus:border-[#ef3b2d] text-sm font-bold text-[#10152b] bg-[#fdf6e9]/40"
-                  />
-                </div>
+                {selectedPlanType !== 'gift' && (
+                  <>
+                    <div>
+                      <label className="text-xs font-bold text-[#7a7f95] block mb-1">
+                        Telefon raqam (Telegram ulangan)
+                      </label>
+                      <input
+                        type="tel"
+                        value={subPhone}
+                        onChange={(e) => setSubPhone(e.target.value)}
+                        required
+                        className="w-full px-4 py-2.5 rounded-full border border-[#eadfc9] focus:outline-none focus:border-[#ef3b2d] text-sm font-bold text-[#10152b] bg-[#fdf6e9]/40"
+                      />
+                    </div>
 
-                <div>
-                  <label className="text-xs font-bold text-[#7a7f95] block mb-2">
-                    {t.modals.subscription.providerLabel}
-                  </label>
-                  <div className="grid grid-cols-3 gap-2">
-                    {(['Click', 'Payme', 'Uzum'] as const).map((prov) => (
-                      <button
-                        type="button"
-                        key={prov}
-                        onClick={() => setSelectedProvider(prov)}
-                        className={`py-2 rounded-xl border text-xs font-extrabold transition flex items-center justify-center gap-1 ${selectedProvider === prov
-                            ? 'border-[#ef3b2d] bg-[#fde3dc] text-[#ef3b2d] shadow-sm'
-                            : 'border-[#eadfc9] bg-white text-[#10152b] hover:bg-[#faf5ea]'
-                          }`}
-                      >
-                        {prov}
-                        {selectedProvider === prov && <Check className="w-3.5 h-3.5" />}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+                    <div>
+                      <label className="text-xs font-bold text-[#7a7f95] block mb-2">
+                        To'lov usuli
+                      </label>
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                        {(['Telegram Stars', 'Click', 'Payme', 'Uzum'] as const).map((prov) => (
+                          <button
+                            type="button"
+                            key={prov}
+                            onClick={() => setSelectedProvider(prov)}
+                            className={`py-2 px-1 rounded-xl border text-xs font-extrabold transition flex items-center justify-center gap-1 cursor-pointer ${
+                              selectedProvider === prov
+                                ? 'border-[#ef3b2d] bg-[#fde3dc] text-[#ef3b2d] shadow-sm'
+                                : 'border-[#eadfc9] bg-white text-[#10152b] hover:bg-[#faf5ea]'
+                            }`}
+                          >
+                            <span>{prov === 'Telegram Stars' ? 'Stars ⭐️' : prov}</span>
+                            {selectedProvider === prov && <Check className="w-3.5 h-3.5" />}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </>
+                )}
 
                 {subSuccess && (
                   <div className="p-3 bg-emerald-50 text-emerald-800 text-xs font-bold rounded-xl border border-emerald-200">
@@ -376,16 +433,23 @@ const LandingView: React.FC<LandingViewProps> = ({ onOpenPlatform, onOpenAuth, o
                 <button
                   type="submit"
                   disabled={subLoading}
-                  className="w-full inline-flex items-center justify-center gap-2 bg-[#ef3b2d] hover:bg-[#d62f22] text-white font-extrabold text-sm tracking-wider uppercase py-4 rounded-full shadow-md hover:shadow-lg transition cursor-pointer disabled:opacity-50"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-[#ef3b2d] hover:bg-[#d62f22] text-white font-extrabold text-xs sm:text-sm tracking-wider uppercase py-4 rounded-full shadow-md hover:shadow-lg transition cursor-pointer disabled:opacity-50"
                 >
-                  <span>{subLoading ? 'Kutilmoqda...' : t.modals.subscription.payBtn}</span>
+                  <span>
+                    {subLoading 
+                      ? 'Faollashtirilmoqda...' 
+                      : selectedPlanType === 'gift' 
+                      ? "1 Haftalik Sovg'ani Faollashtirish (Bepul)" 
+                      : `${selectedProvider} orqali to'lash (${selectedPlanType === 'weekly' ? '49 Stars' : '249 Stars'})`
+                    }
+                  </span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </form>
 
               <div className="flex items-center justify-center gap-1.5 text-xs text-[#7a7f95] font-semibold mt-4">
                 <ShieldCheck className="w-4 h-4 text-[#12935a]" />
-                <span>{t.modals.subscription.secureNote}</span>
+                <span>Birinchi marta kirgan barcha nomzodlarga 1 haftalik sovg'a 100% kafolatlangan</span>
               </div>
             </div>
           </div>

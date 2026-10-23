@@ -76,12 +76,14 @@ def practice_locked_keyboard(locale: str) -> InlineKeyboardMarkup:
     if locale == "en":
         return InlineKeyboardMarkup(
             inline_keyboard=[
-                [InlineKeyboardButton(text="⭐️ Web Platform Access (129 Stars)", callback_data="sub:checkout:monthly")],
+                [InlineKeyboardButton(text="⚡️ Weekly Plus (49 ⭐️ Stars)", callback_data="sub:checkout:weekly")],
+                [InlineKeyboardButton(text="👑 Monthly VIP (249 ⭐️ Stars)", callback_data="sub:checkout:monthly")],
             ]
         )
     return InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="⭐️ Web saytga kirish (129 Stars)", callback_data="sub:checkout:monthly")],
+            [InlineKeyboardButton(text="⚡️ Haftalik Obuna (49 ⭐️ Stars)", callback_data="sub:checkout:weekly")],
+            [InlineKeyboardButton(text="👑 Oylik VIP Obuna (249 ⭐️ Stars)", callback_data="sub:checkout:monthly")],
         ]
     )
 

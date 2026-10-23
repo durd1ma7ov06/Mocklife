@@ -34,39 +34,49 @@ router = Router(name="subscription")
 def subscription_menu_text(locale: str) -> str:
     if locale == "en":
         return (
-            "⭐️ <b>MockLife Web Platform Access</b>\n\n"
+            "⭐️ <b>MockLife VIP Plans & Free Gift</b>\n\n"
+            "🎁 <b>Welcome Gift:</b> Every new user receives <b>1 Week Free Trial</b> automatically!\n\n"
+            "After your free week, choose your preferred plan:\n"
+            "• ⚡ <b>Weekly Plus (7 days):</b> 49 Telegram Stars\n"
+            "• 👑 <b>Monthly VIP (30 days):</b> 249 Telegram Stars\n\n"
             "Unlock all premium tools for your IELTS preparation:\n"
             "• 🌐 <b>Web App Platform:</b> Full 4-skill Computer-Delivered Mock Arena\n"
-            "• 🎯 <b>Full Mock Practice:</b> Reading, Listening, Writing & Speaking tests\n"
-            "• 🎙 <b>Unlimited Live AI Speaking Calls:</b> Real-time examiner simulations (Part 1, 2, 3)\n"
+            "• 🎯 <b>4 Skills Labs:</b> Writing, Reading, Speaking & Listening\n"
+            "• 🎙 <b>Unlimited 3D Foxy AI Speaking:</b> Real-time examiner simulations (Part 1, 2, 3)\n"
             "• ✍️ <b>Writing Studio:</b> AI band descriptor evaluations & corrections\n"
-            "• 📊 <b>Progress Analytics:</b> Skill breakdown & band prediction\n\n"
-            "👇 <b>Subscription Plan:</b>\n"
-            "• ⭐️ <b>Web Platform Access (30 days):</b> 129 Telegram Stars"
+            "• 📊 <b>Official Score Report:</b> QR-verified certificate"
         )
     return (
-        "⭐️ <b>MockLife Web Platformasiga Kirish</b>\n\n"
+        "⭐️ <b>MockLife VIP Tariflari va Bepul Sovg'a</b>\n\n"
+        "🎁 <b>Xush Kelibsiz Sovg'asi:</b> Barcha yangi foydalanuvchilarga <b>1 Haftalik Bepul VIP Sinov</b> taqdim etiladi!\n\n"
+        "Bir haftalik sinovdan so'ng xohlagan tarifingizni tanlashingiz mumkin:\n"
+        "• ⚡ <b>Haftalik Obuna (7 kun):</b> 49 Telegram Stars\n"
+        "• 👑 <b>Oylik VIP Obuna (30 kun):</b> 249 Telegram Stars\n\n"
         "MockLife premium imkoniyatlarini to'liq oching:\n"
         "• 🌐 <b>Web App Platforma:</b> Katta ekranda to'liq 4 ko'nikmali Mock Arena va Split-view\n"
-        "• 🎯 <b>To'liq Mock Mashqlari:</b> Reading, Listening, Writing va Speaking testlari\n"
-        "• 🎙 <b>Cheksiz AI Live Speaking Call:</b> Jonli ovozli IELTS Examiner suhbatlari (Part 1, 2, 3)\n"
-        "• ✍️ <b>Writing Studio:</b> Insho tahlili va band baholash\n"
-        "• 📊 <b>Shaxsiy Tahlil:</b> Kuchli/zaif tomonlar va progress monitoringi\n\n"
-        "👇 <b>Obuna Tarifi:</b>\n"
-        "• ⭐️ <b>Web saytga to'liq kirish (30 kun):</b> 129 Telegram Stars"
+        "• 🎯 <b>4 Ta Modul:</b> Writing, Reading, Speaking va Listening mashg'ulotlari\n"
+        "• 🎙 <b>Cheksiz 3D Foxy AI Speaking:</b> Jonli ovozli IELTS Examiner suhbatlari (Part 1, 2, 3)\n"
+        "• ✍️ <b>Writing Studio:</b> Insho tahlili va tezkor AI baholash\n"
+        "• 📊 <b>Xalqaro TRF Sertifikat:</b> QR-kodli rasmiy natija hujjati"
     )
 
 
 def invoice_title_and_description(locale: str, plan_type: str = "monthly") -> tuple[str, str]:
+    if plan_type == "weekly":
+        if locale == "en":
+            return "MockLife Weekly Plus (49 Stars)", "7-day full access to Web Platform, Practice & AI Examiner"
+        return "MockLife Haftalik Obuna (49 Stars)", "Web Platforma va 4 ta modulga 7 kunlik to'liq kirish"
+    
     if locale == "en":
-        return "MockLife Web Platform (129 Stars)", "30-day full access to Web Platform, Practice & AI Examiner"
-    return "MockLife Web Platformasi (129 Stars)", "Web Platforma, Mashqlar va AI Examiner ga 30 kunlik to'liq kirish"
+        return "MockLife Monthly VIP (249 Stars)", "30-day full access to Web Platform, Practice & AI Examiner"
+    return "MockLife Oylik VIP Obuna (249 Stars)", "Web Platforma va 4 ta modulga 30 kunlik to'liq kirish"
 
 
 
 def payment_success_message(locale: str, plan_name: str = "plus_monthly") -> str:
-    duration_str = "1 oyga (30 kunga)"
-    duration_en = "30 days"
+    is_weekly = "week" in plan_name.lower()
+    duration_str = "1 haftaga (7 kunga)" if is_weekly else "1 oyga (30 kunga)"
+    duration_en = "7 days" if is_weekly else "30 days"
 
     if locale == "en":
         return (
@@ -85,12 +95,14 @@ def subscription_keyboard(locale: str) -> InlineKeyboardMarkup:
     if locale == "en":
         return InlineKeyboardMarkup(
             inline_keyboard=[
-                [InlineKeyboardButton(text="⭐️ Web Platform Access (129 Stars)", callback_data="sub:checkout:monthly")],
+                [InlineKeyboardButton(text="⚡️ Weekly Plus (49 ⭐️ Stars)", callback_data="sub:checkout:weekly")],
+                [InlineKeyboardButton(text="👑 Monthly VIP (249 ⭐️ Stars)", callback_data="sub:checkout:monthly")],
             ]
         )
     return InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="⭐️ Web saytga kirish (129 Stars)", callback_data="sub:checkout:monthly")],
+            [InlineKeyboardButton(text="⚡️ Haftalik Obuna (49 ⭐️ Stars)", callback_data="sub:checkout:weekly")],
+            [InlineKeyboardButton(text="👑 Oylik VIP Obuna (249 ⭐️ Stars)", callback_data="sub:checkout:monthly")],
         ]
     )
 

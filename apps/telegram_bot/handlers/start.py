@@ -43,17 +43,24 @@ async def start(message: Message, database: Database) -> None:
                 web_url = settings.effective_web_app_url
                 sub_repo = SqlAlchemySubscriptionRepository(session)
                 active_sub = await sub_repo.get_active(user.id)
+                # Barcha kirgan nomzodlarga 1 haftalik bepul VIP sovg'a berish
+                if not active_sub:
+                    active_sub = await sub_repo.activate_or_extend(user.id, plan="trial_7_days", duration_days=7)
                 has_plus = active_sub is not None
 
                 welcome_back = (
                     f"Assalomu alaykum, <b>{user.full_name}</b>! 👋\n"
                     f"MockLife murabbiyingizga xush kelibsiz.\n"
-                    f"Maqsadingiz: <b>Band {profile.target_band:.1f}</b> ({profile.exam_type.title()})\n\n"
+                    f"Maqsadingiz: <b>Band {profile.target_band:.1f}</b> ({profile.exam_type.title()})\n"
+                    f"🎁 <b>1 Haftalik Bepul VIP Sovg'a:</b> Faol (barcha 4 ta ko'nikma va Web App ochiq!)\n\n"
+                    f"<i>(Bir haftadan keyin: Haftalik 49 Stars / Oylik 249 Stars)</i>\n\n"
                     f"Quyidagi 4 ta asosiy bo'limdan birini tanlang:"
                     if user.locale == "uz"
                     else
                     f"Welcome back, <b>{user.full_name}</b>! 👋\n"
-                    f"Target band: <b>Band {profile.target_band:.1f}</b> ({profile.exam_type.title()})\n\n"
+                    f"Target band: <b>Band {profile.target_band:.1f}</b> ({profile.exam_type.title()})\n"
+                    f"🎁 <b>1-Week Free VIP Trial:</b> Active (all 4 skills & Web App unlocked!)\n\n"
+                    f"<i>(After trial: Weekly 49 Stars / Monthly 249 Stars)</i>\n\n"
                     f"Choose one of the 4 main actions below:"
                 )
                 await message.answer(

@@ -98,8 +98,9 @@ async def show_webapp_info(message: Message, database: Database) -> None:
             "• 📖 Katta ekrandagi ilmiy matnlar va split-view\n"
             "• 🎧 Listening va Writing studio\n"
             "• 📊 Shaxsiy diagnostik hisobot va band bashorati\n\n"
-            "👇 <b>Obuna Tarifi:</b>\n"
-            "• ⭐️ <b>Web saytga to'liq kirish (30 kun):</b> 129 Telegram Stars"
+            "👇 <b>Obuna Tariflari (1 haftalik bepul sovg'adan so'ng):</b>\n"
+            "• ⚡️ <b>Haftalik Obuna (7 kun):</b> 49 Telegram Stars\n"
+            "• 👑 <b>Oylik VIP Obuna (30 kun):</b> 249 Telegram Stars"
             if locale == "uz"
             else
             "🔒 <b>MockLife Web Platform Access</b>\n\n"
@@ -109,13 +110,18 @@ async def show_webapp_info(message: Message, database: Database) -> None:
             "• 📖 Split-screen reading and instant grading\n"
             "• 🎧 Listening and Writing studio\n"
             "• 📊 Performance analytics and predicted band score\n\n"
-            "👇 <b>Subscription Plan:</b>\n"
-            "• ⭐️ <b>Web Platform Access (30 days):</b> 129 Telegram Stars"
+            "👇 <b>Subscription Plans:</b>\n"
+            "• ⚡️ <b>Weekly Plus (7 days):</b> 49 Telegram Stars\n"
+            "• 👑 <b>Monthly VIP (30 days):</b> 249 Telegram Stars"
         )
         locked_keyboard = InlineKeyboardMarkup(
             inline_keyboard=[
                 [InlineKeyboardButton(
-                    text="⭐️ Web saytga kirish (129 Stars)" if locale == "uz" else "⭐️ Web Platform Access (129 Stars)",
+                    text="⚡️ Haftalik Obuna (49 Stars)" if locale == "uz" else "⚡️ Weekly Plus (49 Stars)",
+                    callback_data="sub:checkout:weekly",
+                )],
+                [InlineKeyboardButton(
+                    text="👑 Oylik VIP Obuna (249 Stars)" if locale == "uz" else "👑 Monthly VIP (249 Stars)",
                     callback_data="sub:checkout:monthly",
                 )],
             ]

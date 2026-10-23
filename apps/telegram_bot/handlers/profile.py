@@ -135,13 +135,15 @@ def subscription_plans_keyboard(locale: str) -> InlineKeyboardMarkup:
     if locale == "en":
         return InlineKeyboardMarkup(
             inline_keyboard=[
-                [InlineKeyboardButton(text="⭐️ Web Platform Access (129 Stars)", callback_data="sub:checkout:monthly")],
+                [InlineKeyboardButton(text="⚡️ Weekly Plus (49 ⭐️ Stars)", callback_data="sub:checkout:weekly")],
+                [InlineKeyboardButton(text="👑 Monthly VIP (249 ⭐️ Stars)", callback_data="sub:checkout:monthly")],
                 [InlineKeyboardButton(text="⬅️ Back to Profile", callback_data="profile:show")],
             ]
         )
     return InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="⭐️ Web saytga kirish (129 Stars)", callback_data="sub:checkout:monthly")],
+            [InlineKeyboardButton(text="⚡️ Haftalik Obuna (49 ⭐️ Stars)", callback_data="sub:checkout:weekly")],
+            [InlineKeyboardButton(text="👑 Oylik VIP Obuna (249 ⭐️ Stars)", callback_data="sub:checkout:monthly")],
             [InlineKeyboardButton(text="⬅️ Profilga qaytish", callback_data="profile:show")],
         ]
     )
@@ -279,7 +281,7 @@ async def show_card_payment_info(callback: CallbackQuery, database: Database) ->
             "💳 <b>Payment via Card / Click / Payme</b>\n\n"
             "• <b>Price:</b> 59,000 UZS / month (30 days)\n"
             "⏳ <b>Status:</b> Currently being configured (Coming very soon!).\n\n"
-            "<i>For now, you can activate your subscription instantly using <b>Telegram Stars (129 ⭐️ / 30 days)</b>.</i>\n\n"
+            "<i>For now, you can activate your subscription instantly using <b>Weekly Plus (49 ⭐️ / 7 days)</b> or <b>Monthly VIP (249 ⭐️ / 30 days)</b>.</i>\n\n"
             "For inquiries or manual assistance, please contact:\n"
             "👉 @MockLife_Support"
         )
@@ -288,7 +290,7 @@ async def show_card_payment_info(callback: CallbackQuery, database: Database) ->
             "💳 <b>Karta orqali to'lov (Click / Payme / Uzcard)</b>\n\n"
             "• <b>Narxi:</b> 59,000 so'm / 1 oy (30 kun)\n"
             "⏳ <b>Holati:</b> Hozircha yo'lga qo'yilmagan (Tez kunda ishga tushadi).\n\n"
-            "<i>Hozirda obunani <b>Telegram Stars (129 ⭐️ / 30 kun)</b> orqali bir zumda xavfsiz faollashtirishingiz mumkin!</i>\n\n"
+            "<i>Hozirda obunani <b>Haftalik (49 ⭐️ / 7 kun)</b> yoki <b>Oylik VIP (249 ⭐️ / 30 kun)</b> orqali bir zumda xavfsiz faollashtirishingiz mumkin!</i>\n\n"
             "Savollar yoki qo'lda ulash uchun admin bilan bog'laning:\n"
             "👉 @MockLife_Support"
         )
@@ -314,10 +316,15 @@ async def checkout_stars_plan(callback: CallbackQuery, database: Database) -> No
     locale = user.locale
     service = SubscriptionService(database, secret=SUBSCRIPTION_SECRET)
 
-    stars_amount = 129
-    plan_name = "plus_monthly"
-    title = "MockLife Web Platformasi (129 Stars)" if locale == "uz" else "MockLife Web Platform (129 Stars)"
-    desc = "Web Platformaga 30 kunlik to'liq kirish" if locale == "uz" else "30 days full access to Web Platform"
+    is_weekly = "weekly" in callback.data
+    stars_amount = 49 if is_weekly else 249
+    plan_name = "plus_weekly" if is_weekly else "plus_monthly"
+    if is_weekly:
+        title = "MockLife Haftalik Obuna (49 Stars)" if locale == "uz" else "MockLife Weekly Plus (49 Stars)"
+        desc = "Web Platforma va 4 ta modulga 7 kunlik to'liq kirish" if locale == "uz" else "7 days full access to Web Platform"
+    else:
+        title = "MockLife Oylik VIP Obuna (249 Stars)" if locale == "uz" else "MockLife Monthly VIP (249 Stars)"
+        desc = "Web Platforma va 4 ta modulga 30 kunlik to'liq kirish" if locale == "uz" else "30 days full access to Web Platform"
 
     payload = service.create_invoice_payload(user.id, plan=plan_name)
     prices = [LabeledPrice(label=title, amount=stars_amount)]

@@ -12,7 +12,11 @@ from apps.telegram_bot.keyboards.main import (
     onboarding_keyboard,
 )
 from packages.ieltix_core.adapters.database import Database
-from packages.ieltix_core.adapters.repositories import SqlAlchemyProfileRepository, SqlAlchemyUserRepository
+from packages.ieltix_core.adapters.repositories import (
+    SqlAlchemyProfileRepository,
+    SqlAlchemySubscriptionRepository,
+    SqlAlchemyUserRepository,
+)
 from packages.ieltix_core.application.onboarding import OnboardingError, OnboardingService
 from packages.ieltix_core.config import get_settings
 
@@ -42,6 +46,19 @@ def _sync_to_express_backend(user, profile) -> None:
         pass
 
 
+async def _activate_trial_if_needed(database: Database, user_id: int) -> bool:
+    """Yangi nomzodlarga 1 haftalik bepul VIP sovg'a faollashtirish."""
+    try:
+        async with database.session() as session:
+            sub_repo = SqlAlchemySubscriptionRepository(session)
+            active = await sub_repo.get_active(user_id)
+            if not active:
+                await sub_repo.activate_or_extend(user_id, plan="trial_7_days", duration_days=7)
+            return True
+    except Exception:
+        return False
+
+
 def _get_completion_text(user, profile, locale: str) -> str:
     level_title = (
         "Upper-Intermediate / B2+"
@@ -54,6 +71,9 @@ def _get_completion_text(user, profile, locale: str) -> str:
         return (
             f"🎉 <b>Congratulations, {user.full_name}!</b>\n"
             f"Your personalized IELTS study plan has been generated!\n\n"
+            f"🎁 <b>Welcome Gift: 1-Week Free VIP Trial Active!</b>\n"
+            f"All 4 skills (Writing, Reading, Speaking, Listening) and Web App are unlocked for 7 days.\n"
+            f"<i>(After trial: Weekly 49 Stars / Monthly 249 Stars)</i>\n\n"
             f"📊 <b>Assessed Band:</b> Band {profile.current_band:.1f} ({level_title})\n"
             f"🎯 <b>Target Band:</b> Band {profile.target_band:.1f} ({profile.exam_type.title()})\n"
             f"📱 <b>Connected Phone:</b> {user.phone_number or 'Linked'}\n"
@@ -64,6 +84,9 @@ def _get_completion_text(user, profile, locale: str) -> str:
     return (
         f"🎉 <b>Tabriklaymiz, {user.full_name}!</b>\n"
         f"Shaxsiy IELTS o'quv rejangiz muvaffaqiyatli tuzildi!\n\n"
+        f"🎁 <b>Xush Kelibsiz Sovg'asi: 1 Haftalik Bepul VIP Faol!</b>\n"
+        f"Barcha 4 ta modul (Writing, Reading, Speaking, Listening) va Web App 7 kun davomida to'liq ochiq.\n"
+        f"<i>(Bir haftadan keyin: Haftalik 49 Stars / Oylik 249 Stars)</i>\n\n"
         f"📊 <b>Aniqlangan darajangiz:</b> Band {profile.current_band:.1f} ({level_title})\n"
         f"🎯 <b>Maqsadingiz:</b> Band {profile.target_band:.1f} ({profile.exam_type.title()})\n"
         f"📱 <b>Bog'langan raqam:</b> {user.phone_number or 'Ulangan'}\n"
@@ -110,15 +133,16 @@ async def onboarding_answer(callback: CallbackQuery, database: Database) -> None
         except Exception:
             pass
 
+        await _activate_trial_if_needed(database, result.user.id)
         await callback.message.answer(
             _get_completion_text(result.user, result.profile, result.user.locale),
             reply_markup=completion_keyboard(web_url, result.user, result.profile, result.user.locale),
             parse_mode="HTML",
         )
-        # Bosh menyuni ham yangilash
+        # Bosh menyuni ham yangilash (barcha 4 ta modul va Web App ochiq)
         await callback.message.answer(
-            "💡 <i>Pastdagi bosh menyu ham 4 ta asosiy bo'lim bilan faollashtirildi:</i>",
-            reply_markup=main_menu(result.user.locale, web_url, result.user, result.profile),
+            "💡 <i>Pastdagi bosh menyu ham 4 ta asosiy bo'lim bilan faollashtirildi (1 haftalik sovg'a faol!):</i>",
+            reply_markup=main_menu(result.user.locale, web_url, result.user, result.profile, has_plus=True),
             parse_mode="HTML",
         )
     elif result.step == "phone":
@@ -260,14 +284,15 @@ async def handle_text_onboarding(message: Message, database: Database) -> None:
                 pass
 
             settings = get_settings()
+            await _activate_trial_if_needed(database, result.user.id)
             await message.answer(
                 _get_completion_text(result.user, result.profile, result.user.locale),
                 reply_markup=completion_keyboard(settings.effective_web_app_url, result.user, result.profile, result.user.locale),
                 parse_mode="HTML",
             )
             await message.answer(
-                "💡 <i>Pastdagi bosh menyu ham 4 ta asosiy bo'lim bilan faollashtirildi:</i>",
-                reply_markup=main_menu(result.user.locale, settings.effective_web_app_url, result.user, result.profile),
+                "💡 <i>Pastdagi bosh menyu ham 4 ta asosiy bo'lim bilan faollashtirildi (1 haftalik sovg'a faol!):</i>",
+                reply_markup=main_menu(result.user.locale, settings.effective_web_app_url, result.user, result.profile, has_plus=True),
                 parse_mode="HTML",
             )
             return
@@ -324,6 +349,7 @@ async def handle_voice_onboarding(message: Message, database: Database) -> None:
         except Exception:
             pass
 
+        await _activate_trial_if_needed(database, result.user.id)
         await message.answer(
             f"🗣 <b>Ovozingiz qabul qilindi:</b>\n<blockquote>«{transcript}»</blockquote>\n\n"
             + _get_completion_text(result.user, result.profile, result.user.locale),
@@ -331,7 +357,7 @@ async def handle_voice_onboarding(message: Message, database: Database) -> None:
             parse_mode="HTML",
         )
         await message.answer(
-            "💡 <i>Pastdagi bosh menyu ham 4 ta asosiy bo'lim bilan faollashtirildi:</i>",
-            reply_markup=main_menu(result.user.locale, settings.effective_web_app_url, result.user, result.profile),
+            "💡 <i>Pastdagi bosh menyu ham 4 ta asosiy bo'lim bilan faollashtirildi (1 haftalik sovg'a faol!):</i>",
+            reply_markup=main_menu(result.user.locale, settings.effective_web_app_url, result.user, result.profile, has_plus=True),
             parse_mode="HTML",
         )
