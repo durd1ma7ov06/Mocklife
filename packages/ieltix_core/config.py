@@ -45,10 +45,12 @@ class Settings(BaseSettings):
 
     @property
     def effective_web_app_url(self) -> str:
+        if self.web_app_url.startswith("https://"):
+            return self.web_app_url
         try:
             import json
             import urllib.request
-            with urllib.request.urlopen("http://127.0.0.1:4040/api/tunnels", timeout=0.5) as resp:
+            with urllib.request.urlopen("http://127.0.0.1:4040/api/tunnels", timeout=0.2) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
                 for t in data.get("tunnels", []):
                     u = t.get("public_url", "")

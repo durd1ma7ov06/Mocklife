@@ -15,5 +15,5 @@ git pull origin main || true
 echo "🚀 Konteynerlar yangilanmoqda va qayta yig'ilmoqda..."
 docker compose -f "$SCRIPT_DIR/docker-compose.aws.yml" up -d --build
 
-echo "✅ IELTIX muvaffaqiyatli yangilandi!"
+echo "✅ MockLife muvaffaqiyatli yangilandi!"
 docker compose -f "$SCRIPT_DIR/docker-compose.aws.yml" ps
