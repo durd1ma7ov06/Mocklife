@@ -73,6 +73,22 @@ services:
       DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-ieltix_user}:${POSTGRES_PASSWORD:-ieltix_secret_123}@postgres:5432/${POSTGRES_DB:-ieltix}
       REDIS_URL: redis://redis:6379/0
 
+  backend:
+    build:
+      context: ../../IELTIX_platform/backend
+      dockerfile: Dockerfile
+    container_name: ieltix-backend
+    restart: always
+    environment:
+      PORT: 5000
+      NODE_ENV: production
+      DATABASE_URL: postgresql://${POSTGRES_USER:-ieltix_user}:${POSTGRES_PASSWORD:-ieltix_secret_123}@postgres:5432/${POSTGRES_DB:-ieltix}
+    expose:
+      - "5000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
   frontend:
     build:
       context: ../../IELTIX_platform/frontend
@@ -81,6 +97,8 @@ services:
     restart: always
     expose:
       - "80"
+    depends_on:
+      - backend
 
   nginx:
     image: nginx:alpine
@@ -95,6 +113,7 @@ services:
       - certbot_www:/var/www/certbot
     depends_on:
       - core-api
+      - backend
       - frontend
 
 volumes:
