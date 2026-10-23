@@ -104,7 +104,7 @@ async def render_admin_dashboard(database: Database) -> str:
     gemini_count = len(keys_info.get("gemini", []))
 
     return (
-        "👑 <b>IELTIX Boshqaruv Paneli (Admin)</b>\n\n"
+        "👑 <b>MockLife Boshqaruv Paneli (Admin)</b>\n\n"
         f"📊 <b>Umumiy Statistika:</b>\n"
         f"• 👥 <b>Jami foydalanuvchilar:</b> {total_users} ta\n"
         f"• ⭐️ <b>Faol Plus obunachilar:</b> {active_subs} ta\n"
@@ -251,11 +251,11 @@ async def export_users_excel(callback: CallbackQuery, database: Database) -> Non
     file_bytes = buf.getvalue()
     buf.close()
 
-    filename = f"IELTIX_Foydalanuvchilar_{datetime.now().strftime('%Y%m%d_%H%M')}.xlsx"
+    filename = f"MockLife_Foydalanuvchilar_{datetime.now().strftime('%Y%m%d_%H%M')}.xlsx"
     if callback.message:
         await callback.message.answer_document(
             BufferedInputFile(file_bytes, filename=filename),
-            caption=f"📊 <b>IELTIX Barcha Foydalanuvchilar Ro'yxati</b>\n\nJami: <b>{len(users)}</b> ta foydalanuvchi ma'lumotlari.",
+            caption=f"📊 <b>MockLife Barcha Foydalanuvchilar Ro'yxati</b>\n\nJami: <b>{len(users)}</b> ta foydalanuvchi ma'lumotlari.",
             parse_mode="HTML",
         )
 
@@ -406,7 +406,7 @@ async def process_new_admin_id(message: Message, state: FSMContext, database: Da
     try:
         await message.bot.send_message(
             target_id,
-            "🎉 <b>Tabriklaymiz!</b> Sizga IELTIX botida Admin huquqi berildi.\n/admin buyrug'i orqali boshqaruv panelini ochishingiz mumkin.",
+            "🎉 <b>Tabriklaymiz!</b> Sizga MockLife botida Admin huquqi berildi.\n/admin buyrug'i orqali boshqaruv panelini ochishingiz mumkin.",
             parse_mode="HTML",
         )
     except Exception:

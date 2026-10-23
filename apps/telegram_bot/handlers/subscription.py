@@ -179,18 +179,18 @@ async def show_card_payment_info(callback: CallbackQuery, database: Database) ->
             "💳 <b>Payment via Card (Click / Payme / Uzcard)</b>\n\n"
             "• <b>Price:</b> 59,000 UZS / month (30 days)\n"
             "⏳ <b>Status:</b> Currently being set up (Coming soon!).\n\n"
-            "<i>For now, you can activate your subscription instantly using <b>Telegram Stars (49 ⭐️ weekly / 249 ⭐️ monthly)</b>.</i>\n\n"
+            "<i>For now, you can activate your subscription instantly using <b>Telegram Stars (129 ⭐️ / 30 days)</b>.</i>\n\n"
             "For inquiries or manual card activation:\n"
-            "👉 @IELTIX_Support"
+            "👉 @MockLife_Support"
         )
     else:
         text = (
             "💳 <b>Karta orqali to'lov (Click / Payme / Uzcard)</b>\n\n"
             "• <b>Narxi:</b> 59,000 so'm / 1 oy (30 kun)\n"
             "⏳ <b>Holati:</b> Hozircha yo'lga qo'yilmagan (Tez kunda ishga tushadi).\n\n"
-            "<i>Hozirda obunani <b>Telegram Stars (49 ⭐️ haftalik / 249 ⭐️ oylik)</b> orqali bir zumda xavfsiz faollashtirishingiz mumkin!</i>\n\n"
+            "<i>Hozirda obunani <b>Telegram Stars (129 ⭐️ / 30 kun)</b> orqali bir zumda xavfsiz faollashtirishingiz mumkin!</i>\n\n"
             "Savollar yoki qo'lda ulash uchun admin bilan bog'laning:\n"
-            "👉 @IELTIX_Support"
+            "👉 @MockLife_Support"
         )
 
     await callback.answer()

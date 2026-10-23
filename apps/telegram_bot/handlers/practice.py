@@ -198,14 +198,14 @@ def feedback_text(report: EvaluationReport, locale: str, exercise: Exercise | No
             f"✅ <b>Strengths:</b>\n{strengths}\n\n"
             f"🎯 <b>Next improvements:</b>\n{improvements}"
             f"{explanation}\n\n"
-            f"<i>This is an IELTIX diagnostic estimate, not an official IELTS certificate.</i>"
+            f"<i>This is a MockLife diagnostic estimate, not an official IELTS certificate.</i>"
         )
     return (
         f"📊 <b>Taxminiy Band: {report.band:.1f}</b>\n\n"
         f"✅ <b>Kuchli tomonlar:</b>\n{strengths}\n\n"
         f"🎯 <b>Yaxshilash bo'yicha tavsiyalar:</b>\n{improvements}"
         f"{explanation}\n\n"
-        f"<i>Bu IELTIX diagnostik bahosi, rasmiy IELTS sertifikati emas.</i>"
+        f"<i>Bu MockLife diagnostik bahosi, rasmiy IELTS sertifikati emas.</i>"
     )
 
 
@@ -242,15 +242,6 @@ async def choose_practice(message: Message, database: Database) -> None:
             await message.answer("Iltimos, avval /start ni bosing.")
             return
         locale = user.locale
-        allowed = await is_subscribed_or_admin(user.id, telegram_id, session, settings)
-
-    if not allowed:
-        await message.answer(
-            practice_locked_text(locale),
-            reply_markup=practice_locked_keyboard(locale),
-            parse_mode="HTML",
-        )
-        return
 
     if locale == "uz":
         text = (
@@ -286,12 +277,12 @@ async def back_to_skills(callback: CallbackQuery, database: Database) -> None:
 
     if locale == "uz":
         text = (
-            "🎯 <b>IELTIX Mashqlar Bo'limi</b>\n\n"
+            "🎯 <b>MockLife Mashqlar Bo'limi</b>\n\n"
             "Mustaqil shug'ullanish uchun ko'nikmani tanlang:"
         )
     else:
         text = (
-            "🎯 <b>IELTIX Practice Section</b>\n\n"
+            "🎯 <b>MockLife Practice Section</b>\n\n"
             "Select a skill to practice:"
         )
     if callback.message:
@@ -313,7 +304,7 @@ async def show_vocab_vault(callback: CallbackQuery, database: Database) -> None:
 
     items = get_vocab_items()
     lines = [
-        "📚 <b>IELTIX Smart Vocab Vault (Akademik C1/C2 Lug'at):</b>\n"
+        "📚 <b>MockLife Smart Vocab Vault (Akademik C1/C2 Lug'at):</b>\n"
         "<i>Har bir so'zning ma'nosi, o'zbekcha tarjimasi va eng ko'p ishlatiladigan kollokatsiyalari:</i>\n"
     ]
     for idx, item in enumerate(items, 1):
@@ -351,17 +342,6 @@ async def choose_exercise_in_skill(callback: CallbackQuery, database: Database) 
         user = await SqlAlchemyUserRepository(session).get_by_telegram_id(telegram_id)
         if user:
             locale = user.locale
-        allowed = await is_subscribed_or_admin(user.id if user else None, telegram_id, session, settings)
-
-    if not allowed:
-        if callback.message:
-            await callback.message.answer(
-                practice_locked_text(locale),
-                reply_markup=practice_locked_keyboard(locale),
-                parse_mode="HTML",
-            )
-        await callback.answer()
-        return
 
     skill_titles = {
         "reading": "📖 Reading Mock Testlar ro'yxati:",

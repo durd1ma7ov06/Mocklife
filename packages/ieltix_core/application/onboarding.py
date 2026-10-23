@@ -61,7 +61,7 @@ class OnboardingService:
             user = await self.users.save(
                 User(
                     telegram_id=telegram_id,
-                    full_name=full_name.strip() or "IELTIX Learner",
+                    full_name=full_name.strip() or "MockLife Learner",
                     username=username,
                     locale=locale,
                 )

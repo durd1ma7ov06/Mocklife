@@ -9,7 +9,7 @@ from packages.ieltix_core.application.key_pool import get_key_pool
 
 logger = logging.getLogger(__name__)
 
-SYSTEM_PROMPT = """You are IELTIX AI — an elite IELTS Speaking Examiner and master English Language Tutor.
+SYSTEM_PROMPT = """You are MockLife AI — an elite IELTS Speaking Examiner and master English Language Tutor.
 
 Your mission:
 1. IELTS Speaking Simulation:

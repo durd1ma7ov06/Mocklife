@@ -7,14 +7,14 @@ def main_menu_labels(locale: str, has_plus: bool = False) -> dict[str, str]:
     lock = "" if has_plus else " 🔒"
     if locale == "en":
         return {
-            "practice": f"🎯 Practice{lock}",
-            "live_call": f"🎙 AI Live Practice{lock}",
+            "practice": "🎯 Practice",
+            "live_call": "🎙 AI Live Practice",
             "profile": "👤 Profile",
             "website": f"🌐 Practice on Website{lock}",
         }
     return {
-        "practice": f"🎯 Mashq qilish{lock}",
-        "live_call": f"🎙 AI live tayyorlanish{lock}",
+        "practice": "🎯 Mashq qilish",
+        "live_call": "🎙 AI live tayyorlanish",
         "profile": "👤 Profil",
         "website": f"🌐 Web saytda tayyorlanish{lock}",
     }

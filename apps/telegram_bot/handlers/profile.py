@@ -236,31 +236,27 @@ async def show_subscription_plans(callback: CallbackQuery, database: Database) -
 
     if locale == "en":
         text = (
-            "⭐️ <b>MockLife VIP Subscription Plans</b>\n\n"
-            "Unlock 100% of the AI IELTS Platform:\n"
-            "• 🎙 <b>Unlimited Live AI Speaking:</b> Real-time Examiner voice calls\n"
-            "• ✍️ <b>Detailed Writing Evaluation:</b> Task 1 & 2 band descriptor feedback\n"
-            "• 📖 <b>Cambridge Mock Tests:</b> Complete Reading & Listening sets\n"
-            "• 📊 <b>Band Predictor:</b> Personalized strategy and progress tracking\n\n"
-            "👇 <b>Available Plans:</b>\n"
-            "• ⭐️ <b>1 Week Plus (7 days):</b> 49 Telegram Stars\n"
-            "• ⭐️ <b>1 Month VIP Plus (30 days):</b> 249 Telegram Stars\n"
-            "• 💳 <b>Card Payment:</b> 59,000 UZS / month <i>(⏳ Coming soon)</i>\n\n"
-            "<b>Choose a plan below:</b>"
+            "⭐️ <b>MockLife Web Platform Access</b>\n\n"
+            "Full access to the Computer-Delivered IELTS Web Platform:\n"
+            "• 🏛 <b>Mock Arena:</b> Full 4-skill mock tests with official timers\n"
+            "• 📖 <b>Reading Hub:</b> Academic texts & split-view\n"
+            "• 🎧 <b>Listening Player:</b> Audio tracks & instant scoring\n"
+            "• ✍️ <b>Writing Studio:</b> Real-time word count & AI band feedback\n\n"
+            "👇 <b>Access Plan:</b>\n"
+            "• ⭐️ <b>Web Platform Access (30 days):</b> 129 Telegram Stars\n\n"
+            "<b>Tap the button below to get access:</b>"
         )
     else:
         text = (
-            "⭐️ <b>MockLife VIP Obuna Tariflari</b>\n\n"
-            "Sun'iy intellekt murabbiyining barcha imkoniyatlarini oching:\n"
-            "• 🎙 <b>Cheksiz AI Jonli Speaking:</b> Examiner bilan jonli ovozli suhbat\n"
-            "• ✍️ <b>To'liq Writing Tekshiruvi:</b> Task 1 va 2 bo'yicha mezonli tahlil\n"
-            "• 📖 <b>Rasmiy Cambridge Testlari:</b> Reading va Listening to'liq bazasi\n"
-            "• 📊 <b>Shaxsiy Band Bashorati:</b> Kuchli va zaif tomonlar tahlili\n\n"
-            "👇 <b>Mavjud Tariflar:</b>\n"
-            "• ⭐️ <b>1 haftalik Plus (7 kun):</b> 49 Telegram Stars\n"
-            "• ⭐️ <b>1 oylik VIP Plus (30 kun):</b> 249 Telegram Stars\n"
-            "• 💳 <b>Karta orqali:</b> 59,000 so'm / oy <i>(⏳ Hozircha yo'lga qo'yilmagan / Tez kunda)</i>\n\n"
-            "<b>O'zingizga qulay tarifni tanlang:</b>"
+            "⭐️ <b>MockLife Web Platformasiga Kirish</b>\n\n"
+            "Katta ekranda to'liq IELTS simulyatsiyasidan foydalaning:\n"
+            "• 🏛 <b>Mock Arena:</b> 4 ta ko'nikma bo'yicha to'liq test va taymer\n"
+            "• 📖 <b>Reading Moduli:</b> Katta ekrandagi ilmiy matnlar va split-view\n"
+            "• 🎧 <b>Listening Pleyeri:</b> Audio treklar va avtomatik ball hisobi\n"
+            "• ✍️ <b>Writing Studio:</b> So'zlar hisoblagichi va mezonli baholash\n\n"
+            "👇 <b>Obuna Tarifi:</b>\n"
+            "• ⭐️ <b>Web saytga to'liq kirish (30 kun):</b> 129 Telegram Stars\n\n"
+            "<b>Web saytga kirish uchun quyidagi tugmani bosing:</b>"
         )
 
     if callback.message:
@@ -283,18 +279,18 @@ async def show_card_payment_info(callback: CallbackQuery, database: Database) ->
             "💳 <b>Payment via Card / Click / Payme</b>\n\n"
             "• <b>Price:</b> 59,000 UZS / month (30 days)\n"
             "⏳ <b>Status:</b> Currently being configured (Coming very soon!).\n\n"
-            "<i>For now, you can activate your subscription instantly using <b>Telegram Stars (49 ⭐️ weekly / 249 ⭐️ monthly)</b>.</i>\n\n"
+            "<i>For now, you can activate your subscription instantly using <b>Telegram Stars (129 ⭐️ / 30 days)</b>.</i>\n\n"
             "For inquiries or manual assistance, please contact:\n"
-            "👉 @IELTIX_Support"
+            "👉 @MockLife_Support"
         )
     else:
         text = (
             "💳 <b>Karta orqali to'lov (Click / Payme / Uzcard)</b>\n\n"
             "• <b>Narxi:</b> 59,000 so'm / 1 oy (30 kun)\n"
             "⏳ <b>Holati:</b> Hozircha yo'lga qo'yilmagan (Tez kunda ishga tushadi).\n\n"
-            "<i>Hozirda obunani <b>Telegram Stars (49 ⭐️ haftalik / 249 ⭐️ oylik)</b> orqali bir zumda xavfsiz faollashtirishingiz mumkin!</i>\n\n"
+            "<i>Hozirda obunani <b>Telegram Stars (129 ⭐️ / 30 kun)</b> orqali bir zumda xavfsiz faollashtirishingiz mumkin!</i>\n\n"
             "Savollar yoki qo'lda ulash uchun admin bilan bog'laning:\n"
-            "👉 @IELTIX_Support"
+            "👉 @MockLife_Support"
         )
 
     back_kb = InlineKeyboardMarkup(
@@ -309,7 +305,6 @@ async def show_card_payment_info(callback: CallbackQuery, database: Database) ->
 
 @router.callback_query(F.data.startswith("sub:checkout:"))
 async def checkout_stars_plan(callback: CallbackQuery, database: Database) -> None:
-    plan_code = callback.data.split(":", 2)[2]  # "weekly" or "monthly"
     telegram_id = callback.from_user.id
     user, _, _, _ = await _fetch_profile_data(telegram_id, database)
     if not user:
@@ -319,16 +314,10 @@ async def checkout_stars_plan(callback: CallbackQuery, database: Database) -> No
     locale = user.locale
     service = SubscriptionService(database, secret=SUBSCRIPTION_SECRET)
 
-    if plan_code in ("weekly", "1w", "week"):
-        stars_amount = 49
-        plan_name = "plus_weekly"
-        title = "IELTIX Plus (1 Haftalik)" if locale == "uz" else "IELTIX Plus (1 Week)"
-        desc = "1 haftalik (7 kun) AI IELTS murabbiyiga cheksiz kirish" if locale == "uz" else "1 week unlimited access to AI IELTS preparation"
-    else:
-        stars_amount = 249
-        plan_name = "plus_monthly"
-        title = "IELTIX VIP Plus (1 Oylik)" if locale == "uz" else "IELTIX VIP Plus (1 Month)"
-        desc = "1 oylik (30 kun) AI IELTS murabbiyiga cheksiz kirish" if locale == "uz" else "1 month unlimited access to AI IELTS preparation"
+    stars_amount = 129
+    plan_name = "plus_monthly"
+    title = "MockLife Web Platformasi (129 Stars)" if locale == "uz" else "MockLife Web Platform (129 Stars)"
+    desc = "Web Platformaga 30 kunlik to'liq kirish" if locale == "uz" else "30 days full access to Web Platform"
 
     payload = service.create_invoice_payload(user.id, plan=plan_name)
     prices = [LabeledPrice(label=title, amount=stars_amount)]

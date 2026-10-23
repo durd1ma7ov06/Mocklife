@@ -110,57 +110,6 @@ async def open_live_call(message: Message, state: FSMContext, database: Database
             await message.answer("Iltimos, avval /start ni bosing.")
             return
 
-        sub_repo = SqlAlchemySubscriptionRepository(session)
-        active_sub = await sub_repo.get_active(user.id)
-        is_admin = telegram_id in settings.admin_ids or telegram_id == 6956456422 or getattr(user, "is_admin", False)
-
-        if not is_admin and not active_sub:
-            locked_text = (
-                "🔒 <b>MockLife AI Live Speaking Call — VIP Plus</b>\n\n"
-                "Jonli ovozli IELTS Examiner suhbatlari (Part 1, 2, 3) dan foydalanish uchun <b>Haftalik</b> yoki <b>Oylik</b> faol obuna talab qilinadi!\n\n"
-                "<b>VIP Plus imkoniyatlari:</b>\n"
-                "• 🎙 <b>Real-vaqtli AI Examiner:</b> Jonli ovozli suhbat (Part 1, 2, 3)\n"
-                "• 🎧 Shovqin filtrlash va nutq to'xtashini aniqlash (Barge-in)\n"
-                "• 📊 Fluency, Lexical, Grammar, Pronunciation tahlili\n"
-                "• 🌐 Web Platforma (Mock Arena) ga to'liq kirish\n\n"
-                "👇 <b>O'zingizga qulay tarifni tanlang:</b>\n"
-                "• ⭐️ <b>1 haftalik Plus (7 kun):</b> 49 Telegram Stars\n"
-                "• ⭐️ <b>1 oylik VIP Plus (30 kun):</b> 249 Telegram Stars\n"
-                "• 💳 <b>Karta orqali:</b> 59,000 so'm / oy (Tez kunda)"
-                if user.locale == "uz"
-                else
-                "🔒 <b>MockLife AI Live Speaking Call — VIP Plus</b>\n\n"
-                "Real-time voice IELTS Examiner calls require an active <b>Weekly</b> or <b>Monthly</b> Plus subscription!\n\n"
-                "<b>VIP Plus Features:</b>\n"
-                "• 🎙 <b>Real-time AI Examiner:</b> Live voice interview (Part 1, 2, 3)\n"
-                "• 🎧 Background noise filtering and voice activity detection\n"
-                "• 📊 Detailed report across all 4 IELTS band criteria\n"
-                "• 🌐 Full access to the Web Platform (Mock Arena)\n\n"
-                "👇 <b>Choose your subscription plan:</b>\n"
-                "• ⭐️ <b>Web Platform Access (30 days):</b> 129 Telegram Stars"
-            )
-            locked_keyboard = InlineKeyboardMarkup(
-                inline_keyboard=[
-                    [InlineKeyboardButton(
-                        text="⭐️ Web saytga kirish (129 Stars)" if user.locale == "uz" else "⭐️ Web Platform Access (129 Stars)",
-                        callback_data="sub:checkout:monthly",
-                    )],
-                ]
-            )
-            if LIVE_CALL_BANNER_PATH.exists():
-                try:
-                    await message.answer_photo(
-                        photo=FSInputFile(LIVE_CALL_BANNER_PATH),
-                        caption=locked_text,
-                        reply_markup=locked_keyboard,
-                        parse_mode="HTML",
-                    )
-                    return
-                except Exception:
-                    pass
-            await message.answer(locked_text, reply_markup=locked_keyboard, parse_mode="HTML")
-            return
-
         session_id = f"call-{uuid4().hex}"
         call = SpeakingSession(id=session_id, user_id=user.id, locale=user.locale)
         await SqlAlchemyLiveCallRepository(session).create(call)
@@ -170,7 +119,7 @@ async def open_live_call(message: Message, state: FSMContext, database: Database
     await state.update_data(history=[], session_id=session_id)
 
     welcome_text = (
-        "🎙 <b>IELTIX AI Jonli Suhbatdoshi va Murabbiyiga xush kelibsiz!</b>\n\n"
+        "🎙 <b>MockLife AI Jonli Suhbatdoshi va Murabbiyiga xush kelibsiz!</b>\n\n"
         "Men sizning shaxsiy IELTS Speaking Examiner (imtihonchingiz) va ingliz tili repetitoringizman.\n\n"
         "🗣 <b>Qanday ishlaydi?</b>\n"
         "• <b>Ovozli xabar yuboring:</b> Mikrofonni bosib ushlab inglizcha gapiring — men sizga <b>ovozli audio xabar</b> qilib javob qaytaraman va nutqingizni tahlil qilaman!\n"
@@ -178,7 +127,7 @@ async def open_live_call(message: Message, state: FSMContext, database: Database
         "👇 <i>Quyidagi tezkor mavzulardan birini bosing yoki darhol mikrofonni bosib gapiring:</i>"
         if user.locale == "uz"
         else
-        "🎙 <b>Welcome to IELTIX AI Live Speaking Practice & Tutor!</b>\n\n"
+        "🎙 <b>Welcome to MockLife AI Live Speaking Practice & Tutor!</b>\n\n"
         "I am your official IELTS Speaking Examiner and language coach.\n\n"
         "🗣 <b>How to practice?</b>\n"
         "• <b>Send voice notes:</b> Hold the microphone and speak in English. I will reply with voice audio and real-time Band feedback!\n"
@@ -197,12 +146,12 @@ async def open_live_call(message: Message, state: FSMContext, database: Database
         await message.bot.send_chat_action(chat_id=message.chat.id, action="record_voice")
         tts = EdgeTextToSpeech(settings.tts_voice_uz, settings.tts_voice_en)
         if user.locale == "uz":
-            uz_intro = "Assalomu alaykum! IELTIX jonli speaking imtihoniga xush kelibsiz. Men sizning imtihon oluvchingizman."
+            uz_intro = "Assalomu alaykum! MockLife jonli speaking imtihoniga xush kelibsiz. Men sizning imtihon oluvchingizman."
             en_q = "Hello! Welcome to your IELTS Speaking test. Let's begin with Part 1. Could you tell me a little bit about yourself and where you are from?"
             audio = await tts.synthesize_bilingual(uz_text=uz_intro, en_text=en_q)
             caption_text = (
                 "🎙 <b>AI Examiner:</b>\n"
-                "<i>Assalomu alaykum! IELTIX jonli speaking imtihoniga xush kelibsiz.</i>\n\n"
+                "<i>Assalomu alaykum! MockLife jonli speaking imtihoniga xush kelibsiz.</i>\n\n"
                 f"«{en_q}»"
             )
             hist_content = f"{uz_intro} {en_q}"

@@ -16,7 +16,7 @@ class EvaluationReport:
             "criteria": self.criteria,
             "strengths": self.strengths,
             "improvements": self.improvements,
-            "notice": "IELTIX estimate; this is not an official IELTS result.",
+            "notice": "MockLife estimate; this is not an official IELTS result.",
         }
 
 

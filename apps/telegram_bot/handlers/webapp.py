@@ -92,11 +92,11 @@ async def show_webapp_info(message: Message, database: Database) -> None:
     if not is_admin and not active_sub:
         locked_text = (
             "🔒 <b>MockLife Web Platformasi — VIP Plus</b>\n\n"
-            "Katta ekranda to'liq IELTS imtihon simulyatori (Mock Arena), Reading/Listening split-screen va Writing Studio'dan foydalanish uchun <b>Haftalik</b> yoki <b>Oylik</b> faol obuna talab qilinadi!\n\n"
+            "Katta ekranda to'liq IELTS imtihon simulyatori (Mock Arena), Reading/Listening split-screen va Writing Studio'dan foydalanish uchun <b>30 kunlik</b> faol obuna talab qilinadi!\n\n"
             "<b>MockLife VIP Plus imkoniyatlari:</b>\n"
             "• 🏛 <b>Mock Arena:</b> 4 ta ko'nikma bo'yicha to'liq test va taymer\n"
             "• 📖 Katta ekrandagi ilmiy matnlar va split-view\n"
-            "• 🎙 Jonli ovozli Speaking AI suhbat (AI Live Call)\n"
+            "• 🎧 Listening va Writing studio\n"
             "• 📊 Shaxsiy diagnostik hisobot va band bashorati\n\n"
             "👇 <b>Obuna Tarifi:</b>\n"
             "• ⭐️ <b>Web saytga to'liq kirish (30 kun):</b> 129 Telegram Stars"
@@ -107,7 +107,7 @@ async def show_webapp_info(message: Message, database: Database) -> None:
             "<b>MockLife VIP Features:</b>\n"
             "• 🏛 <b>Mock Arena:</b> Full 4-skill mock tests with real timers\n"
             "• 📖 Split-screen reading and instant grading\n"
-            "• 🎙 Real-time voice AI Examiner (Live Call)\n"
+            "• 🎧 Listening and Writing studio\n"
             "• 📊 Performance analytics and predicted band score\n\n"
             "👇 <b>Subscription Plan:</b>\n"
             "• ⭐️ <b>Web Platform Access (30 days):</b> 129 Telegram Stars"
@@ -151,7 +151,7 @@ async def show_webapp_info(message: Message, database: Database) -> None:
 
     if locale == "en":
         text = (
-            "🌐 <b>IELTIX Web Platform (Desktop & Mini App)</b>\n\n"
+            "🌐 <b>MockLife Web Platform (Desktop & Mini App)</b>\n\n"
             "Experience the full IELTS test environment on your PC, laptop, or phone:\n\n"
             "• 🏛 <b>Mock Arena:</b> Full 4-skill mock tests with official timers\n"
             "• 📖 <b>Reading Hub:</b> Academic texts, split view, T/F/NG and instant auto-grading\n"
@@ -164,7 +164,7 @@ async def show_webapp_info(message: Message, database: Database) -> None:
         )
     else:
         text = (
-            "🌐 <b>IELTIX Web Platformasida Tayyorlanish</b>\n\n"
+            "🌐 <b>MockLife Web Platformasida Tayyorlanish</b>\n\n"
             "Kompyuter, noutbuk yoki telefon brauzerida to'liq IELTS imtihon simulyatsiyasi:\n\n"
             "• 🏛 <b>Mock Arena:</b> 4 ta ko'nikma bo'yicha to'liq test va real vaqt taymeri\n"
             "• 📖 <b>Reading Moduli:</b> Katta ekranda ilmiy matnlar, T/F/NG va avtomatik tekshiruv\n"
