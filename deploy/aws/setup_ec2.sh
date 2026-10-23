@@ -25,7 +25,8 @@ fi
 # 2. Update System Packages
 echo -e "${YELLOW}[1/6] Tizim yangilanmoqda (apt update)...${NC}"
 apt-get update -y
-apt-get install -y ca-certificates curl gnupg lsb-release ufw git htop ffmpeg
+apt-get install -y ca-certificates curl gnupg lsb-release ufw git htop
+apt-get autoremove -y || true
 apt-get clean
 rm -rf /var/lib/apt/lists/*
 
@@ -87,6 +88,7 @@ docker builder prune -f || true
 
 echo -e "${BLUE}-> Core-API yig'ilmoqda...${NC}"
 docker compose -f "$SCRIPT_DIR/docker-compose.aws.yml" build core-api
+docker builder prune -f || true
 
 echo -e "${BLUE}-> Telegram Bot yig'ilmoqda...${NC}"
 docker compose -f "$SCRIPT_DIR/docker-compose.aws.yml" build bot
