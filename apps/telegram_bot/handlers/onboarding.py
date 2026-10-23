@@ -232,8 +232,8 @@ async def handle_text_onboarding(message: Message, database: Database) -> None:
             return
 
         # Agar Speaking sinovi bo'lsa (matn ko'rinishida yuborilganda)
-        if profile.onboarding_step == "quiz_10_speaking":
-            result = await service.answer(message.from_user.id, "quiz_10_speaking", text_content)
+        if profile.onboarding_step in {"quiz_speaking", "quiz_10_speaking"}:
+            result = await service.answer(message.from_user.id, profile.onboarding_step, text_content)
             _sync_to_express_backend(result.user, result.profile)
             try:
                 from datetime import UTC, datetime
@@ -278,7 +278,7 @@ async def handle_voice_onboarding(message: Message, database: Database) -> None:
         if not user or not user.id:
             return
         profile = await profile_repo.get_by_user_id(user.id)
-        if not profile or profile.onboarding_step != "quiz_10_speaking":
+        if not profile or profile.onboarding_step not in {"quiz_speaking", "quiz_10_speaking"}:
             return
 
         settings = get_settings()
@@ -297,7 +297,7 @@ async def handle_voice_onboarding(message: Message, database: Database) -> None:
             transcript = "I live in my hometown and it is wonderful."
 
         service = OnboardingService(user_repo, profile_repo)
-        result = await service.answer(message.from_user.id, "quiz_10_speaking", transcript)
+        result = await service.answer(message.from_user.id, profile.onboarding_step, transcript)
         _sync_to_express_backend(result.user, result.profile)
 
         try:

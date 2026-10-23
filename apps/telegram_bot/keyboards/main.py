@@ -159,9 +159,16 @@ def onboarding_keyboard(step: str, locale: str) -> InlineKeyboardMarkup | None:
             ("B) scientists have made", "opt_b"),
             ("C) did scientists make", "opt_c"),
         ],
+        "quiz_10": [
+            ("A) curb / reduce", "opt_a"),
+            ("B) enlarge", "opt_b"),
+            ("C) prolong", "opt_c"),
+        ],
+        "quiz_speaking": [
+            ("⏭ O'tkazib yuborish (Skip Speaking)", "skip"),
+        ],
         "quiz_10_speaking": [
-            ("🎙 Ovozli xabar yuborish (Mikrofon)", "opt_voice"),
-            ("⏭ Ushbu bosqichni yakunlash", "I live in a beautiful hometown surrounded by mountains and kind people."),
+            ("⏭ O'tkazib yuborish (Skip Speaking)", "skip"),
         ],
     }
     if step not in options:

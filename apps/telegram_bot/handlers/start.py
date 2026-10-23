@@ -18,7 +18,7 @@ router = Router(name="start")
 def welcome_text(name: str) -> str:
     return (
         f"Assalomu alaykum, {name}! 👋\n"
-        "IELTIX — shaxsiy IELTS murabbiyingiz.\n\n"
+        "MockLife — shaxsiy IELTS murabbiyingiz.\n\n"
         "Tilni tanlang / Choose your language"
     )
 
@@ -32,7 +32,7 @@ def main_menu_text(locale: str, target_band: float) -> str:
 @router.message(CommandStart())
 async def start(message: Message, database: Database) -> None:
     telegram_id = message.from_user.id if message.from_user else 0
-    name = message.from_user.full_name if message.from_user else "IELTIX Learner"
+    name = message.from_user.full_name if message.from_user else "MockLife Learner"
 
     async with database.session() as session:
         user = await SqlAlchemyUserRepository(session).get_by_telegram_id(telegram_id)
@@ -47,7 +47,7 @@ async def start(message: Message, database: Database) -> None:
 
                 welcome_back = (
                     f"Assalomu alaykum, <b>{user.full_name}</b>! 👋\n"
-                    f"IELTIX murabbiyingizga xush kelibsiz.\n"
+                    f"MockLife murabbiyingizga xush kelibsiz.\n"
                     f"Maqsadingiz: <b>Band {profile.target_band:.1f}</b> ({profile.exam_type.title()})\n\n"
                     f"Quyidagi 4 ta asosiy bo'limdan birini tanlang:"
                     if user.locale == "uz"

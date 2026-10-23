@@ -32,7 +32,9 @@ class OnboardingService:
         "quiz_6": "quiz_7",
         "quiz_7": "quiz_8",
         "quiz_8": "quiz_9",
-        "quiz_9": "quiz_10_speaking",
+        "quiz_9": "quiz_10",
+        "quiz_10": "quiz_speaking",
+        "quiz_speaking": "complete",
         "quiz_10_speaking": "complete",
         "daily_minutes": "complete",
     }
@@ -137,35 +139,35 @@ class OnboardingService:
         elif field == "quiz_9":
             if clean_lower in {"opt_a", "have scientists made", "breakthrough"}:
                 profile.diagnostic_score = (profile.diagnostic_score or 0) + 1
-        elif field == "quiz_10_speaking":
-            # Speaking score calculation (speaking answer can be voice transcript or text)
-            # User gave speaking attempt
+        elif field == "quiz_10":
+            if clean_lower in {"opt_a", "curb", "curb / reduce", "reduce"}:
+                profile.diagnostic_score = (profile.diagnostic_score or 0) + 1
+        elif field in {"quiz_speaking", "quiz_10_speaking"}:
             score = profile.diagnostic_score or 0
-            # Calculate band from 10 components (9 quiz + speaking evaluation)
-            # Base quiz band
-            if score >= 8:
+            if score >= 9:
+                quiz_band = 7.5
+            elif score >= 7:
                 quiz_band = 7.0
-            elif score >= 6:
+            elif score >= 5:
                 quiz_band = 6.5
-            elif score >= 4:
+            elif score >= 3:
                 quiz_band = 6.0
-            elif score >= 2:
-                quiz_band = 5.5
             else:
-                quiz_band = 5.0
+                quiz_band = 5.5
 
-            # Speaking bonus: if user spoke more than 15 words or answered clearly
-            words_count = len(clean.split())
-            if words_count >= 25:
-                speaking_band = min(8.0, quiz_band + 0.5)
-            elif words_count >= 10:
+            if clean_lower in {"skip", "opt_skip", "opt_voice", "hint"}:
                 speaking_band = quiz_band
             else:
-                speaking_band = max(4.5, quiz_band - 0.5)
+                words_count = len(clean.split())
+                if words_count >= 20:
+                    speaking_band = min(8.5, quiz_band + 0.5)
+                elif words_count >= 8:
+                    speaking_band = quiz_band
+                else:
+                    speaking_band = max(5.0, quiz_band)
 
-            # Combined overall band (half-band rounded)
             overall = round((quiz_band + speaking_band) / 2 * 2) / 2
-            profile.current_band = max(4.5, min(8.5, overall))
+            profile.current_band = max(5.0, min(8.5, overall))
 
         profile.onboarding_step = self._next_step.get(field, "complete")
         profile.is_complete = profile.onboarding_step == "complete"
