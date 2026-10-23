@@ -38,6 +38,7 @@ import { StreakModal } from './components/StreakModal';
 import { ProfileModal } from './components/ProfileModal';
 import { QuizPage } from './pages/QuizPage';
 import { AdminPage } from './pages/AdminPage';
+import { WebLockPage } from './pages/WebLockPage';
 
 // ==========================================
 // Web Locked Notice & Modal ("Hali Ishga Tushmadi")
@@ -562,8 +563,25 @@ const LandingView: React.FC<LandingViewProps> = ({ onOpenPlatform, onOpenAuth, o
 const AppOrchestrator: React.FC = () => {
   const { isAuthenticated } = useAuth();
   const [authModalOpen, setAuthModalOpen] = useState(false);
-  // Default to landing view so visitors see the locked status & coming soon info
+  const [isUnlocked, setIsUnlocked] = useState(false);
   const [viewMode, setViewMode] = useState<'landing' | 'platform'>('landing');
+
+  // Check if session or localStorage has admin preview unlocked
+  useEffect(() => {
+    if (sessionStorage.getItem('mocklife_admin_unlocked') === 'true') {
+      setIsUnlocked(true);
+    }
+  }, []);
+
+  const handleAdminUnlock = () => {
+    sessionStorage.setItem('mocklife_admin_unlocked', 'true');
+    setIsUnlocked(true);
+  };
+
+  // 100% Full Lock for all web visitors
+  if (!isUnlocked) {
+    return <WebLockPage onAdminUnlock={handleAdminUnlock} />;
+  }
 
   // Automatically transition to platform if user logs in
   const handleAuthSuccess = () => {
