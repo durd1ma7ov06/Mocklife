@@ -16,10 +16,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
 
   // AI & ngrok config state
   const [aiConfig, setAiConfig] = useState({
-    aiMode: 'custom_ngrok' as 'groq' | 'custom_ngrok' | 'openai',
-    ngrokUrl: 'https://slyvia-cushy-noreen.ngrok-free.dev',
+    aiMode: 'groq' as 'groq' | 'custom_ngrok' | 'openai',
+    ngrokUrl: '',
     customAiEndpoint: '',
-    coreApiUrl: 'http://localhost:8000',
+    coreApiUrl: '',
     groqApiKey: '',
     customApiKey: '',
     examinerModel: 'llama-3.3-70b-versatile',

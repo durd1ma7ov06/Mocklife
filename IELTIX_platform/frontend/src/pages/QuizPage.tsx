@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useUser } from '../context/UserContext.js';
 import { useExam } from '../context/ExamContext.js';
 import { PageTab } from '../components/Sidebar.js';
@@ -145,9 +145,9 @@ export const QuizPage: React.FC<QuizPageProps> = ({ onNavigate }) => {
             </button>
           ) : (
             <div className="flex items-center gap-2">
-              <img src="/ieltix-logo.png" alt="MockLife" className="w-7 h-7 rounded-lg object-cover shadow-xs" />
+              <img src="/logo.png" alt="MockLife" className="w-7 h-7 rounded-lg object-cover shadow-xs" />
               <span className="font-extrabold text-sm tracking-tight text-slate-800">
-                IELTI<span className="text-sky-600">X</span> Quiz
+                Mock<span className="text-sky-600">Life</span> Quiz
               </span>
             </div>
           )}

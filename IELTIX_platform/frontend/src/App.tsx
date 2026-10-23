@@ -42,11 +42,11 @@ import { AdminPage } from './pages/AdminPage';
 // ==========================================
 // 1. MockLife Inner Platform Portal
 // ==========================================
-interface IeltixPlatformViewProps {
+interface MockLifePlatformViewProps {
   onOpenLanding: () => void;
 }
 
-const IeltixPlatformView: React.FC<IeltixPlatformViewProps> = ({ onOpenLanding }) => {
+const MockLifePlatformView: React.FC<MockLifePlatformViewProps> = ({ onOpenLanding }) => {
   const [activeTab, setActiveTab] = useState<PageTab>('dashboard');
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [streakModalOpen, setStreakModalOpen] = useState(false);
@@ -416,7 +416,7 @@ const AppOrchestrator: React.FC = () => {
   return (
     <>
       {viewMode === 'platform' ? (
-        <IeltixPlatformView onOpenLanding={() => setViewMode('landing')} />
+        <MockLifePlatformView onOpenLanding={() => setViewMode('landing')} />
       ) : (
         <LandingView
           onOpenPlatform={handleOpenPlatform}

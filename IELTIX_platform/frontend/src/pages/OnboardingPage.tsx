@@ -192,7 +192,7 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({
 
     try {
       // 1. Submit diagnostic answers
-      const submitRes = await fetch('http://localhost:5000/api/onboarding/submit', {
+      const submitRes = await fetch('/api/onboarding/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -219,7 +219,7 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({
       }
 
       // 2. Register account immediately in PostgreSQL
-      const regRes = await fetch('http://localhost:5000/api/onboarding/register', {
+      const regRes = await fetch('/api/onboarding/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -268,7 +268,7 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({
       setWonDiscount(40);
 
       try {
-        await fetch('http://localhost:5000/api/onboarding/spin', {
+        await fetch('/api/onboarding/spin', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ sessionId, discount: 40 }),

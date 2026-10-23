@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useUser } from '../context/UserContext.js';
 import { useExam } from '../context/ExamContext.js';
 import { PageTab } from '../components/Sidebar.js';
@@ -261,7 +261,7 @@ export const SystemCheckPage: React.FC<SystemCheckPageProps> = ({ onNavigate }) 
     setNetworkStatus('testing');
     const start = performance.now();
     try {
-      await fetch('http://localhost:5000/health');
+      await fetch('/health');
       const latency = Math.round(performance.now() - start);
       setPingMs(latency);
       setNetworkStatus('passed');

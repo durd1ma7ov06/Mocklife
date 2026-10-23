@@ -1,7 +1,7 @@
 // API configuration & Mock data for MockLife (English Mock Test Platform)
 
 export const API_CONFIG = {
-  BASE_URL: (import.meta as any).env?.VITE_API_URL || 'http://localhost:5000/api',
+  BASE_URL: (import.meta as any).env?.VITE_API_URL || '/api',
   ENDPOINTS: {
     AUTH_PHONE: '/auth/phone',
     AUTH_VERIFY_OTP: '/auth/verify-otp',
