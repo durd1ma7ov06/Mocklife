@@ -98,37 +98,25 @@ async def show_webapp_info(message: Message, database: Database) -> None:
             "• 📖 Katta ekrandagi ilmiy matnlar va split-view\n"
             "• 🎙 Jonli ovozli Speaking AI suhbat (AI Live Call)\n"
             "• 📊 Shaxsiy diagnostik hisobot va band bashorati\n\n"
-            "👇 <b>O'zingizga qulay tarifni tanlang:</b>\n"
-            "• ⭐️ <b>1 haftalik Plus (7 kun):</b> 49 Telegram Stars\n"
-            "• ⭐️ <b>1 oylik VIP Plus (30 kun):</b> 249 Telegram Stars\n"
-            "• 💳 <b>Karta orqali:</b> 59,000 so'm / oy (Tez kunda)"
+            "👇 <b>Obuna Tarifi:</b>\n"
+            "• ⭐️ <b>Web saytga to'liq kirish (30 kun):</b> 129 Telegram Stars"
             if locale == "uz"
             else
-            "🔒 <b>MockLife Web Platform — VIP Plus</b>\n\n"
-            "Full Computer-Delivered Mock Arena, Reading/Listening split-screen and Writing Studio require an active <b>Weekly</b> or <b>Monthly</b> Plus subscription!\n\n"
-            "<b>MockLife VIP Plus Features:</b>\n"
+            "🔒 <b>MockLife Web Platform Access</b>\n\n"
+            "Full Computer-Delivered Mock Arena, Reading/Listening split-screen and Writing Studio require an active subscription!\n\n"
+            "<b>MockLife VIP Features:</b>\n"
             "• 🏛 <b>Mock Arena:</b> Full 4-skill mock tests with real timers\n"
             "• 📖 Split-screen reading and instant grading\n"
             "• 🎙 Real-time voice AI Examiner (Live Call)\n"
             "• 📊 Performance analytics and predicted band score\n\n"
-            "👇 <b>Choose your subscription plan:</b>\n"
-            "• ⭐️ <b>1 Week Plus (7 days):</b> 49 Telegram Stars\n"
-            "• ⭐️ <b>1 Month VIP Plus (30 days):</b> 249 Telegram Stars\n"
-            "• 💳 <b>Card Payment:</b> 59,000 UZS / month (Coming soon)"
+            "👇 <b>Subscription Plan:</b>\n"
+            "• ⭐️ <b>Web Platform Access (30 days):</b> 129 Telegram Stars"
         )
         locked_keyboard = InlineKeyboardMarkup(
             inline_keyboard=[
                 [InlineKeyboardButton(
-                    text="⭐️ 1 haftalik Plus (49 Stars)" if locale == "uz" else "⭐️ 1 Week Plus (49 Stars)",
-                    callback_data="sub:checkout:weekly",
-                )],
-                [InlineKeyboardButton(
-                    text="⭐️ 1 oylik VIP Plus (249 Stars)" if locale == "uz" else "⭐️ 1 Month VIP Plus (249 Stars)",
+                    text="⭐️ Web saytga kirish (129 Stars)" if locale == "uz" else "⭐️ Web Platform Access (129 Stars)",
                     callback_data="sub:checkout:monthly",
-                )],
-                [InlineKeyboardButton(
-                    text="💳 Karta orqali to'lov (Tez kunda)" if locale == "uz" else "💳 Pay via Card (Coming soon)",
-                    callback_data="sub:card_pay",
                 )],
             ]
         )

@@ -57,8 +57,7 @@ class ProfileFlowTests(unittest.TestCase):
         self.assertTrue(len(pk.inline_keyboard) >= 2)
 
         sp = subscription_plans_keyboard("uz")
-        self.assertTrue(any("249 Stars" in btn.text for row in sp.inline_keyboard for btn in row))
-        self.assertTrue(any("49 Stars" in btn.text for row in sp.inline_keyboard for btn in row))
+        self.assertTrue(any("129 Stars" in btn.text for row in sp.inline_keyboard for btn in row))
 
 
         ct = change_target_keyboard("uz")

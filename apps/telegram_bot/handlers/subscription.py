@@ -34,58 +34,49 @@ router = Router(name="subscription")
 def subscription_menu_text(locale: str) -> str:
     if locale == "en":
         return (
-            "⭐️ <b>MockLife VIP Plus Subscription Plans</b>\n\n"
+            "⭐️ <b>MockLife Web Platform Access</b>\n\n"
             "Unlock all premium tools for your IELTS preparation:\n"
+            "• 🌐 <b>Web App Platform:</b> Full 4-skill Computer-Delivered Mock Arena\n"
             "• 🎯 <b>Full Mock Practice:</b> Reading, Listening, Writing & Speaking tests\n"
             "• 🎙 <b>Unlimited Live AI Speaking Calls:</b> Real-time examiner simulations (Part 1, 2, 3)\n"
-            "• 🌐 <b>Web App Platform:</b> Full 4-skill Computer-Delivered Mock Arena\n"
             "• ✍️ <b>Writing Studio:</b> AI band descriptor evaluations & corrections\n"
             "• 📊 <b>Progress Analytics:</b> Skill breakdown & band prediction\n\n"
-            "👇 <b>Choose your subscription plan:</b>\n"
-            "• ⭐️ <b>1 Week Plus (7 days):</b> 49 Telegram Stars\n"
-            "• ⭐️ <b>1 Month VIP Plus (30 days):</b> 249 Telegram Stars\n"
-            "• 💳 <b>Card Payment:</b> 59,000 UZS / month <i>(⏳ Coming soon)</i>"
+            "👇 <b>Subscription Plan:</b>\n"
+            "• ⭐️ <b>Web Platform Access (30 days):</b> 129 Telegram Stars"
         )
     return (
-        "⭐️ <b>MockLife VIP Plus Obuna Tariflari</b>\n\n"
+        "⭐️ <b>MockLife Web Platformasiga Kirish</b>\n\n"
         "MockLife premium imkoniyatlarini to'liq oching:\n"
+        "• 🌐 <b>Web App Platforma:</b> Katta ekranda to'liq 4 ko'nikmali Mock Arena va Split-view\n"
         "• 🎯 <b>To'liq Mock Mashqlari:</b> Reading, Listening, Writing va Speaking testlari\n"
         "• 🎙 <b>Cheksiz AI Live Speaking Call:</b> Jonli ovozli IELTS Examiner suhbatlari (Part 1, 2, 3)\n"
-        "• 🌐 <b>Web App Platforma:</b> Katta ekranda to'liq 4 ko'nikmali Mock Arena\n"
         "• ✍️ <b>Writing Studio:</b> Insho tahlili va band baholash\n"
         "• 📊 <b>Shaxsiy Tahlil:</b> Kuchli/zaif tomonlar va progress monitoringi\n\n"
-        "👇 <b>O'zingizga qulay tarifni tanlang:</b>\n"
-        "• ⭐️ <b>1 haftalik Plus (7 kun):</b> 49 Telegram Stars\n"
-        "• ⭐️ <b>1 oylik VIP Plus (30 kun):</b> 249 Telegram Stars\n"
-        "• 💳 <b>Karta orqali to'lov:</b> 59,000 so'm / oy <i>(⏳ Hozircha yo'lga qo'yilmagan / Tez kunda)</i>"
+        "👇 <b>Obuna Tarifi:</b>\n"
+        "• ⭐️ <b>Web saytga to'liq kirish (30 kun):</b> 129 Telegram Stars"
     )
 
 
 def invoice_title_and_description(locale: str, plan_type: str = "monthly") -> tuple[str, str]:
-    if plan_type == "weekly":
-        if locale == "en":
-            return "MockLife Plus (1 Week)", "Weekly unlimited access to Practice, Live AI Calls and Web Platform"
-        return "MockLife Plus (1 Haftalik)", "MockLife AI Murabbiyiga 7 kunlik cheksiz kirish"
     if locale == "en":
-        return "MockLife VIP Plus (1 Month)", "Monthly unlimited access to Practice, Live AI Calls and Web Platform"
-    return "MockLife VIP Plus (1 Oylik)", "MockLife AI Murabbiyiga 1 oylik cheksiz kirish"
+        return "MockLife Web Platform (129 Stars)", "30-day full access to Web Platform, Practice & AI Examiner"
+    return "MockLife Web Platformasi (129 Stars)", "Web Platforma, Mashqlar va AI Examiner ga 30 kunlik to'liq kirish"
 
 
 
 def payment_success_message(locale: str, plan_name: str = "plus_monthly") -> str:
-    is_weekly = "week" in plan_name.lower()
-    duration_str = "1 haftaga (7 kunga)" if is_weekly else "1 oyga (30 kunga)"
-    duration_en = "7 days" if is_weekly else "30 days"
+    duration_str = "1 oyga (30 kunga)"
+    duration_en = "30 days"
 
     if locale == "en":
         return (
             "🎉 <b>Congratulations!</b>\n\n"
-            f"Your <b>MockLife Plus</b> subscription has been successfully activated for {duration_en}.\n"
+            f"Your <b>MockLife Web Platform</b> subscription has been successfully activated for {duration_en}.\n"
             "All locks on Practice Mock Tests, AI Live Call and Web App Platform have been unlocked!"
         )
     return (
         "🎉 <b>Tabriklaymiz!</b>\n\n"
-        f"<b>MockLife Plus</b> obunangiz {duration_str} muvaffaqiyatli faollashtirildi.\n"
+        f"<b>MockLife Web Platforma</b> obunangiz {duration_str} muvaffaqiyatli faollashtirildi.\n"
         "Barcha Mock mashqlar, AI Live Call va Web Platformadagi barcha qulflar ochildi!"
     )
 
@@ -94,16 +85,12 @@ def subscription_keyboard(locale: str) -> InlineKeyboardMarkup:
     if locale == "en":
         return InlineKeyboardMarkup(
             inline_keyboard=[
-                [InlineKeyboardButton(text="⭐️ 1 Week Plus (49 Stars)", callback_data="sub:checkout:weekly")],
-                [InlineKeyboardButton(text="⭐️ 1 Month VIP Plus (249 Stars)", callback_data="sub:checkout:monthly")],
-                [InlineKeyboardButton(text="💳 Pay via Card (59,000 UZS - Coming soon)", callback_data="sub:card_pay")],
+                [InlineKeyboardButton(text="⭐️ Web Platform Access (129 Stars)", callback_data="sub:checkout:monthly")],
             ]
         )
     return InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="⭐️ 1 haftalik Plus (49 Stars)", callback_data="sub:checkout:weekly")],
-            [InlineKeyboardButton(text="⭐️ 1 oylik VIP Plus (249 Stars)", callback_data="sub:checkout:monthly")],
-            [InlineKeyboardButton(text="💳 Karta orqali to'lov (59,000 so'm - Tez kunda)", callback_data="sub:card_pay")],
+            [InlineKeyboardButton(text="⭐️ Web saytga kirish (129 Stars)", callback_data="sub:checkout:monthly")],
         ]
     )
 

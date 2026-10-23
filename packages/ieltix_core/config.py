@@ -25,8 +25,8 @@ class Settings(BaseSettings):
         min_length=16,
     )
     call_token_ttl_seconds: int = Field(default=900, ge=60, le=3600)
-    telegram_stars_price: int = Field(default=249, ge=1)
-    telegram_stars_weekly_price: int = Field(default=49, ge=1)
+    telegram_stars_price: int = Field(default=129, ge=1)
+    telegram_stars_weekly_price: int = Field(default=129, ge=1)
     subscription_uzs_price: int = Field(default=59000, ge=1)
     voice_provider: str = "groq"
     groq_api_key: str = ""

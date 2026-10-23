@@ -137,23 +137,13 @@ async def open_live_call(message: Message, state: FSMContext, database: Database
                 "• 📊 Detailed report across all 4 IELTS band criteria\n"
                 "• 🌐 Full access to the Web Platform (Mock Arena)\n\n"
                 "👇 <b>Choose your subscription plan:</b>\n"
-                "• ⭐️ <b>1 Week Plus (7 days):</b> 49 Telegram Stars\n"
-                "• ⭐️ <b>1 Month VIP Plus (30 days):</b> 249 Telegram Stars\n"
-                "• 💳 <b>Card Payment:</b> 59,000 UZS / month (Coming soon)"
+                "• ⭐️ <b>Web Platform Access (30 days):</b> 129 Telegram Stars"
             )
             locked_keyboard = InlineKeyboardMarkup(
                 inline_keyboard=[
                     [InlineKeyboardButton(
-                        text="⭐️ 1 haftalik Plus (49 Stars)" if user.locale == "uz" else "⭐️ 1 Week Plus (49 Stars)",
-                        callback_data="sub:checkout:weekly",
-                    )],
-                    [InlineKeyboardButton(
-                        text="⭐️ 1 oylik VIP Plus (249 Stars)" if user.locale == "uz" else "⭐️ 1 Month VIP Plus (249 Stars)",
+                        text="⭐️ Web saytga kirish (129 Stars)" if user.locale == "uz" else "⭐️ Web Platform Access (129 Stars)",
                         callback_data="sub:checkout:monthly",
-                    )],
-                    [InlineKeyboardButton(
-                        text="💳 Karta orqali to'lov (Tez kunda)" if user.locale == "uz" else "💳 Pay via Card (Coming soon)",
-                        callback_data="sub:card_pay",
                     )],
                 ]
             )
