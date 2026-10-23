@@ -79,9 +79,12 @@ services:
       dockerfile: Dockerfile
     container_name: ieltix-backend
     restart: always
+    env_file:
+      - ../../.env.bot
     environment:
       PORT: 5000
       NODE_ENV: production
+      CORS_ORIGIN: "*"
       DATABASE_URL: postgresql://${POSTGRES_USER:-ieltix_user}:${POSTGRES_PASSWORD:-ieltix_secret_123}@postgres:5432/${POSTGRES_DB:-ieltix}
     expose:
       - "5000"
