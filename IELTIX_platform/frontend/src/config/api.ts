@@ -58,10 +58,10 @@ export const MOCK_DATA = {
     ],
   },
   tests: [
-    { id: '1', title: 'English Mock #1 — Full Test', section: 'Full Mock', questionsCount: 40, durationMinutes: 60, level: 'B2-C1', completedPercent: 78 },
-    { id: '2', title: 'English Reading Diagnostic', section: 'Reading', questionsCount: 30, durationMinutes: 45, level: 'B1-B2', completedPercent: 100 },
-    { id: '3', title: 'English Listening Practice #4', section: 'Listening', questionsCount: 40, durationMinutes: 35, level: 'B2', completedPercent: 45 },
-    { id: '4', title: 'Grammar & Vocabulary Sprint', section: 'Reading', questionsCount: 50, durationMinutes: 40, level: 'General', completedPercent: 0 },
+    { id: '1', title: 'Writing Task 1 & Task 2 Evaluator', section: 'Writing', questionsCount: 2, durationMinutes: 60, level: 'B2-C1', completedPercent: 72 },
+    { id: '2', title: 'Reading Academic Diagnostic Passage', section: 'Reading', questionsCount: 40, durationMinutes: 60, level: 'B2-C1', completedPercent: 84 },
+    { id: '3', title: '3D Foxy Speaking Interview Lab', section: 'Speaking', questionsCount: 15, durationMinutes: 15, level: 'B2-C1', completedPercent: 78 },
+    { id: '4', title: 'Listening Cambridge Exam Audio #1', section: 'Listening', questionsCount: 40, durationMinutes: 30, level: 'B2-C1', completedPercent: 88 },
   ] as MockTestItem[],
   results: [
     { id: '1', title: 'Natijalar tahlili va yechimlar', views: '[0.0M]' },

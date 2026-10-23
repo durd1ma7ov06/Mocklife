@@ -70,6 +70,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
       badgeClass: 'bg-[#ef3b2d] text-white',
     },
     { 
+      id: 'practice-hub', 
+      label: 'Mashq Qilish (Labs)', 
+      icon: Zap, 
+      color: 'text-[#ff7a00]', 
+      badge: '4 Skill',
+      badgeClass: 'bg-[#fff3e6] text-[#ff7a00] font-black',
+    },
+    { 
       id: 'progress', 
       label: 'Mening Natijalarim', 
       icon: TrendingUp, 
@@ -89,14 +97,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const practiceLabs = [
     { 
-      id: 'speaking', 
-      label: '3D Foxy Speaking', 
-      icon: Mic, 
-      color: 'text-[#ff7a00]',
-      dotBg: 'bg-[#ff7a00]',
-      desc: 'AI Ovozli Examiner' 
-    },
-    { 
       id: 'writing', 
       label: 'AI Writing Evaluator', 
       icon: FileEdit, 
@@ -111,6 +111,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
       color: 'text-[#10b981]', 
       dotBg: 'bg-[#10b981]',
       desc: 'TFNG & Smart Lug\'at' 
+    },
+    { 
+      id: 'speaking', 
+      label: '3D Foxy Speaking', 
+      icon: Mic, 
+      color: 'text-[#ff7a00]',
+      dotBg: 'bg-[#ff7a00]',
+      desc: 'AI Ovozli Examiner' 
     },
     { 
       id: 'listening', 

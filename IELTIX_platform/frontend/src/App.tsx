@@ -91,8 +91,9 @@ const MockLifePlatformView: React.FC<MockLifePlatformViewProps> = ({ onOpenLandi
       case 'listening':
         return <ListeningPage />;
       case 'report':
+        return <ScoreReportPage onNavigate={handleNavigate} />;
       case 'quiz':
-        return <DashboardPage onNavigate={handleNavigate} />;
+        return <QuizPage onNavigate={handleNavigate} />;
       case 'pricing':
         return <PricingPage />;
       case 'onboarding':

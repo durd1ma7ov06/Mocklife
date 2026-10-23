@@ -417,55 +417,29 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
 
       {/* 4. Kundalik Mashg'ulotlar (Practice Labs — 4 ta Ko'nikma) */}
       <section className="space-y-4">
-        <div>
-          <h2 className="font-unbounded font-black text-lg sm:text-xl text-[#10152b] flex items-center gap-2.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#ef3b2d]" />
-            Tayyorlanish Laboratoriyalari (Practice Hub)
-          </h2>
-          <p className="text-xs sm:text-sm text-[#4a5068] font-bold mt-0.5">
-            Har bir bo'lim bo'yicha alohida ko'nikmalar ustida mustaqil ishlang:
-          </p>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <h2 className="font-unbounded font-black text-lg sm:text-xl text-[#10152b] flex items-center gap-2.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#ef3b2d]" />
+              Tayyorlanish Laboratoriyalari (Mashq Qilish Markazi)
+            </h2>
+            <p className="text-xs sm:text-sm text-[#4a5068] font-bold mt-0.5">
+              4 ta asosiy ko'nikma bo'yicha mustaqil interaktiv mashg'ulotlar:
+            </p>
+          </div>
+
+          <button
+            onClick={() => onNavigate('practice-hub')}
+            className="text-xs font-black text-[#ef3b2d] hover:underline flex items-center gap-1 self-start sm:self-auto cursor-pointer"
+          >
+            <span>Barcha Mashqlarni Ko'rish (Hub)</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           
-          {/* Speaking Practice */}
-          <div className="p-6 rounded-[24px] bg-white border border-[#eadfc9] hover:border-[#ff7a00] hover:shadow-md transition-all flex flex-col justify-between shadow-xs group">
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <div className="w-12 h-12 rounded-2xl bg-[#fff3e6] text-[#ff7a00] flex items-center justify-center border border-[#ffd5a8]">
-                  <Mic className="w-6 h-6" />
-                </div>
-                <div className="text-right">
-                  <span className="font-unbounded font-black text-2xl text-[#10152b]">
-                    {user.stats?.speakingBand || 7.0}
-                  </span>
-                  <span className="text-[10px] text-[#7a7f95] block font-bold">Joriy Band</span>
-                </div>
-              </div>
-
-              <h3 className="font-unbounded font-extrabold text-base text-[#10152b] group-hover:text-[#ff7a00] transition-colors">
-                Speaking Lab
-              </h3>
-              <p className="text-xs text-[#4a5068] font-bold mt-1.5 leading-relaxed">
-                3D Foxy bilan jonli ovozli suhbat, talaffuz va IELTS Part 1–3 mashqlari.
-              </p>
-
-              <div className="w-full bg-[#fdf6e9] h-2 rounded-full mt-4 overflow-hidden border border-[#eadfc9]">
-                <div className="bg-[#ff7a00] h-full rounded-full" style={{ width: '78%' }} />
-              </div>
-            </div>
-
-            <button
-              onClick={() => onNavigate('speaking')}
-              className="mt-6 w-full py-3 rounded-full bg-[#ff7a00] hover:bg-[#e56d00] text-white text-xs font-black uppercase tracking-wider transition-all active:scale-95 flex items-center justify-center gap-1.5 shadow-xs cursor-pointer"
-            >
-              <span>Speaking Mashqi</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
-
-          {/* Writing Practice */}
+          {/* 1. Writing Practice */}
           <div className="p-6 rounded-[24px] bg-white border border-[#eadfc9] hover:border-[#ef3b2d] hover:shadow-md transition-all flex flex-col justify-between shadow-xs group">
             <div>
               <div className="flex items-center justify-between mb-4">
@@ -501,7 +475,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
             </button>
           </div>
 
-          {/* Reading Practice */}
+          {/* 2. Reading Practice */}
           <div className="p-6 rounded-[24px] bg-white border border-[#eadfc9] hover:border-[#10b981] hover:shadow-md transition-all flex flex-col justify-between shadow-xs group">
             <div>
               <div className="flex items-center justify-between mb-4">
@@ -537,7 +511,43 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
             </button>
           </div>
 
-          {/* Listening Practice */}
+          {/* 3. Speaking Practice */}
+          <div className="p-6 rounded-[24px] bg-white border border-[#eadfc9] hover:border-[#ff7a00] hover:shadow-md transition-all flex flex-col justify-between shadow-xs group">
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-12 h-12 rounded-2xl bg-[#fff3e6] text-[#ff7a00] flex items-center justify-center border border-[#ffd5a8]">
+                  <Mic className="w-6 h-6" />
+                </div>
+                <div className="text-right">
+                  <span className="font-unbounded font-black text-2xl text-[#10152b]">
+                    {user.stats?.speakingBand || 7.0}
+                  </span>
+                  <span className="text-[10px] text-[#7a7f95] block font-bold">Joriy Band</span>
+                </div>
+              </div>
+
+              <h3 className="font-unbounded font-extrabold text-base text-[#10152b] group-hover:text-[#ff7a00] transition-colors">
+                Speaking Lab
+              </h3>
+              <p className="text-xs text-[#4a5068] font-bold mt-1.5 leading-relaxed">
+                3D Foxy bilan jonli ovozli suhbat, talaffuz va IELTS Part 1–3 mashqlari.
+              </p>
+
+              <div className="w-full bg-[#fdf6e9] h-2 rounded-full mt-4 overflow-hidden border border-[#eadfc9]">
+                <div className="bg-[#ff7a00] h-full rounded-full" style={{ width: '78%' }} />
+              </div>
+            </div>
+
+            <button
+              onClick={() => onNavigate('speaking')}
+              className="mt-6 w-full py-3 rounded-full bg-[#ff7a00] hover:bg-[#e56d00] text-white text-xs font-black uppercase tracking-wider transition-all active:scale-95 flex items-center justify-center gap-1.5 shadow-xs cursor-pointer"
+            >
+              <span>Speaking Mashqi</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
+          {/* 4. Listening Practice */}
           <div className="p-6 rounded-[24px] bg-white border border-[#eadfc9] hover:border-[#0284c7] hover:shadow-md transition-all flex flex-col justify-between shadow-xs group">
             <div>
               <div className="flex items-center justify-between mb-4">
