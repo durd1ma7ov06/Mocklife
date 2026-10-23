@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# IELTIX Platform - AWS EC2 / Lightsail Automated Setup & Deployment Script
+# MockLife Platform - AWS EC2 / Lightsail Automated Setup & Deployment Script
 # Supported OS: Ubuntu 22.04 LTS, Ubuntu 24.04 LTS, Debian 12
 # ==============================================================================
 
@@ -13,7 +13,7 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 
 echo -e "${BLUE}===================================================================${NC}"
-echo -e "${BLUE}   🚀 IELTIX PLATFORM - AWS EC2 / LIGHTSAIL SETUP & DEPLOYMENT     ${NC}"
+echo -e "${BLUE}   🚀 MOCKLIFE PLATFORM - AWS EC2 / LIGHTSAIL SETUP & DEPLOYMENT   ${NC}"
 echo -e "${BLUE}===================================================================${NC}"
 
 # 1. Root check
@@ -23,9 +23,11 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 # 2. Update System Packages
-echo -e "${YELLOW}[1/6] Tizim yangilanmoqda (apt update & upgrade)...${NC}"
+echo -e "${YELLOW}[1/6] Tizim yangilanmoqda (apt update)...${NC}"
 apt-get update -y
 apt-get install -y ca-certificates curl gnupg lsb-release ufw git htop ffmpeg
+apt-get clean
+rm -rf /var/lib/apt/lists/*
 
 # 3. Install Docker & Docker Compose if missing
 if ! command -v docker &> /dev/null; then
@@ -35,6 +37,8 @@ if ! command -v docker &> /dev/null; then
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
     apt-get update -y
     apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+    apt-get clean
+    rm -rf /var/lib/apt/lists/*
     systemctl enable docker
     systemctl start docker
     echo -e "${GREEN}✅ Docker muvaffaqiyatli o'rnatildi.${NC}"
@@ -65,10 +69,30 @@ if [ ! -f ".env.bot" ]; then
     fi
 fi
 
-# 6. Build and launch all containers with docker-compose.aws.yml
-echo -e "${YELLOW}[5/6] Docker konteynerlari yig'ilmoqda (Postgres, Redis, API, Bot, Frontend, Nginx)...${NC}"
+# 6. Build and launch all containers sequentially to optimize disk usage
+echo -e "${YELLOW}[5/6] Docker keshini tozalash va konteynerlarni ketma-ket yig'ish (Disk tejash)...${NC}"
+docker builder prune -f || true
 docker compose -f "$SCRIPT_DIR/docker-compose.aws.yml" down || true
-docker compose -f "$SCRIPT_DIR/docker-compose.aws.yml" up -d --build
+
+echo -e "${BLUE}-> Tashqi bazaviy imijlar yuklanmoqda (postgres, redis, nginx)...${NC}"
+docker compose -f "$SCRIPT_DIR/docker-compose.aws.yml" pull postgres redis nginx
+
+echo -e "${BLUE}-> Frontend yig'ilmoqda...${NC}"
+docker compose -f "$SCRIPT_DIR/docker-compose.aws.yml" build frontend
+docker builder prune -f || true
+
+echo -e "${BLUE}-> Backend yig'ilmoqda...${NC}"
+docker compose -f "$SCRIPT_DIR/docker-compose.aws.yml" build backend
+docker builder prune -f || true
+
+echo -e "${BLUE}-> Core-API yig'ilmoqda...${NC}"
+docker compose -f "$SCRIPT_DIR/docker-compose.aws.yml" build core-api
+
+echo -e "${BLUE}-> Telegram Bot yig'ilmoqda...${NC}"
+docker compose -f "$SCRIPT_DIR/docker-compose.aws.yml" build bot
+
+echo -e "${GREEN}-> Barcha konteynerlar ishga tushirilmoqda...${NC}"
+docker compose -f "$SCRIPT_DIR/docker-compose.aws.yml" up -d
 
 # 7. Verification and status
 echo -e "${YELLOW}[6/6] Server holati tekshirilmoqda...${NC}"
@@ -77,7 +101,7 @@ sleep 7
 PUBLIC_IP=$(curl -s ifconfig.me || curl -s icanhazip.com || echo "SERVER_IP")
 
 echo -e "${BLUE}===================================================================${NC}"
-echo -e "${GREEN}   🎉 IELTIX PLATFORMASI AWS SERVERIDA ISHGA TUSHDI!               ${NC}"
+echo -e "${GREEN}   🎉 MOCKLIFE PLATFORMASI AWS SERVERIDA ISHGA TUSHDI!             ${NC}"
 echo -e "${BLUE}===================================================================${NC}"
 echo -e "  🌐 Web Platforma:       ${GREEN}http://$PUBLIC_IP${NC}"
 echo -e "  🔌 FastAPI Swagger:     ${GREEN}http://$PUBLIC_IP/docs${NC}"

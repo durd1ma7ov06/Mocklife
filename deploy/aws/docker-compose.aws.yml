@@ -1,5 +1,3 @@
-version: "3.9"
-
 # ==============================================================================
 # IELTIX Platform - AWS Production Docker Compose
 # Orchestrates: Postgres 16, Redis 7, FastAPI Core API, Telegram Bot,
