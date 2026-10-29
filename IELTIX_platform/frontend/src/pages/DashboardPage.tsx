@@ -178,9 +178,21 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
               <span>Rejani Sozlash</span>
             </button>
 
-            <div className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-[#ecfdf5] border border-emerald-200 text-emerald-800 text-xs font-black shadow-xs">
+            <div className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-sky-50 border border-sky-200 text-sky-800 text-xs font-black shadow-xs">
+              <svg className="w-3.5 h-3.5 fill-[#229ED9]" viewBox="0 0 24 24">
+                <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.56 8.16l-1.97 9.28c-.15.65-.53.81-1.07.51l-2.98-2.2-1.44 1.39c-.16.16-.3.3-.61.3l.21-3.05 5.56-5.02c.24-.22-.05-.34-.38-.13l-6.87 4.33-2.96-.92c-.64-.2-.66-.64.13-.95l11.58-4.46c.54-.2 1.01.12.83.92z" />
+              </svg>
+              <span>Telegram Sinxron</span>
+            </div>
+
+            <div className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-[#ecfdf5] border border-emerald-300 text-emerald-900 text-xs font-black shadow-xs">
               <Crown className="w-4 h-4 text-amber-500 fill-amber-400" />
-              <span>7 Kunlik VIP Sinov (Faol)</span>
+              <span>
+                {authUser?.trialDaysRemaining !== undefined 
+                  ? `🎁 7 Kunlik VIP Sinov: ${authUser.trialDaysRemaining} kun qoldi`
+                  : '🎁 7 Kunlik VIP Sinov (Faol)'
+                }
+              </span>
             </div>
           </div>
         </div>
@@ -216,6 +228,37 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
             </span>
           </div>
         </div>
+      </section>
+
+      {/* 1b. Talabaning Shaxsiy 1 Haftalik Bepul Sinov Holati */}
+      <section className="bg-gradient-to-r from-emerald-50 via-teal-50 to-[#fdf6e9] rounded-[28px] border-2 border-emerald-300/70 p-5 sm:p-6 shadow-xs flex flex-col md:flex-row items-center justify-between gap-5">
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-black shadow-md shadow-emerald-600/30 shrink-0">
+            <Clock className="w-6 h-6" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="font-unbounded font-black text-sm sm:text-base text-[#10152b]">
+                Sizning 1 Haftalik Bepul Sinovingiz: {authUser?.trialDaysRemaining !== undefined ? `${authUser.trialDaysRemaining} kun qoldi` : '7 kun qoldi'}
+              </span>
+              <span className="px-2.5 py-0.5 rounded-full bg-emerald-200 text-emerald-900 text-[10px] font-black uppercase">
+                Faol Sinov
+              </span>
+            </div>
+            <p className="text-xs text-[#4a5068] font-bold mt-1">
+              Sinov muddati tugash sanasi: <strong className="text-[#10152b]">{authUser?.trialExpiresAt ? new Date(authUser.trialExpiresAt).toLocaleString('uz-UZ', { day: '2-digit', month: 'long', hour: '2-digit', minute: '2-digit' }) : '7 kun ichida'}</strong> • Barcha 4 ta IELTS modul va 3D Foxy AI 100% ochiq!
+            </p>
+          </div>
+        </div>
+
+        <button
+          onClick={() => onNavigate('mock-arena')}
+          className="w-full md:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-[#ef3b2d] hover:bg-[#d62f22] text-white text-xs font-black uppercase tracking-wider transition shadow-sm cursor-pointer shrink-0"
+        >
+          <Award className="w-4 h-4" />
+          <span>Mock Test Yechish</span>
+          <ArrowRight className="w-4 h-4" />
+        </button>
       </section>
 
       {/* 2. CORE: Bugungi Shaxsiy Tayyorlanish Rejasi (ielts.gg style daily curriculum) */}

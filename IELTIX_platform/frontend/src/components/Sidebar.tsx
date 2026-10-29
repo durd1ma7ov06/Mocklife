@@ -130,15 +130,20 @@ export const Sidebar: React.FC<SidebarProps> = ({
     },
   ];
 
+  const isAdminAuthenticated = typeof window !== 'undefined' && (
+    sessionStorage.getItem('mocklife_admin_auth') === 'true' ||
+    localStorage.getItem('mocklife_admin_auth') === 'true'
+  );
+
   const bottomNavItems = [
-    { 
+    ...(isAdminAuthenticated ? [{ 
       id: 'admin', 
       label: 'Admin & AI Studio', 
       icon: Settings2, 
       color: 'text-purple-600', 
       badge: 'Admin',
       badgeClass: 'bg-purple-100 text-purple-800 font-bold',
-    },
+    }] : []),
     { 
       id: 'pricing', 
       label: 'VIP Sinov & Tariflar', 

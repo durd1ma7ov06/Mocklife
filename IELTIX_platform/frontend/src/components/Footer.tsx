@@ -1,7 +1,11 @@
 import React from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
 
-export const Footer: React.FC = () => {
+interface FooterProps {
+  onOpenAdmin?: () => void;
+}
+
+export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
   const { t } = useLanguage();
 
   return (
@@ -85,6 +89,16 @@ export const Footer: React.FC = () => {
           <div className="flex items-center gap-6">
             <span>{t.footer.terms}</span>
             <span>{t.footer.privacy}</span>
+            {onOpenAdmin && (
+              <button
+                type="button"
+                onClick={onOpenAdmin}
+                className="hover:text-purple-400 text-white/40 transition flex items-center gap-1 cursor-pointer font-bold"
+                title="Platforma ma'murlari uchun alohida panel"
+              >
+                <span>🔒 Admin Panel</span>
+              </button>
+            )}
           </div>
         </div>
       </div>

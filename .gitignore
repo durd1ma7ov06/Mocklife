@@ -18,3 +18,8 @@ __pycache__/
 .vscode/
 .kiro/
 deploy/aws/certbot/
+*.pem
+*.tar.gz
+*.tar
+*.gz
+*.zip

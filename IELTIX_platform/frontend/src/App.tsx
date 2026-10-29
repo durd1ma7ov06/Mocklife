@@ -15,9 +15,11 @@ import { PricingBlock } from './components/PricingBlock';
 import { FaqBlock } from './components/FaqBlock';
 import { Footer } from './components/Footer';
 import { MockTestModal } from './components/MockTestModal';
-import { AuthModal } from './components/auth/AuthModal';
+import { AuthModal, AuthView } from './components/auth/AuthModal';
+import { AdminAuthModal } from './components/auth/AdminAuthModal';
+import { CandidatesTrialModal } from './components/CandidatesTrialModal';
 import { apiClient } from './config/api';
-import { X, CheckCircle, ArrowRight, ShieldCheck, Check, Lock } from 'lucide-react';
+import { X, CheckCircle, ArrowRight, ShieldCheck, Check, Lock, Sparkles, Send, Users } from 'lucide-react';
 
 // MockLife Platform Components & Pages
 import { Header } from './components/Header';
@@ -39,32 +41,6 @@ import { ProfileModal } from './components/ProfileModal';
 import { QuizPage } from './pages/QuizPage';
 import { AdminPage } from './pages/AdminPage';
 import { WebLockPage } from './pages/WebLockPage';
-
-// ==========================================
-// Web Locked Notice & Modal ("Hali Ishga Tushmadi")
-// ==========================================
-export const WebLockedNoticeBanner: React.FC = () => {
-  return (
-    <div className="w-full bg-[#10152b] text-white py-2 px-4 text-xs font-bold flex flex-wrap items-center justify-center gap-2 border-b border-[#ef3b2d]/30 z-40 relative shadow-sm">
-      <div className="flex items-center gap-1.5">
-        <span className="w-5 h-5 rounded-full bg-[#ef3b2d]/20 text-[#ef3b2d] flex items-center justify-center shrink-0">
-          <Lock className="w-3 h-3" />
-        </span>
-        <span className="text-amber-400 uppercase tracking-wider text-[11px] font-black">Eslatma:</span>
-        <span className="text-gray-200">Web platformamiz hali rasman ishga tushmadi (yakuniy sozlash ketmoqda). Barcha 4 ta modul Telegram botimizda 100% to'liq faol!</span>
-      </div>
-      <a
-        href="https://t.me/Mocklife_bot"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#ef3b2d] hover:bg-[#d62f22] text-white text-[11px] font-black uppercase tracking-wider transition shrink-0 ml-1 shadow-xs"
-      >
-        <span>Botga O'tish</span>
-        <ArrowRight className="w-3 h-3" />
-      </a>
-    </div>
-  );
-};
 
 export const WebLockedModal: React.FC<{ isOpen: boolean; onClose: () => void; onProceedPreview?: () => void }> = ({
   isOpen,
@@ -189,7 +165,17 @@ const MockLifePlatformView: React.FC<MockLifePlatformViewProps> = ({ onOpenLandi
       case 'system-check':
         return <SystemCheckPage onNavigate={handleNavigate} />;
       case 'admin':
-        return <AdminPage onNavigate={handleNavigate} />;
+        return (
+          <AdminPage
+            onNavigate={handleNavigate}
+            onOpenPlatform={() => handleNavigate('dashboard')}
+            onOpenLanding={onOpenLanding}
+            onLogoutAdmin={() => {
+              sessionStorage.removeItem('mocklife_admin_auth');
+              handleNavigate('dashboard');
+            }}
+          />
+        );
       default:
         return <DashboardPage onNavigate={handleNavigate} />;
     }
@@ -197,9 +183,6 @@ const MockLifePlatformView: React.FC<MockLifePlatformViewProps> = ({ onOpenLandi
 
   return (
     <div className="min-h-screen bg-[#fdf6e9] text-[#10152b] antialiased flex flex-col font-nunito selection:bg-[#ef3b2d] selection:text-white">
-      {/* Web Locked Notice Banner */}
-      <WebLockedNoticeBanner />
-
       {/* Top Header with Universal Sidebar Toggle & Return to Landing */}
       <Header
         onOpenSearch={() => setSearchModalOpen(true)}
@@ -302,12 +285,19 @@ const MockLifePlatformView: React.FC<MockLifePlatformViewProps> = ({ onOpenLandi
 // ==========================================
 interface LandingViewProps {
   onOpenPlatform: () => void;
-  onOpenAuth: () => void;
+  onOpenAuth: (view?: AuthView) => void;
+  onOpenAdmin?: () => void;
   onStartOnboarding?: () => void;
 }
 
-const LandingView: React.FC<LandingViewProps> = ({ onOpenPlatform, onOpenAuth, onStartOnboarding }) => {
+const LandingView: React.FC<LandingViewProps> = ({ 
+  onOpenPlatform, 
+  onOpenAuth, 
+  onOpenAdmin,
+  onStartOnboarding 
+}) => {
   const { t } = useLanguage();
+  const { user, isAuthenticated } = useAuth();
   const [subModalOpen, setSubModalOpen] = useState(false);
   const [lockedModalOpen, setLockedModalOpen] = useState(false);
   const [activeTestId, setActiveTestId] = useState<string | null>(null);
@@ -320,7 +310,11 @@ const LandingView: React.FC<LandingViewProps> = ({ onOpenPlatform, onOpenAuth, o
   const [subSuccess, setSubSuccess] = useState<string | null>(null);
 
   const handleStart = () => {
-    setLockedModalOpen(true);
+    if (isAuthenticated && user?.isTelegramLinked) {
+      onOpenPlatform();
+    } else {
+      onOpenAuth('TELEGRAM');
+    }
   };
 
   const handleOpenSubscription = (planId?: 'gift' | 'weekly' | 'monthly') => {
@@ -361,14 +355,17 @@ const LandingView: React.FC<LandingViewProps> = ({ onOpenPlatform, onOpenAuth, o
 
   return (
     <div className="min-h-screen bg-[#fdf6e9] text-[#10152b] font-nunito selection:bg-[#ef3b2d] selection:text-white flex flex-col">
-      {/* 0. Web Locked Banner Notice */}
-      <WebLockedNoticeBanner />
-
       {/* 1. Navbar */}
       <Navbar
         onStartClick={handleStart}
-        onLoginClick={onOpenAuth}
-        onOpenPlatform={() => setLockedModalOpen(true)}
+        onLoginClick={() => onOpenAuth('LOGIN')}
+        onOpenPlatform={() => {
+          if (isAuthenticated && user?.isTelegramLinked) {
+            onOpenPlatform();
+          } else {
+            handleStart();
+          }
+        }}
       />
 
       <main className="flex-grow">
@@ -395,7 +392,7 @@ const LandingView: React.FC<LandingViewProps> = ({ onOpenPlatform, onOpenAuth, o
       </main>
 
       {/* 8. Footer */}
-      <Footer />
+      <Footer onOpenAdmin={onOpenAdmin} />
 
       {/* Interactive Mock Test Simulation Modal */}
       <MockTestModal
@@ -563,27 +560,26 @@ const LandingView: React.FC<LandingViewProps> = ({ onOpenPlatform, onOpenAuth, o
 const AppOrchestrator: React.FC = () => {
   const { isAuthenticated } = useAuth();
   const [authModalOpen, setAuthModalOpen] = useState(false);
-  const [isUnlocked, setIsUnlocked] = useState(false);
-  const [viewMode, setViewMode] = useState<'landing' | 'platform'>('landing');
+  const [authInitialView, setAuthInitialView] = useState<AuthView>('TELEGRAM');
+  const [viewMode, setViewMode] = useState<'landing' | 'platform' | 'admin'>('landing');
+  const [adminAuthModalOpen, setAdminAuthModalOpen] = useState(false);
 
-  // Check if session or localStorage has admin preview unlocked
+  // Telegram Mini App yoki URL orqali kirganda to'g'ridan-to'g'ri platforma yoki admin panelni ochish
   useEffect(() => {
-    if (sessionStorage.getItem('mocklife_admin_unlocked') === 'true') {
-      setIsUnlocked(true);
+    const params = new URLSearchParams(window.location.search);
+    const tgApp = (window as any).Telegram?.WebApp;
+    if (params.get('admin') === 'true' || window.location.pathname === '/admin') {
+      if (sessionStorage.getItem('mocklife_admin_auth') === 'true') {
+        setViewMode('admin');
+      } else {
+        setAdminAuthModalOpen(true);
+      }
+    } else if (tgApp?.initDataUnsafe?.user || params.get('tg_id') || params.get('auth') === 'telegram' || params.get('mode') === 'platform') {
+      setViewMode('platform');
     }
   }, []);
 
-  const handleAdminUnlock = () => {
-    sessionStorage.setItem('mocklife_admin_unlocked', 'true');
-    setIsUnlocked(true);
-  };
-
-  // 100% Full Lock for all web visitors
-  if (!isUnlocked) {
-    return <WebLockPage onAdminUnlock={handleAdminUnlock} />;
-  }
-
-  // Automatically transition to platform if user logs in
+  // Transition to platform on login
   const handleAuthSuccess = () => {
     setAuthModalOpen(false);
     setViewMode('platform');
@@ -593,22 +589,58 @@ const AppOrchestrator: React.FC = () => {
     setViewMode('platform');
   };
 
+  const handleOpenAuth = (view: AuthView = 'TELEGRAM') => {
+    setAuthInitialView(view);
+    setAuthModalOpen(true);
+  };
+
+  const handleOpenAdmin = () => {
+    if (sessionStorage.getItem('mocklife_admin_auth') === 'true') {
+      setViewMode('admin');
+    } else {
+      setAdminAuthModalOpen(true);
+    }
+  };
+
   return (
     <>
-      {viewMode === 'platform' ? (
+      {viewMode === 'admin' ? (
+        <div className="min-h-screen bg-[#0b0f19] text-white p-4 sm:p-8">
+          <AdminPage
+            onOpenLanding={() => setViewMode('landing')}
+            onOpenPlatform={() => setViewMode('platform')}
+            onLogoutAdmin={() => {
+              sessionStorage.removeItem('mocklife_admin_auth');
+              setViewMode('landing');
+            }}
+          />
+        </div>
+      ) : viewMode === 'platform' ? (
         <MockLifePlatformView onOpenLanding={() => setViewMode('landing')} />
       ) : (
         <LandingView
           onOpenPlatform={handleOpenPlatform}
-          onOpenAuth={() => setViewMode('platform')}
+          onOpenAuth={handleOpenAuth}
+          onOpenAdmin={handleOpenAdmin}
         />
       )}
 
-      {/* Auth Modal (Login / Register / OTP / Reset) */}
+      {/* Auth Modal (Login / Register / OTP / Reset / Telegram) */}
       <AuthModal
         isOpen={authModalOpen}
+        initialView={authInitialView}
         onClose={() => setAuthModalOpen(false)}
         onSuccess={handleAuthSuccess}
+      />
+
+      {/* Admin Alohida Paneliga Kirish Uchun PIN Kod Modali */}
+      <AdminAuthModal
+        isOpen={adminAuthModalOpen}
+        onClose={() => setAdminAuthModalOpen(false)}
+        onSuccess={() => {
+          setAdminAuthModalOpen(false);
+          setViewMode('admin');
+        }}
       />
     </>
   );

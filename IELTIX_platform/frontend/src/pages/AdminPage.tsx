@@ -3,16 +3,33 @@ import { PageTab } from '../components/Sidebar.js';
 import { useUser } from '../context/UserContext.js';
 import { supabase } from '../services/supabaseClient.js';
 import { api } from '../services/api.js';
+import { apiClient } from '../config/api.js';
 
 interface AdminPageProps {
-  onNavigate: (tab: PageTab) => void;
+  onNavigate?: (tab: PageTab) => void;
+  onOpenLanding?: () => void;
+  onOpenPlatform?: () => void;
+  onLogoutAdmin?: () => void;
 }
 
-export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
+export const AdminPage: React.FC<AdminPageProps> = ({ 
+  onNavigate,
+  onOpenLanding,
+  onOpenPlatform,
+  onLogoutAdmin
+}) => {
   const { user } = useUser();
-  const [activeTab, setActiveTab] = useState<'overview' | 'ai-settings' | 'listening' | 'reading' | 'writing' | 'speaking' | 'candidates'>('overview');
+  const [activeTab, setActiveTab] = useState<'candidates' | 'overview' | 'ai-settings' | 'listening' | 'reading' | 'writing' | 'speaking'>('candidates');
   const [supabaseCandidates, setSupabaseCandidates] = useState<any[]>([]);
   const [loadingCandidates, setLoadingCandidates] = useState(false);
+
+  // Live candidates & 1-week trial state
+  const [candidatesList, setCandidatesList] = useState<any[]>([]);
+  const [totalCandidatesCount, setTotalCandidatesCount] = useState<number>(5);
+  const [activeTrialsCount, setActiveTrialsCount] = useState<number>(4);
+  const [expiredTrialsCount, setExpiredTrialsCount] = useState<number>(1);
+  const [candidateSearch, setCandidateSearch] = useState('');
+  const [candidateFilter, setCandidateFilter] = useState<'all' | 'active' | 'expired'>('all');
 
   // AI & ngrok config state
   const [aiConfig, setAiConfig] = useState({
@@ -86,13 +103,32 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
     }
   };
 
+  const fetchCandidatesData = async () => {
+    setLoadingCandidates(true);
+    try {
+      const res = await apiClient.getCandidatesOverview();
+      if (res && res.candidates) {
+        setCandidatesList(res.candidates);
+        setTotalCandidatesCount(res.totalCandidates || res.candidates.length);
+        setActiveTrialsCount(res.activeTrials || 0);
+        setExpiredTrialsCount(res.expiredTrials || 0);
+      }
+    } catch (e) {
+      console.warn('Candidates overview error:', e);
+    } finally {
+      setLoadingCandidates(false);
+    }
+  };
+
   useEffect(() => {
     fetchAdminConfig();
     fetchAdminMaterials();
+    fetchCandidatesData();
   }, []);
 
   useEffect(() => {
     if (activeTab === 'candidates') {
+      fetchCandidatesData();
       fetchSupabaseCandidates();
     }
     if (activeTab === 'overview') {
@@ -148,6 +184,66 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
     setSaveNotification(msg);
     setTimeout(() => setSaveNotification(null), 3500);
   };
+
+  const handleExtendTrial = async (candidateId: string, candidateName: string) => {
+    try {
+      const res = await apiClient.extendCandidateTrial(candidateId, 7);
+      if (res && res.success) {
+        showNotification(`🎉 ${candidateName} uchun 1 haftalik sinov yana +7 kunga uzaytirildi!`);
+        fetchCandidatesData();
+      } else {
+        showNotification(res?.error || "Sinov muddatini uzaytirishda xatolik");
+      }
+    } catch {
+      showNotification("Tarmoq xatosi yuz berdi");
+    }
+  };
+
+  const formatDate = (isoString?: string) => {
+    if (!isoString) return '—';
+    try {
+      const d = new Date(isoString);
+      return d.toLocaleString('uz-UZ', {
+        year: 'numeric',
+        month: 'short',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+    } catch {
+      return isoString;
+    }
+  };
+
+  const getProgressPercentage = (cand: any) => {
+    try {
+      const start = new Date(cand.joinedAt).getTime();
+      const end = new Date(cand.trialExpiresAt).getTime();
+      const now = Date.now();
+      const total = end - start;
+      if (total <= 0) return 100;
+      const elapsed = now - start;
+      const pct = Math.min(100, Math.max(0, Math.round((elapsed / total) * 100)));
+      return pct;
+    } catch {
+      return cand.isTrialActive ? 40 : 100;
+    }
+  };
+
+  const filteredCandidates = candidatesList.filter((cand) => {
+    const query = candidateSearch.toLowerCase();
+    const matchesSearch =
+      !candidateSearch ||
+      (cand.name && cand.name.toLowerCase().includes(query)) ||
+      (cand.username && cand.username.toLowerCase().includes(query)) ||
+      (cand.phone && cand.phone.includes(candidateSearch)) ||
+      (cand.telegramId && cand.telegramId.toString().includes(candidateSearch));
+
+    if (!matchesSearch) return false;
+    if (candidateFilter === 'active') return cand.isTrialActive;
+    if (candidateFilter === 'expired') return !cand.isTrialActive;
+    return true;
+  });
 
   const handleSaveAiConfig = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -411,23 +507,47 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
         </div>
 
         <div className="flex items-center gap-2.5 flex-wrap">
-          <button
-            type="button"
-            onClick={() => onNavigate('dashboard')}
-            className="px-4 py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-xs font-bold text-on-surface border border-surface-container-high transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
-          >
-            <span className="material-symbols-outlined text-base">dashboard</span>
-            <span>Dashboard</span>
-          </button>
+          {onOpenPlatform ? (
+            <button
+              type="button"
+              onClick={onOpenPlatform}
+              className="px-4 py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-xs font-bold text-on-surface border border-surface-container-high transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
+            >
+              <span className="material-symbols-outlined text-base">arrow_back</span>
+              <span>Talaba Platformasi</span>
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => onNavigate && onNavigate('dashboard')}
+              className="px-4 py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-xs font-bold text-on-surface border border-surface-container-high transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
+            >
+              <span className="material-symbols-outlined text-base">dashboard</span>
+              <span>Dashboard</span>
+            </button>
+          )}
 
-          <button
-            type="button"
-            onClick={() => onNavigate('mock-arena')}
-            className="px-4 py-2.5 rounded-xl bg-primary text-on-primary text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-md hover:opacity-95"
-          >
-            <span className="material-symbols-outlined text-base">verified</span>
-            <span>Mock Arena</span>
-          </button>
+          {onOpenLanding && (
+            <button
+              type="button"
+              onClick={onOpenLanding}
+              className="px-4 py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-xs font-bold text-on-surface border border-surface-container-high transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
+            >
+              <span className="material-symbols-outlined text-base">home</span>
+              <span>Asosiy Sahifa</span>
+            </button>
+          )}
+
+          {onLogoutAdmin && (
+            <button
+              type="button"
+              onClick={onLogoutAdmin}
+              className="px-4 py-2.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 text-xs font-bold border border-rose-500/30 transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
+            >
+              <span className="material-symbols-outlined text-base">lock</span>
+              <span>Admin Chiqish</span>
+            </button>
+          )}
         </div>
       </div>
 
@@ -442,13 +562,13 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
       {/* Navigation Tabs */}
       <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
         {[
+          { id: 'candidates', label: '👥 Foydalanuvchilar & 1 Haftalik Limit', icon: 'group' },
           { id: 'overview', label: 'Umumiy Holat', icon: 'dashboard' },
           { id: 'ai-settings', label: '⚡ AI & ngrok API', icon: 'psychology' },
           { id: 'listening', label: 'Listening Yuklash', icon: 'headphones' },
           { id: 'reading', label: 'Reading Matn & Savol', icon: 'menu_book' },
           { id: 'writing', label: 'Writing Mavzulari', icon: 'edit_note' },
           { id: 'speaking', label: 'Speaking Cue Cardlar', icon: 'smart_toy' },
-          { id: 'candidates', label: 'Nomzodlar Ro\'yxati', icon: 'group' },
         ].map((t) => (
           <button
             key={t.id}
@@ -1378,134 +1498,272 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
         </form>
       )}
 
-      {/* TAB 6: CANDIDATES */}
+      {/* TAB: CANDIDATES & 1-WEEK TRIAL LIMIT MANAGEMENT */}
       {activeTab === 'candidates' && (
-        <div className="p-6 rounded-3xl bg-surface-container border border-surface-container-high/60 space-y-4 animate-fadeIn">
-          <div className="flex items-center justify-between pb-3 border-b border-surface-container-high/40">
+        <div className="space-y-6 animate-fadeIn">
+          {/* Candidates Top Stats Bar */}
+          <div className="p-6 rounded-3xl bg-surface-container border border-surface-container-high/60 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <div className="flex items-center gap-2">
-                <h3 className="text-base font-bold text-on-surface">👥 Ro'yxatdan O'tgan Nomzodlar</h3>
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-extrabold uppercase">
-                  Supabase Cloud Active
-                </span>
+              <div className="flex items-center gap-2.5">
+                <div className="w-10 h-10 rounded-2xl bg-primary/20 text-primary flex items-center justify-center font-bold">
+                  <span className="material-symbols-outlined text-2xl">group</span>
+                </div>
+                <div>
+                  <h3 className="text-lg font-black text-on-surface">
+                    👥 Platforma Foydalanuvchilari & 1 Haftalik Limit Tahlili
+                  </h3>
+                  <p className="text-xs text-on-surface-variant">
+                    Kimlar ishlatayotgani, qachon kirgani, foydalanuvchilar soni va 7 kunlik sinov muddati tugash sanasi
+                  </p>
+                </div>
               </div>
-              <p className="text-xs text-on-surface-variant mt-0.5">Barcha faol nomzodlar va Supabase PostgreSQL ma'lumotlar bazasi</p>
             </div>
+
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                onClick={fetchSupabaseCandidates}
+                onClick={() => {
+                  fetchCandidatesData();
+                  fetchSupabaseCandidates();
+                }}
                 disabled={loadingCandidates}
-                className="px-3 py-1.5 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-xs font-bold text-on-surface border border-surface-container-highest transition-all flex items-center gap-1 cursor-pointer"
+                className="px-4 py-2 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-xs font-bold text-on-surface border border-surface-container-highest transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
               >
-                <span className={`material-symbols-outlined text-sm ${loadingCandidates ? 'animate-spin' : ''}`}>sync</span>
-                <span>{loadingCandidates ? 'Yuklanmoqda...' : 'Bazadan Yangilash'}</span>
+                <span className={`material-symbols-outlined text-base ${loadingCandidates ? 'animate-spin text-primary' : ''}`}>sync</span>
+                <span>{loadingCandidates ? 'Yuklanmoqda...' : 'Ma\'lumotlarni Yangilash'}</span>
               </button>
-              <span className="text-xs px-2.5 py-1 rounded-full bg-secondary-container/30 text-secondary font-bold">
-                {3 + supabaseCandidates.length} Nomzod
-              </span>
             </div>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-xs text-left">
-              <thead className="bg-surface-container-low text-on-surface-variant uppercase text-[10px] font-bold">
-                <tr>
-                  <th className="p-3 rounded-l-xl">Nomzod</th>
-                  <th className="p-3">Email</th>
-                  <th className="p-3">Maqsad</th>
-                  <th className="p-3">Imtihon Sanasi</th>
-                  <th className="p-3">Rejim</th>
-                  <th className="p-3 rounded-r-xl">A'zolik Holati</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-surface-container-high/30">
-                {/* Real Supabase Candidates */}
-                {supabaseCandidates.map((c) => (
-                  <tr key={c.id} className="hover:bg-surface-container-low/50 bg-emerald-500/5">
-                    <td className="p-3 font-bold text-on-surface flex items-center gap-2">
-                      <span className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-[10px]">
-                        {c.name ? c.name.slice(0, 2).toUpperCase() : 'US'}
-                      </span>
-                      <span>{c.name || 'Yangi Nomzod'}</span>
-                    </td>
-                    <td className="p-3 text-on-surface-variant font-code">{c.email}</td>
-                    <td className="p-3 font-semibold text-emerald-400">{c.target_band || 'Band 7.5'}</td>
-                    <td className="p-3 text-on-surface-variant">{c.exam_date || '2025-11-15'}</td>
-                    <td className="p-3">
-                      <span className="px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 font-bold text-[10px]">
-                        {c.active_mode || 'IELTS'}
-                      </span>
-                    </td>
-                    <td className="p-3 font-bold text-emerald-400 flex items-center gap-1">
-                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                      <span>Supabase Live</span>
-                    </td>
+          {/* 4 KPI Metrics */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+            <div className="p-4 sm:p-5 rounded-2xl bg-surface-container border border-surface-container-high/60">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Jami Nomzodlar</span>
+                <span className="material-symbols-outlined text-primary text-xl">group</span>
+              </div>
+              <div className="text-2xl sm:text-3xl font-black text-on-surface">{totalCandidatesCount} ta</div>
+              <div className="text-[10px] text-on-surface-variant mt-1 font-semibold">Barcha ro'yxatdan o'tganlar</div>
+            </div>
+
+            <div className="p-4 sm:p-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/20">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[11px] font-bold text-emerald-600 uppercase tracking-wider">Faol 7 Kunlik Sinov</span>
+                <span className="material-symbols-outlined text-emerald-600 text-xl">timer</span>
+              </div>
+              <div className="text-2xl sm:text-3xl font-black text-emerald-600">{activeTrialsCount} ta</div>
+              <div className="text-[10px] text-emerald-600/80 mt-1 font-semibold">Limit doirasida foydalanmoqda</div>
+            </div>
+
+            <div className="p-4 sm:p-5 rounded-2xl bg-rose-500/10 border border-rose-500/20">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[11px] font-bold text-rose-600 uppercase tracking-wider">Limiti Tugaganlar</span>
+                <span className="material-symbols-outlined text-rose-600 text-xl">warning</span>
+              </div>
+              <div className="text-2xl sm:text-3xl font-black text-rose-600">{expiredTrialsCount} ta</div>
+              <div className="text-[10px] text-rose-600/80 mt-1 font-semibold">1 haftalik muddati yakunlangan</div>
+            </div>
+
+            <div className="p-4 sm:p-5 rounded-2xl bg-secondary-container/20 border border-secondary/20">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[11px] font-bold text-secondary uppercase tracking-wider">Telegram Bog'langan</span>
+                <span className="material-symbols-outlined text-secondary text-xl">send</span>
+              </div>
+              <div className="text-2xl sm:text-3xl font-black text-secondary">
+                {candidatesList.filter(c => c.isTelegramLinked).length} ta
+              </div>
+              <div className="text-[10px] text-secondary/80 mt-1 font-semibold">@MockLife_bot orqali ulangan</div>
+            </div>
+          </div>
+
+          {/* Search & Filter Toolbar */}
+          <div className="p-4 rounded-2xl bg-surface-container border border-surface-container-high/60 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div className="relative w-full sm:w-80">
+              <span className="material-symbols-outlined text-lg absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+              <input
+                type="text"
+                value={candidateSearch}
+                onChange={(e) => setCandidateSearch(e.target.value)}
+                placeholder="Nomzod ismi, @username, telefon..."
+                className="w-full pl-10 pr-3.5 py-2 rounded-xl bg-surface-container-low border border-surface-container-high text-xs text-on-surface focus:outline-none focus:border-primary placeholder:text-on-surface-variant/50"
+              />
+            </div>
+
+            <div className="flex items-center gap-1.5 w-full sm:w-auto">
+              {[
+                { id: 'all', label: `Barchasi (${totalCandidatesCount})` },
+                { id: 'active', label: `Faol Sinov (${activeTrialsCount})` },
+                { id: 'expired', label: `Muddati Tugagan (${expiredTrialsCount})` },
+              ].map((f) => (
+                <button
+                  key={f.id}
+                  type="button"
+                  onClick={() => setCandidateFilter(f.id as any)}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex-1 sm:flex-none ${
+                    candidateFilter === f.id
+                      ? 'bg-primary text-on-primary shadow-xs'
+                      : 'bg-surface-container-low hover:bg-surface-container-high text-on-surface-variant'
+                  }`}
+                >
+                  {f.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Master Candidates Table */}
+          <div className="p-6 rounded-3xl bg-surface-container border border-surface-container-high/60 shadow-sm space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-surface-container-high/40">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold text-on-surface">Ro'yxat: {filteredCandidates.length} ta nomzod</span>
+              </div>
+              <span className="text-[11px] text-on-surface-variant">
+                Aniq kirish vaqti va 7 kunlik sinov taymeri
+              </span>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs text-left">
+                <thead className="bg-surface-container-low text-on-surface-variant uppercase text-[10px] font-bold">
+                  <tr>
+                    <th className="p-3.5 rounded-l-xl">Nomzod (Kimlar)</th>
+                    <th className="p-3.5">Telefon & Telegram</th>
+                    <th className="p-3.5">Qachon Kirgan</th>
+                    <th className="p-3.5">1 Haftalik Limiti Qachon Tugaydi</th>
+                    <th className="p-3.5">Holati</th>
+                    <th className="p-3.5 rounded-r-xl text-right">Admin Amallari</th>
                   </tr>
-                ))}
-                <tr className="hover:bg-surface-container-low/50">
-                  <td className="p-3 font-bold text-on-surface flex items-center gap-2">
-                    <span className="w-6 h-6 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold text-[10px]">
-                      SA
-                    </span>
-                    <span>Sardor Alimov</span>
-                  </td>
-                  <td className="p-3 text-on-surface-variant font-code">sardor@mocklife.uz</td>
-                  <td className="p-3 font-semibold text-primary">Band 7.5</td>
-                  <td className="p-3 text-on-surface-variant">Nov 15, 2025</td>
-                  <td className="p-3">
-                    <span className="px-2 py-0.5 rounded-md bg-primary-container text-on-primary-container font-bold text-[10px]">
-                      PRO
-                    </span>
-                  </td>
-                  <td className="p-3 font-bold text-secondary flex items-center gap-1">
-                    <span className="w-2 h-2 rounded-full bg-secondary"></span>
-                    <span>Faol A'zo</span>
-                  </td>
-                </tr>
+                </thead>
+                <tbody className="divide-y divide-surface-container-high/30">
+                  {filteredCandidates.map((cand) => {
+                    const pct = getProgressPercentage(cand);
+                    return (
+                      <tr key={cand.id} className="hover:bg-surface-container-low/50 transition-colors">
+                        {/* 1. Name & Avatar */}
+                        <td className="p-3.5">
+                          <div className="flex items-center gap-3">
+                            <div className="w-9 h-9 rounded-2xl bg-primary/20 text-primary flex items-center justify-center font-black text-xs shrink-0">
+                              {cand.name ? cand.name.slice(0, 2).toUpperCase() : 'ML'}
+                            </div>
+                            <div>
+                              <div className="font-extrabold text-on-surface flex items-center gap-1.5">
+                                <span>{cand.name || 'Nomzod'}</span>
+                                {cand.isTelegramLinked && (
+                                  <span className="text-sky-500 font-bold" title="Telegram ulangan">✓</span>
+                                )}
+                              </div>
+                              <div className="text-[10px] text-on-surface-variant font-mono">
+                                {cand.username ? `@${cand.username}` : `ID: ${cand.telegramId || cand.id}`}
+                              </div>
+                              <div className="text-[10px] text-primary font-bold mt-0.5">
+                                {cand.targetBand || 'Band 7.5 Academic'}
+                              </div>
+                            </div>
+                          </div>
+                        </td>
 
-                <tr className="hover:bg-surface-container-low/50">
-                  <td className="p-3 font-bold text-on-surface flex items-center gap-2">
-                    <span className="w-6 h-6 rounded-full bg-secondary/20 text-secondary flex items-center justify-center font-bold text-[10px]">
-                      NR
-                    </span>
-                    <span>Nodira Rashidova</span>
-                  </td>
-                  <td className="p-3 text-on-surface-variant font-code">nodira@mocklife.uz</td>
-                  <td className="p-3 font-semibold text-secondary">Band 8.0</td>
-                  <td className="p-3 text-on-surface-variant">Oct 26, 2025</td>
-                  <td className="p-3">
-                    <span className="px-2 py-0.5 rounded-md bg-secondary-container text-on-secondary font-bold text-[10px]">
-                      MAX VIP
-                    </span>
-                  </td>
-                  <td className="p-3 font-bold text-secondary flex items-center gap-1">
-                    <span className="w-2 h-2 rounded-full bg-secondary"></span>
-                    <span>Faol A'zo</span>
-                  </td>
-                </tr>
+                        {/* 2. Phone & Telegram */}
+                        <td className="p-3.5">
+                          <div className="font-mono text-on-surface text-[11px] font-bold">
+                            {cand.phone || '—'}
+                          </div>
+                          {cand.username && (
+                            <a
+                              href={`https://t.me/${cand.username}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[10px] text-sky-500 hover:underline flex items-center gap-1 mt-0.5"
+                            >
+                              <span>Telegram Chat</span>
+                              <span className="material-symbols-outlined text-[12px]">open_in_new</span>
+                            </a>
+                          )}
+                        </td>
 
-                <tr className="hover:bg-surface-container-low/50">
-                  <td className="p-3 font-bold text-on-surface flex items-center gap-2">
-                    <span className="w-6 h-6 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-bold text-[10px]">
-                      ShT
-                    </span>
-                    <span>Sherzod Tursunov</span>
-                  </td>
-                  <td className="p-3 text-on-surface-variant font-code">sherzod@mocklife.uz</td>
-                  <td className="p-3 font-semibold text-on-surface">Band 7.0</td>
-                  <td className="p-3 text-on-surface-variant">Dec 10, 2025</td>
-                  <td className="p-3">
-                    <span className="px-2 py-0.5 rounded-md bg-surface-container-high text-on-surface-variant font-bold text-[10px]">
-                      FREE
-                    </span>
-                  </td>
-                  <td className="p-3 text-on-surface-variant">
-                    <span>Sinov Rejimi</span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                        {/* 3. Joined & Last login */}
+                        <td className="p-3.5">
+                          <div>
+                            <div className="text-on-surface font-semibold text-[11px]">
+                              {formatDate(cand.joinedAt)}
+                            </div>
+                            <div className="text-[10px] text-on-surface-variant mt-0.5">
+                              So'nggi kirish: {formatDate(cand.lastLoginAt)}
+                            </div>
+                          </div>
+                        </td>
+
+                        {/* 4. 1-Week Trial Expiry */}
+                        <td className="p-3.5">
+                          <div className="space-y-1.5 min-w-[180px]">
+                            <div className="flex items-center justify-between text-[11px]">
+                              <span className="font-bold text-on-surface">
+                                {formatDate(cand.trialExpiresAt)}
+                              </span>
+                              <span className={`font-black text-[10px] px-2 py-0.5 rounded-md ${
+                                cand.isTrialActive 
+                                  ? 'bg-emerald-500/20 text-emerald-600' 
+                                  : 'bg-rose-500/20 text-rose-600'
+                              }`}>
+                                {cand.isTrialActive ? `${cand.trialDaysRemaining} kun qoldi` : 'Tugagan'}
+                              </span>
+                            </div>
+
+                            {/* Progress bar */}
+                            <div className="w-full h-1.5 rounded-full bg-surface-container-high overflow-hidden">
+                              <div
+                                className={`h-full rounded-full transition-all duration-500 ${
+                                  cand.isTrialActive ? 'bg-primary' : 'bg-rose-500'
+                                }`}
+                                style={{ width: `${pct}%` }}
+                              />
+                            </div>
+                            <div className="text-[9px] text-on-surface-variant text-right">
+                              {cand.isTrialActive ? `${cand.trialHoursRemaining || 0} soat qoldi` : 'Qayta faollashtirish talab etiladi'}
+                            </div>
+                          </div>
+                        </td>
+
+                        {/* 5. Status Badge */}
+                        <td className="p-3.5">
+                          {cand.isTrialActive ? (
+                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 font-bold text-[10px]">
+                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                              <span>Faol 7 kunlik sinov</span>
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-rose-500/10 text-rose-600 border border-rose-500/20 font-bold text-[10px]">
+                              <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />
+                              <span>Muddati tugagan</span>
+                            </span>
+                          )}
+                        </td>
+
+                        {/* 6. Admin Actions */}
+                        <td className="p-3.5 text-right">
+                          <button
+                            type="button"
+                            onClick={() => handleExtendTrial(cand.id, cand.name)}
+                            className="px-3 py-1.5 rounded-xl bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 font-bold text-[11px] transition-all cursor-pointer inline-flex items-center gap-1 shadow-xs"
+                            title="Sinov muddatini yana 7 kunga uzaytirish"
+                          >
+                            <span className="material-symbols-outlined text-sm">add_alarm</span>
+                            <span>+7 Kun Uzaytirish</span>
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+
+                  {filteredCandidates.length === 0 && (
+                    <tr>
+                      <td colSpan={6} className="p-8 text-center text-on-surface-variant text-xs">
+                        Qidiruv bo'yicha hech qanday nomzod topilmadi.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       )}

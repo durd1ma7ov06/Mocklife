@@ -42,7 +42,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({ children, isOpen, onClos
             <div className="flex items-center gap-1.5 bg-white/80 backdrop-blur px-3 py-1.5 rounded-full border border-white/40 shadow-sm">
               <span className="w-2.5 h-2.5 rounded-full bg-[#ef3b2d] animate-pulse" />
               <span className="font-unbounded font-black text-xs text-[#10152b]">
-                Mock<span className="text-[#ef3b2d]">Eng</span>
+                Mock<span className="text-[#ef3b2d]">Life</span>
               </span>
             </div>
           </div>

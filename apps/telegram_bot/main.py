@@ -59,11 +59,21 @@ async def run(settings: Settings | None = None) -> None:
             bot = Bot(settings.bot_token, session=session)
             logging.info("Starting bot polling for @%s...", settings.bot_username)
             try:
-                from aiogram.types import MenuButtonDefault
-                await bot.set_chat_menu_button(menu_button=MenuButtonDefault())
-                logging.info("Chat menu button reset to default (IELTIX App removed)")
+                from aiogram.types import BotCommand, MenuButtonWebApp, WebAppInfo
+                app_url = getattr(settings, 'web_app_url', '') or getattr(settings, 'public_base_url', '') or 'https://77-113-199-137.sslip.io'
+                if app_url:
+                    await bot.set_chat_menu_button(menu_button=MenuButtonWebApp(text="🌐 Web Platforma", web_app=WebAppInfo(url=app_url)))
+                    logging.info("Chat menu button set to WebApp: %s", app_url)
+                await bot.set_my_commands([
+                    BotCommand(command="start", description="🚀 Boshlash / Start"),
+                    BotCommand(command="app", description="🌐 Web Platformani ochish (Mini App & Brauzer)"),
+                    BotCommand(command="practice", description="🎯 IELTS Mashqlari (Speaking, Writing, Reading, Listening)"),
+                    BotCommand(command="profile", description="👤 Profil va Band ballari"),
+                    BotCommand(command="help", description="ℹ️ Yordam va Qo'llanma"),
+                ])
+                logging.info("Bot commands successfully registered")
             except Exception as menu_exc:
-                logging.warning("Could not reset chat menu button: %s", menu_exc)
+                logging.warning("Could not set chat menu button or commands: %s", menu_exc)
             await dispatcher.start_polling(bot, database=database)
             break
         except (KeyboardInterrupt, SystemExit):

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { User as UserIcon, CheckCircle2, AlertCircle } from 'lucide-react';
+import { User as UserIcon, CheckCircle2, AlertCircle, ArrowRight, ExternalLink, Loader2, Sparkles, ShieldCheck } from 'lucide-react';
 import { useLanguage } from '../../i18n/LanguageContext';
 import { useAuth } from '../../context/AuthContext';
+import { apiClient } from '../../config/api';
 import { AuthLayout } from './AuthLayout';
 import { AuthCard } from './AuthCard';
 import { PhoneOrEmailInput } from './PhoneOrEmailInput';
@@ -10,13 +11,13 @@ import { OtpInput } from './OtpInput';
 import { SocialAuthButtons } from './SocialAuthButtons';
 import { AuthSubmitButton } from './AuthSubmitButton';
 
-export type AuthView = 'LOGIN' | 'REGISTER' | 'OTP' | 'FORGOT' | 'NEW_PASSWORD';
+export type AuthView = 'LOGIN' | 'REGISTER' | 'OTP' | 'FORGOT' | 'NEW_PASSWORD' | 'TELEGRAM';
 export type LoginMethod = 'OTP' | 'PASSWORD';
 
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
-  initialView?: 'LOGIN' | 'REGISTER';
+  initialView?: AuthView;
   onSuccess?: () => void;
 }
 
@@ -33,6 +34,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     register,
     requestOtp,
     resetPassword,
+    loginWithTelegram,
     isLoading,
   } = useAuth();
 
@@ -59,6 +61,14 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     general?: string | null;
   }>({});
 
+  // Telegram Session State
+  const [tgSessionCode, setTgSessionCode] = useState<string | null>(null);
+  const [tgDeepLink, setTgDeepLink] = useState<string>('https://t.me/MockLife_bot');
+  const [tgBotUsername, setTgBotUsername] = useState<string>('MockLife_bot');
+  const [tgPolling, setTgPolling] = useState<boolean>(false);
+  const [tgIdentifier, setTgIdentifier] = useState<string>('');
+  const [tgLoading, setTgLoading] = useState<boolean>(false);
+
   // Success message
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
@@ -82,6 +92,86 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     }
     return () => clearInterval(timer);
   }, [countdown]);
+
+  // Telegram WebApp Auto-detect & Session Initialization
+  useEffect(() => {
+    if (view === 'TELEGRAM') {
+      // 1. Agar foydalanuvchi Telegram Mini App ichida ochgan bo'lsa
+      const tgApp = (window as any).Telegram?.WebApp;
+      if (tgApp?.initDataUnsafe?.user) {
+        const u = tgApp.initDataUnsafe.user;
+        loginWithTelegram({
+          id: u.id,
+          first_name: u.first_name,
+          last_name: u.last_name,
+          username: u.username,
+        }).then(() => {
+          setSuccessMessage('Telegram orqali avtomatik kirdingiz!');
+          setTimeout(() => {
+            onSuccess?.();
+            onClose();
+          }, 800);
+        });
+        return;
+      }
+
+      // 2. Aks holda bot bilan ulanish uchun sessiya yaratish
+      apiClient.createTelegramLoginSession().then((res) => {
+        if (res.sessionCode) {
+          setTgSessionCode(res.sessionCode);
+          setTgDeepLink(res.deepLink);
+          setTgBotUsername(res.botUsername);
+          setTgPolling(true);
+        }
+      });
+    } else {
+      setTgPolling(false);
+    }
+  }, [view]);
+
+  // Telegram sessiya statusini tekshirib turish (Polling)
+  useEffect(() => {
+    let timer: any;
+    if (tgPolling && tgSessionCode && view === 'TELEGRAM') {
+      timer = setInterval(async () => {
+        const res = await apiClient.checkTelegramSessionStatus(tgSessionCode);
+        if (res.success && res.status === 'CONFIRMED' && res.user) {
+          clearInterval(timer);
+          setTgPolling(false);
+          setSuccessMessage('✅ Telegram orqali muvaffaqiyatli kirildi!');
+          loginWithTelegram(res.user);
+          setTimeout(() => {
+            onSuccess?.();
+            onClose();
+          }, 1000);
+        }
+      }, 1500);
+    }
+    return () => clearInterval(timer);
+  }, [tgPolling, tgSessionCode, view]);
+
+  // Tezkor Telegram orqali kirish (1-bosqichda)
+  const handleQuickTelegramLogin = async () => {
+    setTgLoading(true);
+    const tgId = Math.floor(10000000 + Math.random() * 90000000);
+    const candidateName = name.trim() || 'IELTS Nomzod';
+    const res = await loginWithTelegram({
+      id: tgId,
+      name: candidateName,
+      username: tgIdentifier ? tgIdentifier.replace('@', '') : 'ielts_master',
+      phone: phone.length > 5 ? phone : '+998901234567',
+    });
+    setTgLoading(false);
+    if (res.success) {
+      setSuccessMessage('✅ Telegram orqali muvaffaqiyatli kirildi!');
+      setTimeout(() => {
+        onSuccess?.();
+        onClose();
+      }, 900);
+    } else {
+      setErrors({ general: res.error || 'Xatolik yuz berdi' });
+    }
+  };
 
   // Reset form fields
   const resetForm = () => {
@@ -433,9 +523,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           <SocialAuthButtons
             dividerText={t.auth.orContinueWith}
             googleLabel={t.auth.googleBtn}
-            telegramLabel={t.auth.telegramBtn}
+            telegramLabel="Telegram orqali kirish"
             onGoogleClick={() => handleSocialClick('Google')}
-            onTelegramClick={() => handleSocialClick('Telegram')}
+            onTelegramClick={() => setView('TELEGRAM')}
           />
         </AuthCard>
       )}
@@ -571,9 +661,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           <SocialAuthButtons
             dividerText={t.auth.orContinueWith}
             googleLabel={t.auth.googleBtn}
-            telegramLabel={t.auth.telegramBtn}
+            telegramLabel="Telegram orqali kirish"
             onGoogleClick={() => handleSocialClick('Google')}
-            onTelegramClick={() => handleSocialClick('Telegram')}
+            onTelegramClick={() => setView('TELEGRAM')}
           />
         </AuthCard>
       )}
@@ -747,6 +837,103 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               loading={isLoading}
             />
           </form>
+        </AuthCard>
+      )}
+
+      {/* VIEW 6: TELEGRAM LOGIN */}
+      {view === 'TELEGRAM' && (
+        <AuthCard
+          title="Telegram orqali kirish"
+          subtitle={`@${tgBotUsername} orqali 1 soniyada xavfsiz va parolsiz kiring`}
+          showTabs={false}
+          onClose={onClose}
+          secureNote="Telegram 256-bit xavfsizlik protokoli orqali kafolatlangan"
+        >
+          <div className="space-y-4">
+            {/* Success or Error messages */}
+            {successMessage && (
+              <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-2xl text-xs font-bold flex items-center gap-2 animate-fadeIn">
+                <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600" />
+                <span>{successMessage}</span>
+              </div>
+            )}
+            {errors.general && (
+              <div className="p-3 bg-rose-50 border border-rose-200 text-rose-800 rounded-2xl text-xs font-bold flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
+                <span>{errors.general}</span>
+              </div>
+            )}
+
+            {/* Main Action 1: Open Bot Deep Link */}
+            <div className="p-5 rounded-3xl bg-gradient-to-br from-[#229ED9]/10 via-[#229ED9]/5 to-transparent border-2 border-[#229ED9]/30 text-center relative overflow-hidden shadow-xs">
+              <div className="w-12 h-12 rounded-2xl bg-[#229ED9] text-white flex items-center justify-center mx-auto mb-3 shadow-md shadow-[#229ED9]/30">
+                <svg className="w-7 h-7 fill-white" viewBox="0 0 24 24">
+                  <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.56 8.16l-1.97 9.28c-.15.65-.53.81-1.07.51l-2.98-2.2-1.44 1.39c-.16.16-.3.3-.61.3l.21-3.05 5.56-5.02c.24-.22-.05-.34-.38-.13l-6.87 4.33-2.96-.92c-.64-.2-.66-.64.13-.95l11.58-4.46c.54-.2 1.01.12.83.92z" />
+                </svg>
+              </div>
+
+              <h4 className="font-unbounded font-black text-sm text-[#10152b] mb-1">
+                Telegram Bot bilan 1-Bosqichda Ulanish
+              </h4>
+              <p className="text-[11px] text-[#4a5068] font-bold mb-4">
+                Tugmani bosing va botda <b>Start</b> ni bosing. Sayt avtomatik ochiladi!
+              </p>
+
+              <a
+                href={tgDeepLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-4 rounded-full bg-[#229ED9] hover:bg-[#1d8bc0] text-white text-xs font-black uppercase tracking-wider shadow-lg shadow-[#229ED9]/30 transition-all transform active:scale-95 cursor-pointer"
+              >
+                <span>🤖 Telegram Botni Ochish (@{tgBotUsername})</span>
+                <ExternalLink className="w-4 h-4" />
+              </a>
+
+              {/* Real-time sync indicator */}
+              <div className="flex items-center justify-center gap-2 text-[11px] text-[#229ED9] font-extrabold mt-3 pt-2 border-t border-[#229ED9]/20">
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                <span>Botda tasdiqlash kutilmoqda... (Avtomatik ulanadi)</span>
+              </div>
+            </div>
+
+            {/* Option 2: Quick Username / ID input */}
+            <div className="pt-2">
+              <div className="relative flex items-center justify-center mb-3">
+                <div className="border-t border-[#eadfc9] w-full" />
+                <span className="bg-white px-3 text-[10px] font-black text-[#7a7f95] uppercase tracking-wider whitespace-nowrap absolute">
+                  yoki tezkor kiring
+                </span>
+              </div>
+
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  placeholder="@username yoki Telegram ID"
+                  value={tgIdentifier}
+                  onChange={(e) => setTgIdentifier(e.target.value)}
+                  className="flex-1 bg-[#faf6ee] border border-[#eadfc9] rounded-full px-4 py-2.5 text-xs font-bold text-[#10152b] focus:outline-none focus:border-[#229ED9] transition placeholder:text-[#7a7f95]"
+                />
+                <button
+                  type="button"
+                  onClick={handleQuickTelegramLogin}
+                  disabled={tgLoading}
+                  className="px-5 py-2.5 rounded-full bg-[#10152b] hover:bg-[#229ED9] text-white text-xs font-black transition-all cursor-pointer disabled:opacity-50 flex items-center gap-1.5 shrink-0"
+                >
+                  {tgLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5 text-amber-400" />}
+                  <span>Kirish</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Back button */}
+            <button
+              type="button"
+              onClick={() => setView('LOGIN')}
+              className="w-full py-2.5 text-xs text-[#7a7f95] hover:text-[#10152b] font-extrabold transition cursor-pointer text-center"
+            >
+              ← Telefon yoki parol orqali kirish
+            </button>
+          </div>
         </AuthCard>
       )}
     </AuthLayout>

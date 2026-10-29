@@ -1,6 +1,10 @@
+import asyncio
+import json
+import urllib.parse
+import urllib.request
 from aiogram import F, Router
 from aiogram.filters import CommandStart
-from aiogram.types import CallbackQuery, Message
+from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message, WebAppInfo
 
 from apps.telegram_bot.keyboards.main import language_keyboard, main_menu, onboarding_keyboard
 from packages.ieltix_core.adapters.database import Database
@@ -13,6 +17,17 @@ from packages.ieltix_core.application.onboarding import OnboardingService
 from packages.ieltix_core.config import get_settings
 
 router = Router(name="start")
+
+
+def _confirm_web_session_sync(auth_code: str, payload: dict) -> bool:
+    try:
+        url = f"http://localhost:5000/api/auth/telegram-session/{auth_code}/confirm"
+        data = json.dumps(payload).encode("utf-8")
+        req = urllib.request.Request(url, data=data, headers={"Content-Type": "application/json"})
+        with urllib.request.urlopen(req, timeout=3.0) as resp:
+            return resp.status == 200
+    except Exception:
+        return False
 
 
 def welcome_text(name: str) -> str:
@@ -33,6 +48,41 @@ def main_menu_text(locale: str, target_band: float) -> str:
 async def start(message: Message, database: Database) -> None:
     telegram_id = message.from_user.id if message.from_user else 0
     name = message.from_user.full_name if message.from_user else "MockLife Learner"
+
+    # 1. Web brauzerdan Telegram orqali kirish (Deep link: /start auth_...)
+    text_parts = (message.text or "").split()
+    auth_code = text_parts[1] if len(text_parts) > 1 and text_parts[1].startswith("auth_") else None
+    if auth_code:
+        payload = {
+            "telegramId": telegram_id,
+            "name": name,
+            "username": message.from_user.username if message.from_user else "",
+            "phone": "",
+        }
+        await asyncio.to_thread(_confirm_web_session_sync, auth_code, payload)
+
+        settings = get_settings()
+        web_url = settings.effective_web_app_url.rstrip("/")
+        name_encoded = urllib.parse.quote(name)
+        launch_url = f"{web_url}?tg_id={telegram_id}&name={name_encoded}&auth=telegram"
+
+        open_btn = "🚀 Web Platformani Ochish"
+        buttons = []
+        if launch_url.startswith("https://"):
+            buttons.append([InlineKeyboardButton(text=open_btn, web_app=WebAppInfo(url=launch_url))])
+        else:
+            buttons.append([InlineKeyboardButton(text=open_btn, url=launch_url)])
+
+        await message.answer(
+            f"✅ <b>MockLife Web Platformasiga Kirish Tasdiqlandi!</b>\n\n"
+            f"Assalomu alaykum, <b>{name}</b>! 👋\n"
+            f"Veb-brauzeringizda platformaga kirish muvaffaqiyatli amalga oshirildi.\n"
+            f"Brauzer oynangiz avtomatik yangilanadi va profilingiz ochiladi.\n\n"
+            f"Shuningdek, to'g'ridan-to'g'ri ushbu Telegram bot orqali ham kirishingiz mumkin: 👇",
+            reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons),
+            parse_mode="HTML",
+        )
+        return
 
     async with database.session() as session:
         user = await SqlAlchemyUserRepository(session).get_by_telegram_id(telegram_id)

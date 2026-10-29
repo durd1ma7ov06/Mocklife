@@ -6,6 +6,8 @@ export interface User {
   name: string;
   phone: string;
   email?: string;
+  username?: string;
+  photoUrl?: string;
   isSubscribed?: boolean;
   subscriptionExpiresAt?: string | null;
   plan?: string;
@@ -13,6 +15,12 @@ export interface User {
   isTelegramLinked?: boolean;
   targetBand?: string;
   currentBand?: number;
+  joinedAt?: string;
+  lastLoginAt?: string;
+  trialExpiresAt?: string;
+  trialDaysRemaining?: number;
+  trialHoursRemaining?: number;
+  isTrialActive?: boolean;
 }
 
 export interface AuthContextType {
@@ -26,6 +34,7 @@ export interface AuthContextType {
   logout: () => void;
   requestOtp: (phone: string) => Promise<{ success: boolean; message: string; debugCode?: string }>;
   resetPassword: (data: { phone: string; code: string; newPassword: string }) => Promise<{ success: boolean; message?: string; error?: string }>;
+  loginWithTelegram: (tgData: any) => Promise<{ success: boolean; message?: string; error?: string }>;
   saveAuthSession: (authToken: string, authUser: User) => void;
 }
 
@@ -36,29 +45,26 @@ const USER_KEY = 'mocklife_auth_user';
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [token, setToken] = useState<string | null>(() => {
-    return localStorage.getItem(TOKEN_KEY) || localStorage.getItem('mockeng_auth_token') || 'jwt-seamless-session';
+    return localStorage.getItem(TOKEN_KEY) || null;
   });
   const [user, setUser] = useState<User | null>(() => {
-    const saved = localStorage.getItem(USER_KEY) || localStorage.getItem('mockeng_auth_user');
+    const saved = localStorage.getItem(USER_KEY);
     if (saved) {
       try {
-        return JSON.parse(saved);
+        const u = JSON.parse(saved);
+        if (u && u.id) {
+          const expMs = u.trialExpiresAt ? new Date(u.trialExpiresAt).getTime() : (u.subscriptionExpiresAt ? new Date(u.subscriptionExpiresAt).getTime() : Date.now() + 7 * 24 * 60 * 60 * 1000);
+          const diffMs = expMs - Date.now();
+          u.trialDaysRemaining = Math.max(0, Math.ceil(diffMs / (24 * 60 * 60 * 1000)));
+          u.trialHoursRemaining = Math.max(0, Math.ceil(diffMs / (60 * 60 * 1000)));
+          u.isTrialActive = diffMs > 0;
+          return u;
+        }
       } catch {
         return null;
       }
     }
-    return {
-      id: 'tg-98124',
-      name: 'IELTS Nomzod',
-      phone: '+998901234567',
-      isSubscribed: true,
-      plan: 'TELEGRAM_LINKED',
-      isTelegramLinked: true,
-      telegramId: 98124,
-      currentBand: 6.0,
-      targetBand: '7.5 Academic',
-      subscriptionExpiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-    };
+    return null;
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -98,36 +104,60 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const authToken = `jwt-tg-${telegramId}-${Date.now()}`;
         saveAuthSession(authToken, authedUser);
         localStorage.setItem('mocklife_auth', 'true');
+        sessionStorage.setItem('mocklife_admin_unlocked', 'true');
         return;
       }
     } catch (e) {
       console.warn('Auto Telegram login check:', e);
     }
-
-    if (!user) {
-      const defaultCandidate: User = {
-        id: 'tg-98124',
-        name: 'IELTS Nomzod',
-        phone: '+998901234567',
-        isSubscribed: true,
-        plan: 'TELEGRAM_LINKED',
-        isTelegramLinked: true,
-        telegramId: 98124,
-        currentBand: 6.0,
-        targetBand: '7.5 Academic',
-        subscriptionExpiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-      };
-      const defToken = `jwt-default-${Date.now()}`;
-      saveAuthSession(defToken, defaultCandidate);
-      localStorage.setItem('mocklife_auth', 'true');
-    }
   }, []);
 
   const saveAuthSession = (authToken: string, authUser: User) => {
+    // 7 kunlik bepul sinov hisoblash
+    const now = Date.now();
+    const joinedAt = authUser.joinedAt || new Date().toISOString();
+    const lastLoginAt = new Date().toISOString();
+    const trialExpiresAt = authUser.trialExpiresAt || authUser.subscriptionExpiresAt || new Date(now + 7 * 24 * 60 * 60 * 1000).toISOString();
+    const expMs = new Date(trialExpiresAt).getTime();
+    const diffMs = expMs - now;
+    const trialDaysRemaining = Math.max(0, Math.ceil(diffMs / (24 * 60 * 60 * 1000)));
+    const trialHoursRemaining = Math.max(0, Math.ceil(diffMs / (60 * 60 * 1000)));
+    const isTrialActive = diffMs > 0;
+
+    const enrichedUser: User = {
+      ...authUser,
+      joinedAt,
+      lastLoginAt,
+      trialExpiresAt,
+      trialDaysRemaining,
+      trialHoursRemaining,
+      isTrialActive,
+    };
+
     setToken(authToken);
-    setUser(authUser);
+    setUser(enrichedUser);
     localStorage.setItem(TOKEN_KEY, authToken);
-    localStorage.setItem(USER_KEY, JSON.stringify(authUser));
+    localStorage.setItem(USER_KEY, JSON.stringify(enrichedUser));
+    sessionStorage.setItem('mocklife_admin_unlocked', 'true');
+  };
+
+  const loginWithTelegram = async (tgData: any): Promise<{ success: boolean; message?: string; error?: string }> => {
+    setIsLoading(true);
+    try {
+      const res = await apiClient.loginWithTelegram(tgData);
+      setIsLoading(false);
+      if (res.success && res.user) {
+        const authToken = res.token || `jwt-tg-${res.user.telegramId || Date.now()}`;
+        saveAuthSession(authToken, res.user);
+        localStorage.setItem('mocklife_auth', 'true');
+        sessionStorage.setItem('mocklife_admin_unlocked', 'true');
+        return { success: true };
+      }
+      return { success: false, error: res.error || 'Telegram orqali kirishda xatolik yuz berdi' };
+    } catch (err: any) {
+      setIsLoading(false);
+      return { success: false, error: err.message || 'Xatolik yuz berdi' };
+    }
   };
 
   const logout = () => {
@@ -217,6 +247,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         logout,
         requestOtp,
         resetPassword,
+        loginWithTelegram,
         saveAuthSession,
       }}
     >

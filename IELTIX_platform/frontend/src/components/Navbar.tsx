@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Menu, X, ArrowRight, Globe, Check, LogOut } from 'lucide-react';
+import { Menu, X, ArrowRight, Globe, Check, LogOut, Users } from 'lucide-react';
 import { useLanguage, Language } from '../i18n/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 
@@ -7,9 +7,17 @@ interface NavbarProps {
   onStartClick?: () => void;
   onLoginClick?: () => void;
   onOpenPlatform?: () => void;
+  onOpenCandidates?: () => void;
+  candidatesCount?: number;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onStartClick, onLoginClick, onOpenPlatform }) => {
+export const Navbar: React.FC<NavbarProps> = ({ 
+  onStartClick, 
+  onLoginClick, 
+  onOpenPlatform,
+  onOpenCandidates,
+  candidatesCount = 5,
+}) => {
   const { lang, setLang, t } = useLanguage();
   const { user, isAuthenticated, logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -135,6 +143,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onStartClick, onLoginClick, onOp
               )}
             </div>
 
+
+
             {isAuthenticated ? (
               <>
                 <div className="flex items-center gap-2 bg-white px-3.5 py-1.5 rounded-full border border-[#eadfc9] shadow-sm">
@@ -145,7 +155,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onStartClick, onLoginClick, onOp
                     {user?.name || 'Foydalanuvchi'}
                   </span>
                   <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">
-                    7 kunlik sinov
+                    {user?.trialDaysRemaining !== undefined ? `${user.trialDaysRemaining} kun qoldi` : '7 kunlik sinov'}
                   </span>
                   <button
                     onClick={logout}
@@ -158,18 +168,18 @@ export const Navbar: React.FC<NavbarProps> = ({ onStartClick, onLoginClick, onOp
                 </div>
 
                 <button
-                  onClick={onOpenPlatform}
-                  className="inline-flex items-center gap-2 bg-[#10152b] hover:bg-[#2a3048] text-white font-extrabold text-xs tracking-wider uppercase px-5 py-3 rounded-full shadow-md hover:shadow-lg transition transform active:scale-95 cursor-pointer"
+                  onClick={onOpenPlatform || onStartClick}
+                  className="inline-flex items-center gap-2 bg-[#ef3b2d] hover:bg-[#d62f22] text-white font-extrabold text-xs tracking-wider uppercase px-6 py-3 rounded-full shadow-md hover:shadow-lg transition transform active:scale-95 cursor-pointer"
                 >
-                  <span>Platformaga kirish</span>
-                  <ArrowRight className="w-4 h-4 text-[#ef3b2d]" />
+                  <span>Boshlash</span>
+                  <ArrowRight className="w-4 h-4" />
                 </button>
               </>
             ) : (
               <>
                 <button
                   onClick={onLoginClick}
-                  className="text-[#10152b] hover:text-[#ef3b2d] font-bold text-sm px-3 py-2 transition cursor-pointer"
+                  className="text-[#10152b] hover:text-[#ef3b2d] font-bold text-sm px-2 py-2 transition cursor-pointer"
                 >
                   {t.nav.login}
                 </button>
@@ -178,7 +188,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onStartClick, onLoginClick, onOp
                   onClick={onStartClick || onOpenPlatform || onLoginClick}
                   className="inline-flex items-center gap-2 bg-[#ef3b2d] hover:bg-[#d62f22] text-white font-extrabold text-xs tracking-wider uppercase px-6 py-3 rounded-full shadow-sm hover:shadow transition transform active:scale-95 cursor-pointer"
                 >
-                  <span>{t.nav.start}</span>
+                  <span>Boshlash</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </>
@@ -281,14 +291,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onStartClick, onLoginClick, onOp
                         setMobileMenuOpen(false);
                         onOpenPlatform?.();
                       }}
-                      className="w-full inline-flex items-center justify-center gap-2 bg-[#10152b] hover:bg-[#2a3048] text-white font-extrabold text-sm tracking-wider uppercase py-3.5 rounded-full shadow-md"
+                      className="w-full inline-flex items-center justify-center gap-2 bg-[#ef3b2d] hover:bg-[#d62f22] text-white font-extrabold text-sm tracking-wider uppercase py-3.5 rounded-full shadow-md"
                     >
-                      <span>Platformaga kirish</span>
-                      <ArrowRight className="w-4 h-4 text-[#ef3b2d]" />
+                      <span>Boshlash</span>
+                      <ArrowRight className="w-4 h-4" />
                     </button>
                   </div>
                 ) : (
                   <>
+
                     <button
                       onClick={() => {
                         setMobileMenuOpen(false);
@@ -298,6 +309,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onStartClick, onLoginClick, onOp
                     >
                       {t.nav.login}
                     </button>
+
                     <button
                       onClick={() => {
                         setMobileMenuOpen(false);
@@ -307,7 +319,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onStartClick, onLoginClick, onOp
                       }}
                       className="w-full inline-flex items-center justify-center gap-2 bg-[#ef3b2d] hover:bg-[#d62f22] text-white font-extrabold text-sm tracking-wider uppercase py-3.5 rounded-full shadow-md"
                     >
-                      <span>{t.nav.start}</span>
+                      <span>Boshlash</span>
                       <ArrowRight className="w-4 h-4" />
                     </button>
                   </>

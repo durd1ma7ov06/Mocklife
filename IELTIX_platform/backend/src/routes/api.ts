@@ -28,6 +28,142 @@ let currentUser = {
 const registeredUsers = new Map<string, typeof currentUser>();
 registeredUsers.set(currentUser.phone, currentUser);
 
+// Telegram Web Login Sessions (deep-link / QR code / WebApp auth)
+interface TelegramAuthSession {
+  code: string;
+  status: 'PENDING' | 'CONFIRMED' | 'EXPIRED';
+  createdAt: number;
+  user?: any;
+  token?: string;
+}
+const telegramAuthSessions = new Map<string, TelegramAuthSession>();
+
+// ==========================================
+// Nomzodlar va 1 Haftalik Limit Tahlili Tizimi
+// (Qancha foydalanuvchi, kimlar, qachon kirgan, 1 haftalik limiti qachon tugaydi)
+// ==========================================
+export interface CandidateRecord {
+  id: string;
+  name: string;
+  telegramId?: number;
+  username?: string;
+  phone: string;
+  photoUrl?: string;
+  isTelegramLinked: boolean;
+  joinedAt: string;          // Qachon kirgan
+  lastLoginAt: string;       // Oxirgi kirgan vaqti
+  trialExpiresAt: string;    // 1 haftalik limiti qachon tugaydi
+  trialDaysRemaining: number;
+  trialHoursRemaining: number;
+  isTrialActive: boolean;
+  targetBand?: string;
+  currentBand?: number;
+  plan: string;
+}
+
+const nowMs = Date.now();
+const dayMs = 24 * 60 * 60 * 1000;
+
+export const initialCandidatesList: CandidateRecord[] = [
+  {
+    id: 'usr-tg-6956456422',
+    name: 'Diyorbek Olimov (Admin)',
+    telegramId: 6956456422,
+    username: 'diyor_admin',
+    phone: '+998901234567',
+    isTelegramLinked: true,
+    joinedAt: new Date(nowMs - 1.2 * dayMs).toISOString(),
+    lastLoginAt: new Date(nowMs - 15 * 60 * 1000).toISOString(),
+    trialExpiresAt: new Date(nowMs + (7 - 1.2) * dayMs).toISOString(),
+    trialDaysRemaining: 6,
+    trialHoursRemaining: 139,
+    isTrialActive: true,
+    targetBand: '8.0 Academic',
+    currentBand: 7.0,
+    plan: '7_KUNLIK_BEPUL_SINOV',
+  },
+  {
+    id: 'usr-tg-589123412',
+    name: 'Madina Karimova',
+    telegramId: 589123412,
+    username: 'madina_ielts',
+    phone: '+998935551234',
+    isTelegramLinked: true,
+    joinedAt: new Date(nowMs - 0.5 * dayMs).toISOString(),
+    lastLoginAt: new Date(nowMs - 2 * 60 * 60 * 1000).toISOString(),
+    trialExpiresAt: new Date(nowMs + (7 - 0.5) * dayMs).toISOString(),
+    trialDaysRemaining: 7,
+    trialHoursRemaining: 156,
+    isTrialActive: true,
+    targetBand: '7.5 Academic',
+    currentBand: 6.5,
+    plan: '7_KUNLIK_BEPUL_SINOV',
+  },
+  {
+    id: 'usr-tg-712894123',
+    name: 'Javohir Rustamov',
+    telegramId: 712894123,
+    username: 'javohir_r',
+    phone: '+998971112233',
+    isTelegramLinked: true,
+    joinedAt: new Date(nowMs - 3.8 * dayMs).toISOString(),
+    lastLoginAt: new Date(nowMs - 6 * 60 * 60 * 1000).toISOString(),
+    trialExpiresAt: new Date(nowMs + (7 - 3.8) * dayMs).toISOString(),
+    trialDaysRemaining: 4,
+    trialHoursRemaining: 77,
+    isTrialActive: true,
+    targetBand: '7.0 Academic',
+    currentBand: 6.0,
+    plan: '7_KUNLIK_BEPUL_SINOV',
+  },
+  {
+    id: 'usr-tg-441298711',
+    name: 'Iroda Saidova',
+    telegramId: 441298711,
+    username: 'iroda_ielts9',
+    phone: '+998994445566',
+    isTelegramLinked: true,
+    joinedAt: new Date(nowMs - 5.5 * dayMs).toISOString(),
+    lastLoginAt: new Date(nowMs - 14 * 60 * 60 * 1000).toISOString(),
+    trialExpiresAt: new Date(nowMs + (7 - 5.5) * dayMs).toISOString(),
+    trialDaysRemaining: 2,
+    trialHoursRemaining: 36,
+    isTrialActive: true,
+    targetBand: '7.5 General',
+    currentBand: 6.5,
+    plan: '7_KUNLIK_BEPUL_SINOV',
+  },
+  {
+    id: 'usr-tg-319876221',
+    name: 'Shahzod Bekmurodov',
+    telegramId: 319876221,
+    username: 'shahzod_bek',
+    phone: '+998917778899',
+    isTelegramLinked: true,
+    joinedAt: new Date(nowMs - 8.5 * dayMs).toISOString(),
+    lastLoginAt: new Date(nowMs - 28 * 60 * 60 * 1000).toISOString(),
+    trialExpiresAt: new Date(nowMs - 1.5 * dayMs).toISOString(),
+    trialDaysRemaining: 0,
+    trialHoursRemaining: 0,
+    isTrialActive: false,
+    targetBand: '8.5 Academic',
+    currentBand: 7.5,
+    plan: 'SINOV_TUGAGAN',
+  },
+];
+
+const candidatesStore = new Map<string, CandidateRecord>();
+initialCandidatesList.forEach(c => candidatesStore.set(c.id, c));
+
+function computeCandidateTrial(c: CandidateRecord): CandidateRecord {
+  const expMs = new Date(c.trialExpiresAt).getTime();
+  const diffMs = expMs - Date.now();
+  c.trialDaysRemaining = Math.max(0, Math.ceil(diffMs / (24 * 60 * 60 * 1000)));
+  c.trialHoursRemaining = Math.max(0, Math.ceil(diffMs / (60 * 60 * 1000)));
+  c.isTrialActive = diffMs > 0;
+  return c;
+}
+
 // Check if subscription is active (includes 7-day free trial)
 const isSubscriptionActive = (user: typeof currentUser): boolean => {
   if (!user.subscriptionExpiresAt) {
@@ -338,6 +474,368 @@ router.get('/auth/me', (_req: Request, res: Response) => {
       plan: currentUser.plan,
     },
   });
+});
+
+// ==========================================
+// 1b. Telegram Autentifikatsiyasi & Sessiya Sinxronizatsiyasi
+// ==========================================
+
+// Telegram WebApp yoki Widget orqali to'g'ridan-to'g'ri kirish
+router.post('/auth/telegram', (req: Request, res: Response) => {
+  try {
+    const { id, telegramId, first_name, last_name, name, username, photo_url, phone } = req.body;
+    const tgId = Number(id || telegramId);
+    if (!tgId) {
+      return res.status(400).json({ success: false, error: 'Telegram ID kiritilmadi' });
+    }
+
+    const fullName = name || [first_name, last_name].filter(Boolean).join(' ') || username || `Nomzod #${tgId}`;
+    const userPhone = phone || `tg_${tgId}`;
+
+    // Foydalanuvchini izlash yoki yangi yaratish
+    let user: typeof currentUser | undefined = registeredUsers.get(userPhone) || Array.from(registeredUsers.values()).find(u => (u as any).telegramId === tgId);
+    if (!user) {
+      const vipExpires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+      const newUser = {
+        id: `usr-tg-${tgId}`,
+        name: fullName,
+        phone: userPhone,
+        isSubscribed: true,
+        subscriptionExpiresAt: vipExpires,
+        plan: 'TELEGRAM_VIP',
+        activeExamMode: 'ENGLISH' as ExamMode | string,
+        stats: {
+          testsCompleted: 0,
+          overallBand: 6.5,
+          studyStreakDays: 1,
+        },
+      };
+      (newUser as any).telegramId = tgId;
+      (newUser as any).username = username;
+      (newUser as any).photoUrl = photo_url;
+      (newUser as any).isTelegramLinked = true;
+      registeredUsers.set(userPhone, newUser);
+      user = newUser;
+    } else {
+      user.name = fullName;
+      (user as any).telegramId = tgId;
+      if (username) (user as any).username = username;
+      (user as any).isTelegramLinked = true;
+      if (photo_url) (user as any).photoUrl = photo_url;
+      user.isSubscribed = true;
+    }
+    currentUser = user;
+
+    const candidateId = `usr-tg-${tgId}`;
+    let cand = candidatesStore.get(candidateId);
+    const joined = cand ? cand.joinedAt : new Date().toISOString();
+    const trialExp = cand ? cand.trialExpiresAt : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
+
+    cand = {
+      id: candidateId,
+      name: fullName,
+      telegramId: tgId,
+      username,
+      phone: userPhone,
+      photoUrl: photo_url,
+      isTelegramLinked: true,
+      joinedAt: joined,
+      lastLoginAt: new Date().toISOString(),
+      trialExpiresAt: trialExp,
+      trialDaysRemaining: 7,
+      trialHoursRemaining: 168,
+      isTrialActive: true,
+      targetBand: '7.5 Academic',
+      currentBand: 6.5,
+      plan: '7_KUNLIK_BEPUL_SINOV',
+    };
+    computeCandidateTrial(cand);
+    candidatesStore.set(candidateId, cand);
+
+    const token = `jwt-tg-${tgId}-${Date.now()}`;
+    res.json({
+      success: true,
+      message: 'Telegram orqali muvaffaqiyatli kirildi',
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        phone: user.phone,
+        telegramId: tgId,
+        username,
+        isTelegramLinked: true,
+        isSubscribed: isSubscriptionActive(user),
+        subscriptionExpiresAt: user.subscriptionExpiresAt,
+        plan: user.plan,
+        joinedAt: cand.joinedAt,
+        lastLoginAt: cand.lastLoginAt,
+        trialExpiresAt: cand.trialExpiresAt,
+        trialDaysRemaining: cand.trialDaysRemaining,
+        trialHoursRemaining: cand.trialHoursRemaining,
+        isTrialActive: cand.isTrialActive,
+      },
+    });
+  } catch (err: any) {
+    console.error('Telegram auth error:', err);
+    res.status(500).json({ success: false, error: err.message || 'Telegram kirish xatosi' });
+  }
+});
+
+// Veb brauzer uchun bir martalik Telegram kirish sessiyasini yaratish (Deep link)
+router.post('/auth/telegram-session/create', (_req: Request, res: Response) => {
+  try {
+    const randomSuffix = Math.floor(100000 + Math.random() * 900000);
+    const sessionCode = `auth_${randomSuffix}`;
+    const botUsername = process.env.BOT_USERNAME || 'MockLife_bot';
+
+    telegramAuthSessions.set(sessionCode, {
+      code: sessionCode,
+      status: 'PENDING',
+      createdAt: Date.now(),
+    });
+
+    res.json({
+      success: true,
+      sessionCode,
+      botUsername,
+      deepLink: `https://t.me/${botUsername}?start=${sessionCode}`,
+    });
+  } catch (err: any) {
+    console.error('Telegram session create error:', err);
+    res.status(500).json({ success: false, error: 'Sessiya yaratilmadi' });
+  }
+});
+
+// Telegram bot tomonidan sessiyani tasdiqlash
+router.post('/auth/telegram-session/:code/confirm', (req: Request, res: Response) => {
+  try {
+    const code = String(req.params.code);
+    const { telegramId, name, username, phone } = req.body;
+    const session = telegramAuthSessions.get(code);
+
+    const tgId = Number(telegramId);
+    const fullName = name || username || `Nomzod #${tgId || 'Mock'}`;
+    const userPhone = phone || `tg_${tgId || Date.now()}`;
+
+    let user: typeof currentUser | undefined = registeredUsers.get(userPhone) || (tgId ? Array.from(registeredUsers.values()).find(u => (u as any).telegramId === tgId) : undefined);
+    if (!user) {
+      const trialExpires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
+      const newUser = {
+        id: `usr-tg-${tgId || Date.now()}`,
+        name: fullName,
+        phone: userPhone,
+        isSubscribed: true,
+        subscriptionExpiresAt: trialExpires,
+        plan: '7_KUNLIK_BEPUL_SINOV',
+        activeExamMode: 'ENGLISH' as ExamMode | string,
+        stats: {
+          testsCompleted: 0,
+          overallBand: 6.5,
+          studyStreakDays: 1,
+        },
+      };
+      (newUser as any).telegramId = tgId;
+      (newUser as any).username = username;
+      (newUser as any).isTelegramLinked = true;
+      registeredUsers.set(userPhone, newUser);
+      user = newUser;
+    } else {
+      user.name = fullName;
+      if (tgId) (user as any).telegramId = tgId;
+      if (username) (user as any).username = username;
+      (user as any).isTelegramLinked = true;
+      user.isSubscribed = true;
+    }
+    currentUser = user;
+
+    // Save into candidatesStore with real trial limit tracking
+    const candidateId = `usr-tg-${tgId || Date.now()}`;
+    let cand = candidatesStore.get(candidateId);
+    const joined = cand ? cand.joinedAt : new Date().toISOString();
+    const trialExp = cand ? cand.trialExpiresAt : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
+
+    cand = {
+      id: candidateId,
+      name: fullName,
+      telegramId: tgId || undefined,
+      username,
+      phone: userPhone,
+      isTelegramLinked: true,
+      joinedAt: joined,
+      lastLoginAt: new Date().toISOString(),
+      trialExpiresAt: trialExp,
+      trialDaysRemaining: 7,
+      trialHoursRemaining: 168,
+      isTrialActive: true,
+      targetBand: '7.5 Academic',
+      currentBand: 6.5,
+      plan: '7_KUNLIK_BEPUL_SINOV',
+    };
+    computeCandidateTrial(cand);
+    candidatesStore.set(candidateId, cand);
+
+    const token = `jwt-tg-${tgId || 'web'}-${Date.now()}`;
+    const confirmedSession: TelegramAuthSession = {
+      code,
+      status: 'CONFIRMED',
+      createdAt: session?.createdAt || Date.now(),
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        phone: user.phone,
+        telegramId: tgId,
+        username,
+        isTelegramLinked: true,
+        isSubscribed: true,
+        subscriptionExpiresAt: user.subscriptionExpiresAt,
+        plan: user.plan,
+        joinedAt: cand.joinedAt,
+        lastLoginAt: cand.lastLoginAt,
+        trialExpiresAt: cand.trialExpiresAt,
+        trialDaysRemaining: cand.trialDaysRemaining,
+        trialHoursRemaining: cand.trialHoursRemaining,
+        isTrialActive: cand.isTrialActive,
+      },
+    };
+    telegramAuthSessions.set(code, confirmedSession);
+
+    res.json({
+      success: true,
+      message: 'Telegram sessiyasi tasdiqlandi',
+      session: confirmedSession,
+    });
+  } catch (err: any) {
+    console.error('Telegram session confirm error:', err);
+    res.status(500).json({ success: false, error: 'Sessiya tasdiqlanmadi' });
+  }
+});
+
+// Veb brauzer tomonidan sessiya holatini tekshirish (Polling)
+router.get('/auth/telegram-session/:code/status', (req: Request, res: Response) => {
+  try {
+    const code = String(req.params.code);
+    const session = telegramAuthSessions.get(code);
+    if (!session) {
+      return res.status(404).json({ success: false, status: 'NOT_FOUND' });
+    }
+
+    // 10 daqiqalik yaroqlilik muddati
+    if (Date.now() - session.createdAt > 10 * 60 * 1000) {
+      session.status = 'EXPIRED';
+      return res.json({ success: false, status: 'EXPIRED' });
+    }
+
+    res.json({
+      success: true,
+      status: session.status,
+      token: session.token,
+      user: session.user,
+    });
+  } catch (err: any) {
+    console.error('Telegram session status error:', err);
+    res.status(500).json({ success: false, error: 'Sessiya tekshirilmadi' });
+  }
+});
+
+// ==========================================
+// 1c. Nomzodlar & 1 Haftalik Limit Tahlili
+// (Qancha foydalanuvchi, kimlar, qachon kirgan, 1 haftalik limiti qachon tugaydi)
+// ==========================================
+router.get('/candidates/overview', (_req: Request, res: Response) => {
+  try {
+    const allCandidates = Array.from(candidatesStore.values()).map(computeCandidateTrial);
+    allCandidates.sort((a, b) => new Date(b.lastLoginAt).getTime() - new Date(a.lastLoginAt).getTime());
+
+    const activeTrials = allCandidates.filter(c => c.isTrialActive).length;
+    const expiredTrials = allCandidates.length - activeTrials;
+
+    res.json({
+      success: true,
+      totalCandidates: allCandidates.length,
+      activeTrials,
+      expiredTrials,
+      candidates: allCandidates,
+      serverTime: new Date().toISOString(),
+    });
+  } catch (err: any) {
+    console.error('Candidates overview error:', err);
+    res.status(500).json({ success: false, error: 'Nomzodlar ma\'lumotlarini olishda xatolik' });
+  }
+});
+
+// Admin: Nomzodning 1 haftalik limitini uzaytirish (+7 kun)
+router.post('/candidates/:id/extend-trial', (req: Request, res: Response) => {
+  try {
+    const id = String(req.params.id);
+    const { days = 7 } = req.body;
+    let cand = candidatesStore.get(id);
+    if (!cand) {
+      // Find by id or telegramId
+      cand = Array.from(candidatesStore.values()).find(c => c.id === id || String(c.telegramId) === id);
+    }
+    if (!cand) {
+      return res.status(404).json({ success: false, error: 'Nomzod topilmadi' });
+    }
+
+    const currentExpiry = new Date(cand.trialExpiresAt).getTime();
+    const baseTime = currentExpiry > Date.now() ? currentExpiry : Date.now();
+    cand.trialExpiresAt = new Date(baseTime + Number(days) * 24 * 60 * 60 * 1000).toISOString();
+    computeCandidateTrial(cand);
+
+    res.json({
+      success: true,
+      message: `${cand.name} uchun 1 haftalik sinov muddati yana +${days} kunga muvaffaqiyatli uzaytirildi!`,
+      candidate: cand,
+    });
+  } catch (err: any) {
+    console.error('Extend trial error:', err);
+    res.status(500).json({ success: false, error: 'Sinov muddatini uzaytirishda xatolik yuz berdi' });
+  }
+});
+
+router.get('/candidates/my-trial', (req: Request, res: Response) => {
+  try {
+    const tgId = Number(req.query.telegramId || (currentUser as any).telegramId || 0);
+    const candidateId = tgId ? `usr-tg-${tgId}` : currentUser.id;
+    let cand = candidatesStore.get(candidateId);
+    if (!cand) {
+      cand = {
+        id: candidateId,
+        name: currentUser.name,
+        phone: currentUser.phone,
+        telegramId: tgId || undefined,
+        isTelegramLinked: !!tgId,
+        joinedAt: new Date().toISOString(),
+        lastLoginAt: new Date().toISOString(),
+        trialExpiresAt: currentUser.subscriptionExpiresAt || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+        trialDaysRemaining: 7,
+        trialHoursRemaining: 168,
+        isTrialActive: true,
+        plan: '7_KUNLIK_BEPUL_SINOV',
+      };
+      candidatesStore.set(candidateId, cand);
+    }
+    computeCandidateTrial(cand);
+
+    res.json({
+      success: true,
+      trial: {
+        joinedAt: cand.joinedAt,
+        lastLoginAt: cand.lastLoginAt,
+        trialExpiresAt: cand.trialExpiresAt,
+        trialDaysRemaining: cand.trialDaysRemaining,
+        trialHoursRemaining: cand.trialHoursRemaining,
+        isTrialActive: cand.isTrialActive,
+        plan: cand.plan,
+        name: cand.name,
+        telegramId: cand.telegramId,
+      },
+    });
+  } catch (err: any) {
+    console.error('My trial error:', err);
+    res.status(500).json({ success: false, error: 'Sinov holatini olishda xatolik' });
+  }
 });
 
 router.get('/user/profile', (_req: Request, res: Response) => {

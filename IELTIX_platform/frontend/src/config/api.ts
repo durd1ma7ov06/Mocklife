@@ -355,4 +355,128 @@ export const apiClient = {
       return { weeklyStreak: ['D', 'S', 'CH', 'P', 'J'], activeDaysCount: 5, completedTestsCount: 14, averageBand: 7.0 };
     }
   },
+
+  // 10. Telegram Authentication & Synchronization
+  loginWithTelegram: async (tgData: any): Promise<{ success: boolean; token?: string; user?: any; error?: string }> => {
+    try {
+      const res = await fetch(`${API_CONFIG.BASE_URL}/auth/telegram`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(tgData),
+      });
+      return await res.json();
+    } catch {
+      // Offline / dev fallback
+      const tgId = tgData.id || tgData.telegramId || 98124;
+      const name = tgData.name || [tgData.first_name, tgData.last_name].filter(Boolean).join(' ') || tgData.username || 'IELTS Nomzod';
+      return {
+        success: true,
+        token: `jwt-tg-${tgId}-${Date.now()}`,
+        user: {
+          id: `usr-tg-${tgId}`,
+          telegramId: tgId,
+          name,
+          phone: tgData.phone || '+998901234567',
+          username: tgData.username || 'ielts_learner',
+          isTelegramLinked: true,
+          isSubscribed: true,
+          subscriptionExpiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+          plan: 'TELEGRAM_VIP',
+        },
+      };
+    }
+  },
+
+  // 11. Create Telegram Web Session (for Deep-link / QR code login)
+  createTelegramLoginSession: async (): Promise<{ success: boolean; sessionCode: string; botUsername: string; deepLink: string }> => {
+    try {
+      const res = await fetch(`${API_CONFIG.BASE_URL}/auth/telegram-session/create`, {
+        method: 'POST',
+      });
+      return await res.json();
+    } catch {
+      const rnd = Math.floor(100000 + Math.random() * 900000);
+      return {
+        success: true,
+        sessionCode: `auth_${rnd}`,
+        botUsername: 'MockLife_bot',
+        deepLink: `https://t.me/MockLife_bot?start=auth_${rnd}`,
+      };
+    }
+  },
+
+  // 12. Poll Telegram Web Session status
+  checkTelegramSessionStatus: async (code: string): Promise<{ success: boolean; status: string; token?: string; user?: any }> => {
+    try {
+      const res = await fetch(`${API_CONFIG.BASE_URL}/auth/telegram-session/${code}/status`);
+      return await res.json();
+    } catch {
+      return { success: false, status: 'PENDING' };
+    }
+  },
+
+  // 13. Confirm Telegram Web Session (client simulated / quick entry)
+  confirmTelegramLoginSession: async (code: string, userData: any) => {
+    try {
+      const res = await fetch(`${API_CONFIG.BASE_URL}/auth/telegram-session/${code}/confirm`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData),
+      });
+      return await res.json();
+    } catch {
+      return { success: true };
+    }
+  },
+
+  // 14. Barcha nomzodlar va 1 haftalik limit tahlili
+  getCandidatesOverview: async (): Promise<{
+    success: boolean;
+    totalCandidates: number;
+    activeTrials: number;
+    expiredTrials: number;
+    candidates: any[];
+    serverTime?: string;
+  }> => {
+    try {
+      const res = await fetch(`${API_CONFIG.BASE_URL}/candidates/overview`);
+      return await res.json();
+    } catch {
+      return {
+        success: true,
+        totalCandidates: 5,
+        activeTrials: 4,
+        expiredTrials: 1,
+        candidates: [],
+      };
+    }
+  },
+
+  // 15. Joriy nomzodning sinov limiti holati
+  getMyTrial: async (telegramId?: number) => {
+    try {
+      const url = telegramId ? `${API_CONFIG.BASE_URL}/candidates/my-trial?telegramId=${telegramId}` : `${API_CONFIG.BASE_URL}/candidates/my-trial`;
+      const res = await fetch(url);
+      return await res.json();
+    } catch {
+      return { success: false };
+    }
+  },
+
+  // 16. Admin: Nomzodning 1 haftalik limitini uzaytirish (+7 kun)
+  extendCandidateTrial: async (candidateId: string, days: number = 7): Promise<{ success: boolean; message?: string; error?: string; candidate?: any }> => {
+    try {
+      const res = await fetch(`${API_CONFIG.BASE_URL}/candidates/${candidateId}/extend-trial`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ days }),
+      });
+      return await res.json();
+    } catch {
+      return {
+        success: true,
+        message: `Offline rejim: +${days} kun uzaytirildi!`,
+      };
+    }
+  },
 };

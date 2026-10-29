@@ -9,13 +9,13 @@ def main_menu_labels(locale: str, has_plus: bool = False) -> dict[str, str]:
             "practice": "🎯 Practice",
             "live_call": "🎙 AI Live Practice",
             "profile": "👤 Profile",
-            "website": "🌐 Web Platform 🔒",
+            "website": "🌐 Web Platform 🚀",
         }
     return {
         "practice": "🎯 Mashq qilish",
         "live_call": "🎙 AI live tayyorlanish",
         "profile": "👤 Profil",
-        "website": "🌐 Web platforma 🔒",
+        "website": "🌐 Web platforma 🚀",
     }
 
 
@@ -74,11 +74,11 @@ def main_menu(
             target_band = getattr(profile, "target_band", 7.5)
             exam_type = getattr(profile, "exam_type", "academic")
             tg_id = getattr(user, "telegram_id", 0)
-            launch_url = f"{clean_url}?tg_id={tg_id}&name={name_encoded}&phone={phone}&band={current_band}&target={target_band}&exam={exam_type}"
+            launch_url = f"{clean_url}?tg_id={tg_id}&name={name_encoded}&phone={phone}&band={current_band}&target={target_band}&exam={exam_type}&auth=telegram"
         else:
             launch_url = clean_url
 
-    if has_plus and launch_url and launch_url.startswith("https://"):
+    if launch_url and launch_url.startswith("https://"):
         web_button = KeyboardButton(text=labels["website"], web_app=WebAppInfo(url=launch_url))
     else:
         web_button = KeyboardButton(text=labels["website"])
